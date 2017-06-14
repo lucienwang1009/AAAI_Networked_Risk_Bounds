@@ -69,7 +69,7 @@
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
 \patchcmd{\thebibliography}{\section*{\refname}}{}{}{}
-% \allowdisplaybreaks
+\allowdisplaybreaks
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -118,13 +118,12 @@
 \newcommand{\rademachercomplexity}{\mathfrak{R}}
 
 % For aaai citation
-\newcommand{\citet}[1]{\citeyear{#1}}
+\newcommand{\citet}[1]{\citeauthor{#1}\ (\citeyear{#1})}
 \newcommand{\citett}[2]{\citeauthor{#2}\ (\citeyear{#2}, #1)}
-\newcommand{\citep}[3]{(#1\ \citeauthor{#3},\ \citeyear{#3},\ #2)}
+\newcommand{\citep}[3]{(#1\ \citeauthor{#3}\ \citeyear{#3},\ #2)}
 \newcommand{\citec}[2]{\citeauthor{#1}\ (#2 \citeyear{#1})}
 
 \begin{document}
-% \nipsfinalcopy is no longer used
 \title{On the ERM Principle with Networked Data}
 \author{AAAI Press\\
 Association for the Advancement of Artificial Intelligence\\
@@ -148,7 +147,7 @@ These social media do not only make communications convenient and enrich our liv
 Social network data nowadays is widely used in research on social science, network dynamics, and as an inevitable fate, data mining and machine learning.
 Similar examples of networked data such as traffic networks \cite{min2011real}, chemical interaction networks \cite{letovsky2003predicting}, citation networks \cite{mcgovern2003exploiting} abound throughout the machine learning world. 
 
-Admittedly, many efforts have been made to design practical algorithms for learning from networked data, e.g., \cite{pieter2003link}, \cite{al2006link} and \cite{macskassy2007classification}. 
+Admittedly, many efforts have been made to design practical algorithms for learning from networked data, e.g., \cite{pieter2003link,al2006link,macskassy2007classification}. 
 However, not many theoretical guarantees of these methods have been established, which is the main concern of this paper. More specifically, this paper deals with risk bounds of \emph{classifiers trained with networked data (\problemabbr{})} whose goal is to train a classifier with examples in a data graph $G$. 
 Every vertex of $G$ is an object and described by a feature vector $X\in \xspace{}$ that is drawn independently and identically (i.i.d.) from an unknown distribution, while every edge corresponds to a training example whose input is a pair of feature vectors $\pair{X,X'}$ of the two ends of this edge and whose target value $Y$ is in $\{0,1\}$.
 % The classifier takes a pair of feature vectors $\pair{X,X'}$ as input to predict the target value $Y\in \set{0,1}$. 
@@ -157,13 +156,13 @@ A widely used principle to select a proper model from a hypothesis set is \emph{
 \citet{papa2016graph} establish risk bounds for ERM on complete graphs, and the bounds are independent of the distribution of the data. 
 These bounds are of order $O(\log(n)/n)$, where $n$ is the number of vertices in the complete graph. 
 However, in practice it is very likely that one cannot collect examples for all pairs of vertices and hence $G$ is usually incomplete, thus techniques based on complete $U$-processes derived from \cite{papa2016graph} cannot be applied and the risk bounds of order $O(\log(n)/n)$ are no longer valid in this setting. 
-By generalizing the moment inequality for $U$-processes to the case of incomplete graphs, we prove novel risk bounds for the general case.  
+By generalizing the moment inequality for $U$-processes to the case of incomplete graphs, we prove novel risk bounds for the incomplete graph.  
 
 Usually, every training example is equally weighted (or unweighted) in ERM, which seems much less persuasive when the examples are networked, in particular when the graph is incomplete. But, most existing theoretical results of learning from networked examples are based on the unweighted ERM \cite{Usunier2005,ralaivola2009chromatic}, and their bounds are of order $O(\sqrt{\chi^*(D_G)/m})$ where $D_G$ is the \emph{line graph} of $G$ and $\chi^*$ is the \emph{fractional chromatic number} of $D_G$ (see Section~A in the appendix) and $m$ is the number of training examples. 
 In order to improve this bound, \citet{ramon2015learning} propose \emph{weighted} ERM %\emph{(weighted ERM)}, 
 which adds weights to training examples 
 according to the network, and show that the risk bound for weighted ERM can be of order $O(1/\sqrt{\nu^*(G)})$ where $\nu^*(G)$ is the \emph{fractional matching number} of $G$, so using weighted ERM networked data can be more effectively exploited than the equal weighting method, as basic graph theory tells us $\nu^*_G\ge m / \chi^*(D_G)$. 
-However, \citet{ramon2015learning} (in fact, \cite{Usunier2005} and \cite{ralaivola2009chromatic} also) assume that any two examples can be arbitrarily correlated if they share a vertex, which cannot lead to an $O(\log(n)/n)$ bound when the graph is complete. 
+However, \citet{ramon2015learning} (in fact, \citet{Usunier2005} and \citet{ralaivola2009chromatic} also) assume that any two examples can be arbitrarily correlated if they share a vertex, which cannot lead to an $O(\log(n)/n)$ bound when the graph is complete. 
 We show that, the \emph{``low-noise'' condition}, also called the \emph{Mammen-Tsybakov noise condition (MT-noise condition)}  \cite{Mammen1998Smooth}, which is commonly assumed in several typical learning problems with networked data, e.g., ranking \cite{clemenccon2008ranking} and graph reconstruction \cite{papa2016graph}, can be used to reasonably bound the dependencies of two examples that share a common vertex and then leads to \emph{tighter} risk bounds. 
 Based on these new bounds, we can efficiently find better weighting schemes. 
 
@@ -309,7 +308,7 @@ Let $E_<=\{\pair{i,j}: i<j, \pair{i,j}\in E\}$ be the ordered edge set. If Condi
   \end{tabular}
 \end{table*}
 
-\section{Intuition and Examples} % (fold)
+\section{Intuitions and Examples} % (fold)
 \label{sub:intiution_and_examples}
 % There have been many methods that can be used to establish risk bounds for \problemabbr{}.
 % We divide them by the learning principle (weighted or unweighted), the graph type of application (complete or incomplete) and whether considering the ``low-noise'' condition respectively, as shown in Table~\ref{ta:methods}.
@@ -318,16 +317,16 @@ Let $E_<=\{\pair{i,j}: i<j, \pair{i,j}\in E\}$ be the ordered edge set. If Condi
 % 详细点。
 
 We now have a look at previous works that are closely related to our work, as shown in Table~\ref{ta:methods}, and present the merits of our method. 
-\cite{Biau2006}, \cite{clemenccon2008ranking} and \cite{papa2016graph} deal with the case when the graph is complete, i.e., the target value of every pair of vertices is known. 
-In this case, \cite{clemenccon2008ranking} formulate the ``low-noise'' condition for the ranking problem and demonstrate that this condition can lead to tighter risk bounds by the moment inequality of $U$-processes.
-\cite{papa2016graph} further consider the graph reconstruction problem introduced by \cite{Biau2006} and show this problem always satisfies the ``low-noise'' condition. 
+\citet{Biau2006}, \citet{clemenccon2008ranking} and \citet{papa2016graph} deal with the case when the graph is complete, i.e., the target value of every pair of vertices is known. 
+In this case, \citet{clemenccon2008ranking} formulate the ``low-noise'' condition for the ranking problem and demonstrate that this condition can lead to tighter risk bounds by the moment inequality of $U$-processes.
+\citet{papa2016graph} further consider the graph reconstruction problem introduced by \citet{Biau2006} and show this problem always satisfies the ``low-noise'' condition. 
 
-If the graph is incomplete, one can use either Janson's decomposition \cite{janson2004large,Usunier2005,ralaivola2009chromatic,DBLP:conf/icml/RalaivolaA15} or the fractional matching approach by \cite{ramon2015learning} to derive risk bounds. 
+If the graph is incomplete, one can use either Janson's decomposition \cite{janson2004large,Usunier2005,ralaivola2009chromatic,DBLP:conf/icml/RalaivolaA15} or the fractional matching approach by \citet{ramon2015learning} to derive risk bounds. 
 The main differences between these two approaches are: 
 \begin{itemize}
-  \item \cite{ramon2015learning} considers the data graph $G$ while Janson's decomposition uses only the line graph $D_G$. 
+  \item \citet{ramon2015learning} considers the data graph $G$ while Janson's decomposition uses only the line graph $D_G$. 
    % and hence wastes some (important) information in the data graph $G$ (see the example in \ref{TODO}). 
-  \item The fractional matching approach considers general weighted ERM while \cite{janson2004large}, \cite{Usunier2005}, \cite{ralaivola2009chromatic} and \cite{DBLP:conf/icml/RalaivolaA15} only prove bounds for unweighted ERM.
+  \item The fractional matching approach considers general weighted ERM while \citet{janson2004large}, \citet{Usunier2005}, \citet{ralaivola2009chromatic} and \citet{DBLP:conf/icml/RalaivolaA15} only prove bounds for unweighted ERM.
 \end{itemize}
 Though \citet{ramon2015learning} show improved risk bounds, as far as we know, there is no known tight risk bounds on incomplete graphs for tasks such as pairwise ranking and graph reconstruction that satisfy the ``low-noise'' condition, under which the weighting scheme proposed by \citet{ramon2015learning} may be not good either (see Section~\ref{sub:complete_graph}).
 
@@ -349,7 +348,7 @@ In Section~\ref{sub:equally_weighting}, we show that our bounds are tighter than
 %这个例子里，我们本来也就没法让它达到0,还是从monotonic来说？
 % 但是weighted的bounds是趋近0的（随着m的增加），而unweighted不行
 \paragraph{Asymptotic risk}
-As mentioned by \cite{ramon2015learning}, if several examples share a vertex, then we are likely to put less weight on them because the influence of this vertex to the empirical risk should be bounded. Otherwise, if we treat every example equally, then these dependent examples may dominate the training process and lead to risk bounds that do not converge to $0$ (see the example in Section~\ref{sub:equally_weighting}).
+As mentioned by \citet{ramon2015learning}, if several examples share a vertex, then we are likely to put less weight on them because the influence of this vertex to the empirical risk should be bounded. Otherwise, if we treat every example equally, then these dependent examples may dominate the training process and lead to risk bounds that do not converge to $0$ (see the example in Section~\ref{sub:equally_weighting}).
 
 \paragraph{Uniform bounds} 
 Although \citet{DBLP:conf/icml/RalaivolaA15} prove an entropy-base concentration inequality for networked data using Janson's decomposition, the %``low-noise'' 
@@ -397,8 +396,8 @@ Similar to \cite{Massart2006} and \cite{rejchel2012ranking}, we restrict to $\co
 \begin{assumption}\label{ass:covering_number} There exists a nonnegative number $\complexbound < 1$ and a constant $K$ such that $\log N_\infty(\mathcal{F},\epsilon) \le K\epsilon^{-\complexbound}$ for all $\epsilon\in (0,1]$.
 \end{assumption}
 By Sauer's lemma \cite{sauer1972density}, one can easily prove a binary function class with VC-dimension $V$ satisfies Assumption \ref{ass:covering_number} with $K=V\log(em/V)$ and $\complexbound{}=0$.
-Besides, \cite{Dudley1974Metric,Korostelev1993Minimax,Mammen1995Asymptotical} have given various examples of classes $\mathcal{F}$ satisfying Assumption \ref{ass:covering_number}.
-We also refer to \cite[][p.\ 1813]{Mammen1998Smooth} for concrete examples of classes of the hypothesis sets with smooth boundaries satisfying Assumption~\ref{ass:covering_number}. 
+Besides, \citet{Dudley1974Metric}, \citet{Korostelev1993Minimax} and \citet{Mammen1995Asymptotical} have given various examples of classes $\mathcal{F}$ satisfying Assumption \ref{ass:covering_number}.
+We also refer to (\citeauthor{Mammen1998Smooth} \citeyear{Mammen1998Smooth}, p.\ 1813) for concrete examples of classes of the hypothesis sets with smooth boundaries satisfying Assumption~\ref{ass:covering_number}. 
 
 \subsection{Risk Bounds} % (fold)
 \label{sub:risk_bounds}
@@ -412,7 +411,7 @@ Now we are ready to state the main result of the paper.
             \label{eq:main_result}
             \risk(r_\weight{}&)-\bayeserror \le 2(\inf_{r\in R}\risk(r)-\bayeserror) + \frac{KC\log(1/\delta)}{(1-\complexbound)^{2/(\complexbound+1)}\normo{\weight{}}}\\
             &\Bigg(\normo{\weight{}}^{\complexbound/(1+\complexbound)}+\max\Big(\|\weight{}\|_2,\|\weight{}\|_{\max}(\log(1/\delta))^{1/2},\\
-            &\qquad\|\weight{}\|_\infty(\log(1/\delta))\Big)\Bigg)
+            &\qquad\qquad\qquad\qquad\qquad\|\weight{}\|_\infty(\log(1/\delta))\Big)\Bigg)
         \end{aligned}
     \end{equation}
     \DoubleColumnEnd
@@ -440,7 +439,7 @@ If $G$ is complete and every example is unweighted, the bounds of the order $O((
 
 \begin{remark*}
 Theorem~\ref{th:main_theorem} provides universal risk bounds no matter what the distribution of the data is. The factor of $2$ in front of the approximation error $\inf_{r\in R}\risk(r)-\bayeserror$ has no special meaning and can be replaced by any constant larger than $1$ with a price of increasing the constant $C$. 
-\cite{ramon2015learning} obtain risk bounds that has a factor $1$ in front of the approximation error part, but in their result the bound is $O(1/\sqrt{\normo{\weight{}}})$. 
+\citet{ramon2015learning} obtain risk bounds that has a factor $1$ in front of the approximation error part, but in their result the bound is $O(1/\sqrt{\normo{\weight{}}})$. 
 Hence, Theorem~\ref{th:main_theorem} improves their results if the approximation error does not dominate the other terms in the bounds.
 \end{remark*}
 
@@ -483,35 +482,36 @@ $\hat{h}_r(X_i,X_j)=\E[q_r(X_i,X_j,Y_{i,j})\mid X_i,X_j]-\Lambda(r)-h_r(X_i)-h_r
 and
 \[\widetilde{U}_\weight{}(r)=\frac{1}{\normo{\weight{}}}\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})\]
 with a \emph{degenerated} kernel
-$\tilde{h}_r(X_i,X_j,Y_{i,j})=q_r(X_i,X_j,Y_{i,j})-\E[q_r(X_i,X_j,Y_{i,j})\mid X_i,X_j].$ 
+$\tilde{h}_r(X_i,X_j,Y_{i,j})=q_r(X_i,X_j\linebreak,Y_{i,j})-\E[q_r(X_i,X_j,Y_{i,j})\mid X_i,X_j].$ 
 In the following, we bound these three terms $T_\weight{}, U_\weight{}$ and $\widetilde{U}_\weight{}$ respectively. 
 
 \begin{lemma}[uniform approximation]
-	\label{le:uniform_approximation}
-	Under the same assumptions as in Theorem~\ref{th:main_theorem}, for any $\delta\in (0,1/e)$, we have with probability at least $1-\delta$,
-	\SingleColumn
-	\[\sup_{r\in R}|U_\weight{}(r)|\le \frac{\max(K,\sqrt{K})C_1}{1-\complexbound{}}\max\Big(\frac{\|\weight{}\|_2\log(1/\delta)}{\normo{\weight{}}},\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}}, \frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\]
-	\SingleColumnEnd
-	\DoubleColumn
-	\begin{align*}
-		\sup_{r\in R}|U_\weight{}(r)|\le \frac{\max(K,\sqrt{K})C_1}{1-\complexbound{}}\max\Big(\frac{\|\weight{}\|_2\log(1/\delta)}{\normo{\weight{}}},\\
-		\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}}, \frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)
-	\end{align*}
-	\DoubleColumnEnd
-	and
-	\SingleColumn
-	\[\sup_{r\in R}|\widetilde{U}_\weight{}(r)|\le \frac{\max(K,\sqrt{K})C_2}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)\]
-	\SingleColumnEnd
-	\DoubleColumn
-	\begin{align*}
-		\sup_{r\in R}&|\widetilde{U}_\weight{}(r)|\le \frac{\max(K,\sqrt{K})C_2}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}\\
-		&+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)
-	\end{align*}
-	\DoubleColumnEnd
-	where $C_1,C_2 < +\infty$ is a universal constant.
+    \label{le:uniform_approximation}
+    Under the same assumptions as in Theorem~\ref{th:main_theorem}, for any $\delta\in (0,1/e)$, we have with probability at least $1-\delta$,
+    \SingleColumn
+    \[\sup_{r\in R}|U_\weight{}(r)|\le \frac{\max(K,\sqrt{K})C_1}{1-\complexbound{}}\max\Big(\frac{\|\weight{}\|_2\log(1/\delta)}{\normo{\weight{}}},\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}}, \frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\]
+    \SingleColumnEnd
+    \DoubleColumn
+    \begin{align*}
+        \sup_{r\in R}|U_\weight{}(r)|\le \frac{\max(K,\sqrt{K})C_1}{1-\complexbound{}}\max\Big(\frac{\|\weight{}\|_2\log(1/\delta)}{\normo{\weight{}}},\\
+        \frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}}, \frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)
+    \end{align*}
+    \DoubleColumnEnd
+    and
+    \SingleColumn
+    \[\sup_{r\in R}|\widetilde{U}_\weight{}(r)|\le \frac{\max(K,\sqrt{K})C_2}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)\]
+    \SingleColumnEnd
+    \DoubleColumn
+    \begin{align*}
+        \sup_{r\in R}&|\widetilde{U}_\weight{}(r)|\le \frac{\max(K,\sqrt{K})C_2}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}\\
+        &+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)
+    \end{align*}
+    \DoubleColumnEnd
+    where $C_1,C_2 < +\infty$ is a universal constant.
 \end{lemma}
 
-To prove Lemma~\ref{le:uniform_approximation}, we show that $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by Rademacher chaos using classical symmetrization and randomization tricks combined with the decoupling method (see Section~B in the Appendix). We handle these Rademacher chaos by generalizing the approach used in \cite{clemenccon2008ranking}. Specifically, we utilize the moment inequalities by \cite{Boucheron2005} to convert them to the sum of simpler processes, which can be bounded by the metric entropy inequality for Khinchine-type processes \citep{see}{Proposition 2.6}{Dembo1994} and Assumption~\ref{ass:covering_number}.
+To prove Lemma~\ref{le:uniform_approximation}, we show that $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by Rademacher chaos using classical symmetrization and randomization tricks combined with the decoupling method (see Section~B in the Appendix). We handle these Rademacher chaos by generalizing the approach used in \cite{clemenccon2008ranking}. 
+Specifically, we utilize the moment inequalities from \cite{Boucheron2005} to convert them to the sum of simpler processes, which can be bounded by the metric entropy inequality for Khinchine-type processes \citep{see}{Proposition 2.6}{Dembo1994} and Assumption~\ref{ass:covering_number}.
 
 Lemma~\ref{le:uniform_approximation} shows that the contribution of the degenerated parts $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ to the excess risk can be bounded. 
 This implies that minimizing $\Lambda_\weight{}(r)$ is approximately equivalent to minimizing $T_\weight{}(r)$ and thus $r_\weight{}$ is a $\rho$-minimizer of $T_\weight{}(r)$ in the sense that $T_\weight{}(r_\weight{})\le \rho+\inf_{r\in R}T_\weight{}(r)$.
@@ -566,7 +566,7 @@ According to Theorem~\ref{th:main_theorem}, given a graph $G$, $\complexbound\in
     \min_{\weight{}} \quad&\frac{1}{\normo{\weight{}}}\Bigg(\normo{\weight{}}^{\complexbound/(1+\complexbound)}+\max\Big(\|\weight{}\|_2,\\
     &\qquad\|\weight{}\|_{\max}(\log(1/\delta))^{1/2},
     \|\weight{}\|_\infty(\log(1/\delta))\Big)\Bigg)\\
-    \mbox{s.t.} &\quad \forall \pair{i,j}\in E, w_{i,j}\ge 0 \quad \mbox{and} \quad  \forall i, \sum_{j:\pair{i,j}\in E} w_{i,j}\le 1
+    \mbox{s.t.} \quad& \forall \pair{i,j}\in E, w_{i,j}\ge 0 \quad \mbox{and} \quad  \forall i, \sum_{j:\pair{i,j}\in E} w_{i,j}\le 1
 \end{aligned}
 \end{equation}
 \DoubleColumnEnd
@@ -575,7 +575,7 @@ According to Theorem~\ref{th:main_theorem}, given a graph $G$, $\complexbound\in
     \label{eq:optimization_program}
 \begin{aligned}
     \min_{\weight{}} & \quad\frac{1}{\normo{\weight{}}}\Bigg(\normo{\weight{}}^{\complexbound{}/(1+\complexbound{})}+\max\Big(\|\weight{}\|_2,\|\weight{}\|_{\max}(\log(1/\delta))^{1/2},\|\weight{}\|_\infty(\log(1/\delta))\Big)\Bigg)\\
-    \mbox{s.t.} &\quad \forall \pair{i,j}\in E, w_{i,j}\ge 0 \quad \mbox{and} \quad  \forall i, \sum_{j:\pair{i,j}\in E} w_{i,j}\le 1
+    \mbox{s.t.} \quad& \forall \pair{i,j}\in E, w_{i,j}\ge 0 \quad \mbox{and} \quad  \forall i, \sum_{j:\pair{i,j}\in E} w_{i,j}\le 1
 \end{aligned}
 \end{equation}
 \SingleColumnEnd
@@ -594,7 +594,7 @@ Optimizing the original program \eqref{eq:optimization_program} is equivalent to
     (\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j})^{1/(1+\complexbound{})}+\max\Big(\|\probdistri{}\|_2,\\
     &\qquad\|\probdistri{}\|_{\max}(\log(1/\delta))^{1/2},
     \|\probdistri{}\|_\infty(\log(1/\delta))\Big)\\
-    \mbox{s.t.} &\quad \forall \pair{i,j}\in E, p_{i,j}\ge 0 \quad \mbox{and} \quad \sum_{\pair{i,j}\in E} p_{i,j}= 1
+    \mbox{s.t.} \quad& \forall \pair{i,j}\in E, p_{i,j}\ge 0 \quad \mbox{and} \quad \sum_{\pair{i,j}\in E} p_{i,j}= 1
 \end{aligned}
 \end{equation}
 \DoubleColumnEnd
@@ -618,22 +618,23 @@ Optimizing the original program \eqref{eq:optimization_program} is equivalent to
 \label{sub:complete_graph}
 When graph $G$ is complete, it is easy to see that weighting all examples equally gives the best risk bound, as all the terms $\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}$, $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ achieve minimum. 
 Compared to the results in \cite{ramon2015learning}, our theory puts additional constrains on $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ which encourages weighting examples fairly in this case, as illustrated in Figure~\ref{fig:weighting_scheme_complete_graph}. 
-Besides, this scheme coincides with $U$-statistics that \emph{average} the basic estimator applied to all sub-samples \cite{hoeffding1948class}, could produce a small variance. 
+Besides, this scheme, which coincides with $U$-statistics that \emph{average} the basic estimator applied to all sub-samples \cite{hoeffding1948class}, could produce a small variance. 
 
 \begin{figure}[h]
   \centering
+  \subcapraggedrighttrue
   \DoubleColumn
-    \subfigure[First clique form]{\label{fg:clique_1}
-        \includegraphics[width=0.16\textwidth]{clique_1.eps}
-    }\hspace{6ex}
-    \subfigure[Second clique form]{\label{fg:clique_2}
-        \includegraphics[width=0.16\textwidth]{clique_2.eps}
-    }\hspace{6ex}\\
-    \subfigure[Equal weighting]{\label{fg:averaged_weighting}
-        \includegraphics[width=0.16\textwidth]{complete_graph_1.eps}
-    }\hspace{6ex}
-    \subfigure[Independent subset]{\label{fg:independent weighting}
-        \includegraphics[width=0.16\textwidth]{complete_graph_2.eps}
+    \subfigure[]{\label{fg:clique_1}
+        \includegraphics[width=0.095\textwidth]{clique_1.eps}
+    }\hspace{1ex}
+    \subfigure[]{\label{fg:clique_2}
+        \includegraphics[width=0.095\textwidth]{clique_2.eps}
+    }\hspace{1ex}
+    \subfigure[]{\label{fg:averaged_weighting}
+        \includegraphics[width=0.095\textwidth]{complete_graph_1.eps}
+    }\hspace{1ex}
+    \subfigure[]{\label{fg:independent weighting}
+        \includegraphics[width=0.095\textwidth]{complete_graph_2.eps}
     }
   \DoubleColumnEnd
   \SingleColumn
@@ -703,7 +704,7 @@ We rewrite the program \eqref{eq:optimization_program_1} by introducing two auxi
     \min_{a,b,\probdistri{}} \quad&
     a^{1/(1+\complexbound{})}+b\\
     \mbox{s.t.} \quad &\forall \pair{i,j}\in E, p_{i,j}\ge 0 \\
-    &\forall \pair{i,j}\in E, p_{i,j}\log(1/\delta) - b \le 0\\
+    & \forall \pair{i,j}\in E, p_{i,j}\log(1/\delta) - b \le 0\\
     & \forall i, \sum_{j:\pair{i,j}\in E} p_{i,j} -a  \le 0\\
     & \forall i, \left(\sum_{j:\pair{i,j}\in E} p^2_{i,j}\log(1/\delta)\right)^{1/2} -b  \le 0\\
     & \|\probdistri{}\|_2 -b \le 0 \quad \mbox{and} \quad \sum_{\pair{i,j}\in E} p_{i,j}= 1
@@ -723,7 +724,7 @@ Since each iteration is a convex optimization problem, we can solve it by some s
 \textbf{Concave-Convex Procedure} Since the objective function of \eqref{eq:optimization_program_final} can be rewritten to $b-(-a^{1/(1+\complexbound{})})$ that is difference of convex function (d.c.), one can also solve \eqref{eq:optimization_program_final} by the elaborate optimization methods for d.c. program. 
 One of these methods is Concave-Convex Procedure \cite{Yuille2001The} which has been wildly used in sparse support vector machine (SVM) and transductive SVM. 
 Using this method, the program \eqref{eq:optimization_program_final} can be solved by optimizing a sequence of convex program with the same constrains of \eqref{eq:optimization_program_final}, the iterative objective functions $(a^{(t+1)},b^{(t+1)})\in \mathop{\arg\min}_{a,b,\probdistri{}} b+\frac{a}{1+\complexbound{}}(a^{(t)})^{-\complexbound/(1+\complexbound{})}$
-and the feasible initial solution. By \cite{lanckriet2009convergence}, the concavity of $a^{1/(1+\complexbound{})}$ guarantees that $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t+1)}\le (a^{(t)})^{1/(1+\complexbound{})} + b^{(t)}$.
+and the feasible initial solution. By \citet{lanckriet2009convergence}, the concavity of $a^{1/(1+\complexbound{})}$ guarantees that $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t+1)}\le (a^{(t)})^{1/(1+\complexbound{})} + b^{(t)}$.
 
 % An advantage of these algorithms is that we can improve existing schemes for weighting networked examples, e.g., equal weighting, independent subset, maximum fractional matching or min-variance weighting \citep{ramon2015learning} by setting them as the initial solution (weighting scheme). 
 
@@ -748,8 +749,8 @@ We also propose efficient optimization algorithms to improve the existing weight
 
 % \subsubsection*{References}
 
-\bibliography{aaai}
-\bibliographystyle{apalike}
+\bibliography{Mendeley}
+\bibliographystyle{aaai}
 
 
 \section*{Appendix} % (fold)
@@ -786,7 +787,7 @@ One can annalyze this framework by the fractional coloring and the Janson's deco
 The weight $W(\mathcal{C})$ of $\mathcal{C}$ is given by $W(\mathcal{C})=\sum_{j=1}^J q_j$ and the minimum weight $\fcoloring{}(D_G)=\min_{\mathcal{C}} W(\mathcal{C})$ over the set of all fractional colorings is the \emph{fractional chromatic number} of $D_G$.
 By the Janson's decomposition, one splits all examples into several independent sets according to a fraction coloring of $D_G$ and then analyze each set using the standard method for i.i.d.\ examples.
 
-In particular, Theorem~\ref{th:fractional_mcdiarmid} \citep{see}{Theorem~$2$}{Usunier2005} provides a variation of McDiarmid's theorem using the Janson's decomposition.
+In particular, Theorem~\ref{th:fractional_mcdiarmid} \citep{also see}{Theorem~$2$}{Usunier2005} provides a variation of McDiarmid's theorem using the Janson's decomposition.
 For simplicity, let $\trainingset=\set{z_i}_{i=1}^{m}$ be the training examples drawn from $\zspace^m$ and $S_{\mathcal{C}_j}$ be the examples included in $\mathcal{C}_j$.
 Also, let $k_j^i$ be the index of the $i$-th example of $\mathcal{C}_j$ in the training set $S$ and denote by $\weight{}=\set{w_i}_{i=1}^m$ the weights on $S$.
 
@@ -822,19 +823,30 @@ In this setting, although the weights $\weight{}$ are no limit to the fractional
 \label{sub:low_noise_condition}
 
 Considering the complete graph with equal weighting scheme, by the Janson's decomposition, the empirical risk $\empiricalrisk{m}(L)$ can be represented as an average of sums of i.i.d.\ r.v.'s
+\SingleColumn
 \begin{equation}
   \label{eq:fractional_coloring_ERM}
   \frac{1}{m!}\sum_{\bm{\pi}\in\mathcal{G}_n}\frac{1}{\lfloor m/2\rfloor}\sum_{i=1}^{\lfloor m/2 \rfloor} \ell(r, (X_{\pi(i)}, X_{\pi(i)+\lfloor m/2\rfloor}, Y_{\pi(i), \pi(i)+\lfloor m/2\rfloor}))
 \end{equation}
+\SingleColumnEnd
+\DoubleColumn
+\begin{equation}
+\begin{aligned}
+  \label{eq:fractional_coloring_ERM}
+  \frac{1}{m!}\sum_{\bm{\pi}\in\mathcal{G}_n}\frac{1}{\lfloor m/2\rfloor}\sum_{i=1}^{\lfloor m/2 \rfloor} \ell(r, (X_{\pi(i)}, X_{\pi(i)+\lfloor m/2\rfloor}, \\
+  Y_{\pi(i), \pi(i)+\lfloor m/2\rfloor}))
+  \end{aligned}
+\end{equation}
+\DoubleColumnEnd
 where the sum is taken over all permutations of $\mathcal{G}_m$, the symmetric group of order $m$, and $\lfloor u \rfloor$ denotes the integer part of any $u\in \real{}$.
 From \cite{Biau2006}, the bounds for excess risk of \eqref{eq:fractional_coloring_ERM} are of the order $O(1/\sqrt{n})$.
-Moreover, by the result in \cite{DBLP:conf/icml/RalaivolaA15}, tighter risk bounds may be obtained under the following ``low-noise'' condition \citep{see}{}{tsybakov2004optimal,Massart2006}.
+Moreover, by the result in \cite{DBLP:conf/icml/RalaivolaA15}, tighter risk bounds may be obtained under the following ``low-noise'' condition \cite{tsybakov2004optimal,Massart2006}.
 \begin{assumption}
   There exists $C>0$ and $\theta\in [0,1]$ such that for all $\epsilon>0$,
   \[\Pro\left[|\eta(X_1,X_2)-\frac{1}{2}|\le \epsilon\right]\le C\epsilon^{\theta/(1-\theta)}.\]
 \end{assumption}
-The risk bounds of the order $O(\log(n)/n)$ may be achieved if $\theta=1$ \citep[\textit{cf.}][]{Massart2006}, which however is very restrictive.
-We can use the example in \cite{papa2016graph} to show this.
+The risk bounds of the order $O(\log(n)/n)$ may be achieved if $\theta=1$ \cite{Massart2006}, which however is very restrictive.
+We can use the example in \citet{papa2016graph} to show this.
 Let $N$ be a positive integer. For each vetex $i \in \set{1,\dots,n}$, we observe $X_i = (X_i^1, X_i^2)$ where $X_i^1$ and $X_i^2$ are two distinct elements drawn from $\set{1,\dots,N}$.
 This may, for instance correspond to the two preferred items of a user $i$ among a list of $N$ items.
 Consider now the case that two nodes are likely to be connected if they share common preference, e.g., $Y_{i,j} \sim Ber(\#(X_i\cap X_j)/2)$. One can easily check that $\Pro[|\eta(X_1,X_2)-1/2|=0]>0$, so tight risk bounds cannot be obtained for minimizers of \eqref{eq:fractional_coloring_ERM}.
@@ -1138,7 +1150,7 @@ Lemma \ref{le:weighted_u_statistics_decoupling} and \ref{le:weighted_u_statistic
     where $\|\weight{}\|_{\max}=\max_i \sqrt{\sum_{j:\pair{i,j}\in E} w_{i,j}^2}$.
 \end{theorem}
 
-If the hypothesis set $\mathcal{F}$ is a subset of $\lebesgue{}_\infty(\xspace^2)$ (upper bounds on the uniform covering number with $\lebesgue{}_\infty$ metric can be calculated, see \cite{cucker2007learning}), we show $\E[Z_\rademacher{}]$, $\E[U_\rademacher{}]$ and $\E[M]$ can be bounded by $N_\infty(\mathcal{F},\epsilon)$ since all these Rademacher random variables satisfy the Khinchine inequality (see Section~\ref{sub:metric_entropy_inequality}). Following the metric entropy inequality for Khinchine-type processes (see Section~\ref{sub:metric_entropy_inequality}), it is easy to get the following Corollary.
+If the hypothesis set $\mathcal{F}$ is a subset of $\lebesgue{}_\infty(\xspace^2)$ (upper bounds on the uniform covering number with $\lebesgue{}_\infty$ metric can be calculated \cite{cucker2007learning}), we show $\E[Z_\rademacher{}]$, $\E[U_\rademacher{}]$ and $\E[M]$ can be bounded by $N_\infty(\mathcal{F},\epsilon)$ since all these Rademacher random variables satisfy the Khinchine inequality (see Section~\ref{sub:metric_entropy_inequality}). Following the metric entropy inequality for Khinchine-type processes (see Section~\ref{sub:metric_entropy_inequality}), it is easy to get the following Corollary.
 
 \begin{corollary}
     \label{cor:covering_number_inequality}
@@ -1153,9 +1165,9 @@ If the hypothesis set $\mathcal{F}$ is a subset of $\lebesgue{}_\infty(\xspace^2
     \SingleColumnEnd
     \DoubleColumn
     \begin{align*}
-        \kappa\le&C\Bigg(\|\weight{}\|_2\int_0^{2F}\log N_\infty(\mathcal F, \epsilon)d\epsilon+\max\Big(\|\weight{}\|_2\log(1/\delta)\\
-        &\qquad\int_0^{2F}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon,(\log(1/\delta))^{3/2}\|\weight{}\|_{\max},\\
-        &\qquad(\log(1/\delta))^2\|\weight{}\|_\infty\Big)\Bigg).
+        \kappa\le&C\Bigg(\|\weight{}\|_2\int_0^{2F}\log N_\infty(\mathcal F, \epsilon)d\epsilon\\
+        &+\max\Big(\|\weight{}\|_2\log(1/\delta)\int_0^{2F}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon,\\
+        &\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max}, (\log(1/\delta))^2\|\weight{}\|_\infty\Big)\Bigg).
     \end{align*}
     \DoubleColumnEnd
     with a universal constant $C$.
@@ -1308,9 +1320,9 @@ where
 \SingleColumnEnd
 \DoubleColumn
 \begin{align*}
-    \kappa\le&\frac{C_1}{\normo{\weight}}\Bigg(\|\weight{}\|_2\int_0^{1}\log N_\infty(\mathcal F, \epsilon)d\epsilon+\max\Big(\|\weight{}\|_2\log(1/\delta)\\
-    &\qquad\int_0^{1}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon,(\log(1/\delta))^{3/2}\|\weight{}\|_{\max},\\
-    &\qquad (\log(1/\delta))^2\|\weight{}\|_\infty\Big)\Bigg).
+    \kappa\le&\frac{C_1}{\normo{\weight}}\Bigg(\|\weight{}\|_2\int_0^{1}\log N_\infty(R, \epsilon)d\epsilon\\
+    &+\max\Big(\|\weight{}\|_2\log(1/\delta)\int_0^{1}\sqrt{\log N_\infty(R,\epsilon)}d\epsilon,\\
+    &\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max},(\log(1/\delta))^2\|\weight{}\|_\infty\Big)\Bigg).
 \end{align*}
 \DoubleColumnEnd
 with a universal constant $C_1<\infty$. 
@@ -1422,8 +1434,8 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
     where
     \DoubleColumn
     \begin{align*}
-    \kappa_A&=\frac{C_A}{1-\complexbound{}}\max\Big(\frac{\|\weight{}\|_2\log(1/\delta)}{\normo{\weight{}}},\\
-    &\qquad\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}}, \frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)
+    \kappa_A&=\frac{C_A}{1-\complexbound{}}\max\Big(\frac{\|\weight{}\|_2\log(1/\delta)}{\normo{\weight{}}},\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\\
+    &\qquad\qquad \frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)
     \end{align*}
     \DoubleColumnEnd
     \SingleColumn
@@ -1437,7 +1449,7 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
     \DoubleColumn
     \begin{align*}
     \kappa_B&=\frac{C_B}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\\
-    &\qquad\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)
+    &\qquad\qquad\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)
     \end{align*}
     \DoubleColumnEnd
     \SingleColumn
@@ -1458,13 +1470,24 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
 \label{sub:proof_of_theorem_th:fractional_coloring_weighted}
 
 We write, for all $r\in R$,
+\SingleColumn
 \begin{equation}
   \label{eq:fractional_coloring_decomposition}
-\begin{aligned}
-  \risk{}(r)-\empiricalrisk{\weight{}}(r)&\le \sup_{r\in R}\left[\E[\ell(r,z)] - \frac{1}{\normo{\weight{}}}\sum_{i=1}^m w_i\ell(r,z_i)]\right]\\
-  &\le \sum_{j=1}^J p_j\left[ \sup_{r\in R}\sum_{i\in\mathcal{C}_j} \frac{w_{k_j^i}}{\normo{\weight{}}} (\E[\ell(r,z)] - \ell(r,z_{k_j^i}))\right].
-\end{aligned}
+    \begin{aligned}
+    \risk{}(r)-\empiricalrisk{\weight{}}(r)&\le \sup_{r\in R}\left[\E[\ell(r,z)] - \frac{1}{\normo{\weight{}}}\sum_{i=1}^m w_i\ell(r,z_i)]\right]\\
+    &\le \sum_{j=1}^J p_j\left[ \sup_{r\in R}\sum_{i\in\mathcal{C}_j} \frac{w_{k_j^i}}{\normo{\weight{}}} (\E[\ell(r,z)] - \ell(r,z_{k_j^i}))\right].
+    \end{aligned}
 \end{equation}
+\SingleColumnEnd
+\DoubleColumn
+\begin{equation}
+  \label{eq:fractional_coloring_decomposition}
+    \begin{aligned}
+    \risk{}(r)-\empiricalrisk{\weight{}}(r)&\le \sup_{r\in R}\left[\E[\ell(r,z)] - \frac{1}{\normo{\weight{}}}\sum_{i=1}^m w_i\ell(r,z_i)]\right]\\
+    &\le \sum_{j=1}^J p_j\left[ \sup_{r\in R}\sum_{i\in\mathcal{C}_j} \frac{w_{k_j^i}}{\normo{\weight{}}} (\E[\ell(r,z)] - \ell(r,z_{k_j^i}))\right].
+    \end{aligned}
+\end{equation}
+\DoubleColumnEnd
 Now, consider, for each $j$,
 \[f_j(S_{\mathcal{C}_j}) = \sup_{r\in R}\sum_{i\in\mathcal{C}_j} \frac{w_{k_j^i}}{\normo{\weight{}}} (\E[\ell(r,z)] - \ell(r,z_{k_j^i})).\]
 Let $f$ is defined by, for all training set $S$, $f(S)=\sum_{j=1}^Jp_jf_j(S_{\mathcal{C}_j})$, then $f$ satisfies the conditions of Theorem~\ref{th:fractional_mcdiarmid} with, for any $i\in \set{1,\dots,m}$, $\beta_i\le w_i/\normo{\weight{}}$. Therefore, we can claim that, with probability at least $1-\delta$,
@@ -1883,7 +1906,7 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~4}{Usunier
         &(\text{According to }\eqref{eq:weighted_u_statistics_decoupling_fact2})\\
         &= \frac{1}{2}\E[\sup_{r\in R} |4\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q] \\
         &\qquad+ \frac{1}{2}\E[\sup_{r\in R} |2\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
-        &\le \E[\sup_{r\in R} |4\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
+        % &\le \E[\sup_{r\in R} |4\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
         &= 4^q\E[\sup_{r\in R} |\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]
     \end{align*}
     \DoubleColumnEnd
