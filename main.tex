@@ -391,12 +391,12 @@ The excess risk $\risk{}(r_\weight{})-\bayeserror{}$ depends on the hypothesis s
 % To bound the approximation error $\inf_{r\in R}\risk{}(r)-\bayeserror{}$, we need to measure the hypothesis set $R$.
 A similar result using VC-dimension \cite{vapnik1971uniform} can be obtained as well. 
 \begin{definition}[covering numbers]
-$\mathcal{C}\subset \real{}^m$ is a ****$d_p$ \emph{cover} of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon>0$ if for all $f\in\mathcal{F}$, there exists $\mathbf{c}_f\in \mathcal{C}$ such that
+$\mathcal{C}\subset \real{}^m$ is a $\lebesgue{}_p$ \emph{cover} of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon>0$ if for all $f\in\mathcal{F}$, there exists $\mathbf{c}_f\in \mathcal{C}$ such that
 $\|(f(x_1),\dots,f(x_m))-\mathbf{c}_f\|_p\le \epsilon.$
 The empirical covering number $N_p(\mathcal{F},\epsilon;x_1,\dots,x_m)$ is the size of a smallest $\mathcal{C}$ which is a $d_p$ cover of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon$.
-We define the covering number ***$N_p(\mathcal{F},\epsilon,m):=\sup_{x_1,\dots,x_m}N_p(\mathcal{F},\epsilon;x_1,\dots,x_m)$ and simply denote $N_p(\mathcal{F},\epsilon,m)$ by $N_p(\mathcal{F},\epsilon)$, if the context is clear.
+We define the covering number $N_p(\mathcal{F},\epsilon,m):=\sup_{x_1,\dots,x_m}N_p(\mathcal{F},\epsilon;x_1,\dots,x_m)$ and simply denote $N_p(\mathcal{F},\epsilon,m)$ by $N_p(\mathcal{F},\epsilon)$, if the context is clear.
 \end{definition}
-In this paper, we focus on the $\lebesgue_\infty$ covering number $N_\infty(\mathcal{F},\epsilon)$ ***and assume that it satisfies the following assumption.
+In this paper, we focus on the $\lebesgue_\infty$ covering number $N_\infty(\mathcal{F},\epsilon)$ and assume that it satisfies the following assumption.
 \begin{assumption}\label{ass:covering_number} There exists a nonnegative number $\complexbound < 1$ and a constant $K$ such that $\log N_\infty(\mathcal{F},\epsilon) \le K\epsilon^{-\complexbound}$ for all $\epsilon\in (0,1]$.
 \end{assumption}
 % ****虽然，但是所有的文献，因为。。
@@ -410,7 +410,7 @@ We also refer to (\citeauthor{Mammen1998Smooth} \citeyear{Mammen1998Smooth}, p.\
 Now we are ready to state the main result of the paper.
 \begin{theorem}[risk bounds]
     \label{th:main_theorem}
-    ****mention fractional matching. Consider a minimizer $r_\weight{}$ of the weighted empirical risk $\empiricalrisk{\weight{}}$ over a class $R$ that satisfies Assumption~\ref{ass:covering_number}. There exists a constant $C>0$ such that for all $\delta\in(0,1]$, with probability at least $1-\delta$, the excess risk of $r_\weight{}$ satisfies
+    Consider a minimizer $r_\weight{}$ of the weighted empirical risk $\empiricalrisk{\weight{}}$ over a class $R$ that satisfies Assumption~\ref{ass:covering_number}. There exists a constant $C>0$ such that for all $\delta\in(0,1]$, with probability at least $1-\delta$, the excess risk of $r_\weight{}$ satisfies
     \DoubleColumn
     \begin{equation}
         \begin{aligned}
@@ -434,11 +434,10 @@ Now we are ready to state the main result of the paper.
 \end{theorem}
 
 
-***From Theorem~\ref{th:main_theorem}, for all
+From Theorem~\ref{th:main_theorem}, for all
 $\delta\in\Bigg(\exp\Big(-\min(\|\weight{}\|_2/\|\weight{}\|_\infty,\|\weight{}\|_2^2/\|\weight{}\|_\max^2)\Big),1\Bigg],$ the risk bounds are of the order
 $O\left((1/\normo{\weight{}})^{1/(1+\complexbound)}+\|\weight{}\|_2/\normo{\weight{}}\right).$ 
-*** discuss the first part.
-In this case, our bounds are tighter than $O(1/\sqrt{\normo{\weight{}}})$ (recall that $\weight{}$ must be a fractional matching)
+In this case, our bounds are tighter than $O(1/\sqrt{\normo{\weight{}}})$ (recall that $\weight{}$ must be a fractional matching and $0<\complexbound{}<1$)
 %是不是不要用1/\sqrt{\normo{\weight{}}}，因为1范数是可以变的，而p则更直接一些。但我不确定是在这里用个脚注还是换成p
 % 这个我感觉还是挺显然的吧，用p就是不太好说
 as $\|\weight\|_2/\normo{\weight}\le 1/\sqrt{\normo{\weight}}$.
@@ -460,7 +459,7 @@ appendix).
 % later I'd like to split the main track and appendix.
 We first define
 \[q_r(x_1,x_2,y_{1,2}):=\lossf(r, x_1,x_2,y_{1,2})-\lossf(r^*,x_1,x_2,y_{1,2})\]
-for every $(x_1,x_2,y_{1,2})\in \mathcal X\times\mathcal X\times\yspace{}$ and let $\Lambda(r) = \risk(r)-\bayeserror=\E[q_r(X_1,X_2,Y_{1,2})]$
+for every $(x_1,x_2,y_{1,2})\in \mathcal X\times\mathcal X\times\yspace{}$ and let $\Lambda(r) := \risk(r)-\bayeserror=\E[q_r(X_1,X_2,Y_{1,2})]$
 be the excess risk with respect to the Bayes rule.
 Its empirical estimate by weighted ERM is 
 \DoubleColumn
@@ -492,7 +491,7 @@ with a \emph{degenerated} kernel
 $\tilde{h}_r(X_i,X_j,Y_{i,j})=q_r(X_i,X_j\linebreak,Y_{i,j})-\E[q_r(X_i,X_j,Y_{i,j})\mid X_i,X_j].$ 
 In the following, we bound the three terms $T_\weight{}, U_\weight{}$ and $\widetilde{U}_\weight{}$ in \eqref{eq:graph_reconstruction_hoeffding_decomposition} respectively. 
 
-*** most important lemma.
+% *** most important lemma.
 
 \begin{lemma}[uniform approximation]
     \label{le:uniform_approximation}
@@ -519,7 +518,7 @@ In the following, we bound the three terms $T_\weight{}, U_\weight{}$ and $\wide
     where $C_1,C_2 < +\infty$ are constants.
 \end{lemma}
 
-*** give some intuition
+% *** give some intuition
 To prove Lemma~\ref{le:uniform_approximation}, we show that $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by Rademacher chaos using classical symmetrization and randomization tricks combined with the decoupling method (see Section~B in the Appendix). We handle these Rademacher chaos by generalizing the approach used in \cite{clemenccon2008ranking}. 
 Specifically, we utilize the moment inequalities from \cite{Boucheron2005} to convert them to the sum of simpler processes, which can be bounded by the metric entropy inequality for Khinchine-type processes \citep{see}{Proposition 2.6}{Dembo1994} and Assumption~\ref{ass:covering_number}.
 
@@ -528,10 +527,9 @@ This implies that minimizing $\Lambda_\weight{}(r)$ is approximately equivalent 
 In order to analyze $T_\weight{}(r)$, which can be treated as a weighted empirical risk on i.i.d.\ examples, we generalize the results in \cite{Massart2006} (see Section~A in the Appendix). 
 Based on this result, tight bounds for the excess risk with respect to $T_\weight{}(r)$
 can be obtained if the variance of the excess risk is controlled by its expected value.
-By Lemma~\ref{le:variant_control}, $T_\weight{}(r)$ fulfills this condition.
+By Lemma~\ref{le:variant_control}, $T_\weight{}(r)$ fulfills this condition, which leads to Lemma~\ref{le:risk_bounds_iid}.
 
-*** Lemma 3 --> Lemma 2
-\begin{lemma}[condition leads to ``low-noise'', ***{\citett{Lemma 2}{papa2016graph}}]
+\begin{lemma}[condition leads to ``low-noise'', {\citett{Lemma 2}{papa2016graph}}]
     \label{le:variant_control}
     If the learning problem \problemabbr{} is symmetric, then
     \begin{equation}
@@ -546,6 +544,7 @@ By Lemma~\ref{le:variant_control}, $T_\weight{}(r)$ fulfills this condition.
   Suppose that $r'$ is a $\rho$-minimizer of $T_\weight{}(r)$ in the sense that $T_\weight{}(r')\le \rho + \inf_{r\in R}T_\weight{}(r)$ and $R$ satisfies Assumption~\ref{ass:covering_number}, then there exists a constant $C$ such that for all $\delta\in(0,1]$, with probability at least $1-\delta$, the risk of $r'$ satisfies
   \[\Lambda(r')\le 2\inf_{r\in R}\Lambda(r)+2\rho+\frac{CK^{1/(1+\complexbound{})}\log(1/\delta)}{(\normo{\weight{}}(1-\complexbound{})^2)^{1/(1+\complexbound{})}}.\]
 \end{lemma}
+% *** Lemma 3 --> Lemma 2
 
 \begin{proof}[Proof of Theorem~\ref{th:main_theorem}]
     Let us consider the Hoeffding decomposition \eqref{eq:graph_reconstruction_hoeffding_decomposition} of $\Lambda_\weight{}(r)$ that is minimized over $r\in R$. The idea of this proof is that the degenerate part $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by the moment inequality for weighted $U$-processes. Therefore, $r_\weight{}$ is an approximate minimizer of $T_\weight{}(r)$, which can be handled by Lemma~\ref{le:risk_bounds_iid}.
@@ -585,7 +584,7 @@ By Lemma~\ref{le:variant_control}, $T_\weight{}(r)$ fulfills this condition.
     Then, from Lemma~\ref{le:risk_bounds_iid}, with probability at least $1-\delta/2$, $r_\weight{}$ is a $(\kappa_A+\kappa_B)$-minimizer of $T_\weight{}(r)$, which the result follows.
 \end{proof}
 
-*****
+% *****
 An intuition obtained from our result is how to choose weights for networked data. By Theorem~\ref{th:main_theorem}, to obtain tight risk bounds, we need to maximize $\normo{\weight{}}$ (under the constraint that this weight vector is a fractional matching), which resembles the result of \cite{ramon2015learning} (but they only need to maximize $\normo{\weight{}}$ and this is why they end in the $O(1/\sqrt{\nu^*(G)})$ bound), while making $\|\weight{}\|_2,\|\weight{}\|_\max,\|\weight{}\|_\infty$ as small as possible, which appears to suggest putting nearly average weights on examples and vertices respectively. These two objectives, maximizing $\normo{\weight{}}$ and minimizing $\|\weight{}\|_2,\|\weight{}\|_\max,\|\weight{}\|_\infty$, seem to contradict each other. In the next section, we discuss how to solve this problem.  
 
 % subSection~a_moment_inequality_for_weighted_u_processes (end)
@@ -594,15 +593,15 @@ An intuition obtained from our result is how to choose weights for networked dat
 Another advantage of our result is that if the risk bounds are optimized, we could reduce the computation complexity of minimizing $\empiricalrisk{\weight{}}$ by subsampling examples with large weights which by Theorem~\ref{th:main_theorem} may not significantly deteriorate the performance of weighted ERM.
 \LongVersionEnd
 
-\section{Weighting Schemes} % (fold)
+\section{Weighting Optimization} % (fold)
 \label{sec:weighting_scheme}
 
 In the previous section, we have established risk bounds for weighted ERM. In this section, we first formulate the optimization problem that minimizes the risk bounds in Theorem \ref{th:main_theorem}. 
-We show that, according to our bounds, equal weighting is indeed the optimal weighting scheme for complete graphs. 
-We then discuss the performance of this equal weighting scheme when the graph is incomplete. % and show that it could provide a reasonable bounds. 
-Finally, we provide some methods that optimize the risk bounds progressively %but may not find the global optimal solution 
+Then, we provide some methods that optimize the risk bounds progressively %but may not find the global optimal solution 
 to find proper weights for general cases. 
-Using these methods, we are able to improve existing weighting schemes. % and guarantee that the new scheme is not worse than the old one. 
+Using these methods, we are able to improve existing weighting schemes.
+Finally, although the optimization problem is not convex, we prove that there exists a polynomial-time approximation scheme (PTAS) to solve this problem.
+ % and guarantee that the new scheme is not worse than the old one. 
 %So there exists a trade-off between optimization time and tight risk bounds.
 
 \subsection{Optimization Problem} % (fold)
@@ -709,6 +708,11 @@ One of these methods is Concave-Convex Procedure \cite{Yuille2001The} which has 
 Using this method, the program \eqref{eq:optimization_program_final} can be solved by optimizing a sequence of convex program with the same constrains of \eqref{eq:optimization_program_final}, the iterative objective functions $(a^{(t+1)},b^{(t+1)})\in \mathop{\arg\min}_{a,b,\probdistri{}} b+\frac{a}{1+\complexbound{}}(a^{(t)})^{-\complexbound/(1+\complexbound{})}$
 and the feasible initial solution. By \citet{lanckriet2009convergence}, the concavity of $a^{1/(1+\complexbound{})}$ guarantees that $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t+1)}\le (a^{(t)})^{1/(1+\complexbound{})} + b^{(t)}$.
 
+\subsection{PTAS} % (fold)
+\label{sub:ptas}
+
+% subsection ptas (end)
+
 % An advantage of these algorithms is that we can improve existing schemes for weighting networked examples, e.g., equal weighting, independent subset, maximum fractional matching or min-variance weighting \citep{ramon2015learning} by setting them as the initial solution (weighting scheme). 
 
 % Section~weighting_scheme (end)
@@ -716,8 +720,12 @@ and the feasible initial solution. By \citet{lanckriet2009convergence}, the conc
 \section{Discussion} % (fold)
 \label{sec:discussion}
 
+In this section, we first show that, according to our bounds, equal weighting is indeed the optimal weighting scheme for complete graphs. 
+Then, we discuss the performance of this equal weighting scheme when the graph is incomplete. % and show that it could provide a reasonable bounds. 
+
 \subsection{Complete Graphs} % (fold)
 \label{sub:complete_graph}
+
 When graph $G$ is complete, it is easy to see that weighting all examples equally gives the best risk bound, as all the terms $\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}$, $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ achieve minimum. 
 Compared to the results in \cite{ramon2015learning}, our theory puts additional constrains on $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ which encourages weighting examples fairly in this case, as illustrated in Figure~\ref{fig:weighting_scheme_complete_graph}. 
 Besides, this scheme, which coincides with $U$-statistics that \emph{average} the basic estimator applied to all sub-samples \cite{hoeffding1948class}, could produce a small variance. 
@@ -2204,19 +2212,19 @@ An important character of these Rademacher processes in \eqref{eq:moment_inequal
 where $E_<=\{(i,j): \{i,j\}\in E, i<j\}$. Let $z_\rademacher^\prime=z_\rademacher/\|\weight{}\|_2$, following Theorem \ref{th:kinchine_type_ineqaulity}, we can easily have that $z_\rademacher^\prime$ satisfies \eqref{eq:kinchine_type_inequality_process} with degree $2$. Thus from Theorem \ref{th:rademacher_process_chaining}, we have
 \begin{equation}
     \label{eq:weighted_rademacher_process_prove_1}
-    \E_\rademacher[\sup_{f,g}|z^\prime_\rademacher(f)-z^\prime_\rademacher(s)|]\le K\int_0^D\log N(\mathcal F,d,\epsilon)d\epsilon.
+    \E_\rademacher[\sup_{f,g}|z^\prime_\rademacher(f)-z^\prime_\rademacher(s)|]\le K\int_0^D\log N(\mathcal F,\lebesgue{}_2,\epsilon)d\epsilon.
 \end{equation}
 where 
 \DoubleColumn
 \begin{align*}
-    d(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
+    \lebesgue{}_2(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
     &=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)\\
     &\qquad-g(X_i,X_j))|^2])^{1/2}.
 \end{align*}
 \DoubleColumnEnd
 \SingleColumn
 \begin{align*}
-    d(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
+    \lebesgue{}_2(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
     &=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}.
 \end{align*}
 \SingleColumnEnd
@@ -2224,21 +2232,21 @@ Recall that $\sup_f \|f\|_\infty = F$, we have $D= 2F$.
 Since this metirc function $d$ is intractable, we need to convert it to the $\lebesgue_\infty$ metric. For all $f,s$, we have
 \DoubleColumn
 \begin{align*}
-    d(f,g)&=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)\\
+    \lebesgue{}_2(f,g)&=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)\\
     &\qquad-g(X_i,X_j))|^2])^{1/2}\\
     &\le \lebesgue_\infty(f,g)
 \end{align*}
 \DoubleColumnEnd
 \SingleColumn
 \begin{align*}
-    d(f,g)&=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}\\
+    \lebesgue{}_2(f,g)&=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}\\
     &\le \lebesgue_\infty(f,g)
 \end{align*}
 \SingleColumnEnd
-The fact that if $\forall f,s\in\mathcal F, d(f,s)\le d'(f,s)$ then $N(\mathcal F,d,\epsilon)\le N(\mathcal F, d',\epsilon)$ combined with \eqref{eq:weighted_rademacher_process_prove_1} will give
+The fact that if $\forall f,s\in\mathcal F, \lebesgue{}(f,s)\le \lebesgue{}'(f,s)$ then $N(\mathcal F,\lebesgue{},\epsilon)\le N(\mathcal F, \lebesgue{}',\epsilon)$ combined with \eqref{eq:weighted_rademacher_process_prove_1} will give
 \begin{align*}
     \E[Z_\rademacher]&= 2\E[\E_\rademacher[\sup_f|z_\rademacher(f)|]]\\
-    &\le 2K\|\weight{}\|_2\int_0^{2F}\log N(\mathcal F,d,\epsilon)d\epsilon\\
+    &\le 2K\|\weight{}\|_2\int_0^{2F}\log N(\mathcal F,\lebesgue{}_2,\epsilon)d\epsilon\\
     &\le 2K\|\weight{}\|_2\int_0^{2F}\log N_\infty(\mathcal F, \epsilon)d\epsilon
 \end{align*}
 where $K$ is a universal constant. Similarly, we can also bound $\E[M]$ by $K\|\weight{}\|_{\max}\linebreak\int_0^{2F}\sqrt{\log N_\infty(\mathcal F, \epsilon)}d\epsilon$. 
