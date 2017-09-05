@@ -165,10 +165,10 @@ However, in practice it is very likely that one cannot collect examples for all 
 By generalizing the moment inequality for $U$-processes to the case of incomplete graphs, we prove novel risk bounds for the incomplete graph.  
 
 Usually, every training example is equally weighted (or unweighted) in ERM, which seems much less persuasive when the examples are networked, in particular when the graph is incomplete. But, most existing theoretical results of learning from networked examples are based on the unweighted ERM \cite{Usunier2005,ralaivola2009chromatic}, and their bounds are of order $O(\sqrt{\chi^*(D_G)/m})$ where $D_G$ is the \emph{line graph} of $G$ and $\chi^*$ is the \emph{fractional chromatic number} of $D_G$ (see Section~A in the appendix) and $m$ is the number of training examples. 
-In order to improve this bound, \citet{ramon2015learning} propose \emph{weighted} ERM %\emph{(weighted ERM)}, 
+In order to improve this bound, \citet{wang2017learning} propose \emph{weighted} ERM %\emph{(weighted ERM)}, 
 which adds weights to training examples 
 according to the network, and show that the risk bound for weighted ERM can be of order $O(1/\sqrt{\nu^*(G)})$ where $\nu^*(G)$ is the \emph{fractional matching number} of $G$, so using weighted ERM networked data can be more effectively exploited than the equal weighting method, as basic graph theory tells us $\nu^*_G\ge m / \chi^*(D_G)$. 
-However, \citet{ramon2015learning} (in fact, \citet{Usunier2005} and \citet{ralaivola2009chromatic} also) assume that any two examples can be arbitrarily correlated if they share a vertex, which cannot lead to an $O(\log(n)/n)$ bound when the graph is complete. 
+However, \citet{wang2017learning} (in fact, \citet{Usunier2005} and \citet{ralaivola2009chromatic} also) assume that any two examples can be arbitrarily correlated if they share a vertex, which cannot lead to an $O(\log(n)/n)$ bound when the graph is complete. 
 We show that, the \emph{``low-noise'' condition}, also called the \emph{Mammen-Tsybakov noise condition}  \cite{Mammen1998Smooth}, which is commonly assumed in several typical learning problems with networked data, e.g., ranking \cite{clemenccon2008ranking} and graph reconstruction \cite{papa2016graph}, can be used to reasonably bound the dependencies of two examples that share a common vertex and then leads to \emph{tighter} risk bounds. 
 Based on these new bounds, we can efficiently find better weighting schemes. 
 
@@ -309,7 +309,7 @@ Let $E_<=\{\pair{i,j}: i<j, \pair{i,j}\in E\}$ be the ordered edge set. If Condi
     \cmidrule{2-4}
     & \textbf{General graphs} & \citec{DBLP:conf/icml/RalaivolaA15}{ICML} & \parbox[t]{4cm}{\citec{Usunier2005}{NIPS},\\ \citec{ralaivola2009chromatic}{AISTATS}}\\
     \cmidrule{1-4}
-    \textbf{Weighted ERM} & \textbf{General graphs} & \cellcolor{Gray}\emph{This paper}  & \cite{ramon2015learning}\\
+    \textbf{Weighted ERM} & \textbf{General graphs} & \cellcolor{Gray}\emph{This paper}  & \citec{wang2017learning}{ALT}\\
     \bottomrule
   \end{tabular}
 \end{table*}
@@ -327,14 +327,14 @@ We now have a look at previous works that are closely related to our work, as sh
 In this case, \citet{clemenccon2008ranking} formulate the ``low-noise'' condition for the ranking problem and demonstrate that this condition can lead to tighter risk bounds by the moment inequality of $U$-processes.
 \citet{papa2016graph} further consider the graph reconstruction problem introduced by \citet{Biau2006} and show this problem always satisfies the ``low-noise'' condition. 
 
-If the graph is incomplete, one can use either Janson's decomposition \cite{janson2004large,Usunier2005,ralaivola2009chromatic,DBLP:conf/icml/RalaivolaA15} or the fractional matching approach by \citet{ramon2015learning} to derive risk bounds. 
+If the graph is incomplete, one can use either Janson's decomposition \cite{janson2004large,Usunier2005,ralaivola2009chromatic,DBLP:conf/icml/RalaivolaA15} or the fractional matching approach by \citet{wang2017learning} to derive risk bounds. 
 The main differences between these two approaches are: 
 \begin{itemize}
-  \item \citet{ramon2015learning} considers the data graph $G$ while Janson's decomposition uses only the line graph $D_G$. 
+  \item \citet{wang2017learning} considers the data graph $G$ while Janson's decomposition uses only the line graph $D_G$. 
    % and hence wastes some (important) information in the data graph $G$ (see the example in \ref{TODO}). 
   \item The fractional matching approach considers general weighted ERM while \citet{janson2004large}, \citet{Usunier2005}, \citet{ralaivola2009chromatic} and \citet{DBLP:conf/icml/RalaivolaA15} only prove bounds for unweighted ERM.
 \end{itemize}
-Though \citet{ramon2015learning} show improved risk bounds, as far as we know, there is no known tight risk bounds on incomplete graphs for tasks such as pairwise ranking and graph reconstruction that satisfy the ``low-noise'' condition, under which the weighting scheme proposed by \citet{ramon2015learning} may be not good either (see Section~\ref{sub:complete_graph}).
+Though \citet{wang2017learning} show improved risk bounds, as far as we know, there is no known tight risk bounds on incomplete graphs for tasks such as pairwise ranking and graph reconstruction that satisfy the ``low-noise'' condition, under which the weighting scheme proposed by \citet{wang2017learning} may be not good either (see Section~\ref{sub:complete_graph}).
 
 % Compared to these work, our method of combining the fractional matching approach and the ``low-noise'' condition has advantages that make it more suitable for solving \problemabbr{}. 
 
@@ -354,7 +354,7 @@ In Section~\ref{sub:equally_weighting}, we show that our bounds are tighter than
 %这个例子里，我们本来也就没法让它达到0,还是从monotonic来说？
 % 但是weighted的bounds是趋近0的（随着m的增加），而unweighted不行
 \paragraph{Asymptotic risk}
-As mentioned by \citet{ramon2015learning}, if several examples share a vertex, then we are likely to put less weight on them because the influence of this vertex to the empirical risk should be bounded. Otherwise, if we treat every example equally, then these dependent examples may dominate the training process and lead to risk bounds that do not converge to $0$ (see the example in Section~\ref{sub:equally_weighting}).
+As mentioned by \citet{wang2017learning}, if several examples share a vertex, then we are likely to put less weight on them because the influence of this vertex to the empirical risk should be bounded. Otherwise, if we treat every example equally, then these dependent examples may dominate the training process and lead to risk bounds that do not converge to $0$ (see the example in Section~\ref{sub:equally_weighting}).
 
 \paragraph{Uniform bounds} 
 Although \citet{DBLP:conf/icml/RalaivolaA15} prove an entropy-base concentration inequality for networked data using Janson's decomposition, the %``low-noise'' 
@@ -381,7 +381,7 @@ in absence of any restrictive condition imposed on the data distribution.
 \label{sec:risk_bounds}
 % give an introduction.
 In this section, we introduce the covering number as the measurement of hypothesis set, and then present our main results.
-% In this section, we show that the risk bounds established by \citep{ramon2015learning} can be improved without any additional assumptions on the data distribution and the results obtained by \citep{papa2016graph} can be generalized into the case of incomplete graphs. 
+% In this section, we show that the risk bounds established by \citep{wang2017learning} can be improved without any additional assumptions on the data distribution and the results obtained by \citep{papa2016graph} can be generalized into the case of incomplete graphs. 
 
 \subsection{Covering Numbers} % (fold)
 \label{sub:covering number}
@@ -445,7 +445,7 @@ If $G$ is complete and every example is unweighted, the bounds of the order $O((
 
 \begin{remark*}
 Theorem~\ref{th:main_theorem} provides universal risk bounds no matter what the distribution of the data is. The factor of $2$ in front of the approximation error $\inf_{r\in R}\risk(r)-\bayeserror$ has no special meaning and can be replaced by any constant larger than $1$ with a cost of increasing the constant $C$. 
-\citet{ramon2015learning} obtain risk bounds that has a factor $1$ in front of the approximation error part, but in their result the bound is $O(1/\sqrt{\normo{\weight{}}})$. 
+\citet{wang2017learning} obtain risk bounds that has a factor $1$ in front of the approximation error part, but in their result the bound is $O(1/\sqrt{\normo{\weight{}}})$. 
 Hence, Theorem~\ref{th:main_theorem} improves their results if the approximation error does not dominate the other terms in the bounds.
 \end{remark*}
 
@@ -585,7 +585,7 @@ By Lemma~\ref{le:variant_control}, $T_\weight{}(r)$ fulfills this condition, whi
 \end{proof}
 
 % *****
-An intuition obtained from our result is how to choose weights for networked data. By Theorem~\ref{th:main_theorem}, to obtain tight risk bounds, we need to maximize $\normo{\weight{}}$ (under the constraint that this weight vector is a fractional matching), which resembles the result of \cite{ramon2015learning} (but they only need to maximize $\normo{\weight{}}$ and this is why they end in the $O(1/\sqrt{\nu^*(G)})$ bound), while making $\|\weight{}\|_2,\|\weight{}\|_\max,\|\weight{}\|_\infty$ as small as possible, which appears to suggest putting nearly average weights on examples and vertices respectively. These two objectives, maximizing $\normo{\weight{}}$ and minimizing $\|\weight{}\|_2,\|\weight{}\|_\max,\|\weight{}\|_\infty$, seem to contradict each other. In the next section, we discuss how to solve this problem.  
+An intuition obtained from our result is how to choose weights for networked data. By Theorem~\ref{th:main_theorem}, to obtain tight risk bounds, we need to maximize $\normo{\weight{}}$ (under the constraint that this weight vector is a fractional matching), which resembles the result of \cite{wang2017learning} (but they only need to maximize $\normo{\weight{}}$ and this is why they end in the $O(1/\sqrt{\nu^*(G)})$ bound), while making $\|\weight{}\|_2,\|\weight{}\|_\max,\|\weight{}\|_\infty$ as small as possible, which appears to suggest putting nearly average weights on examples and vertices respectively. These two objectives, maximizing $\normo{\weight{}}$ and minimizing $\|\weight{}\|_2,\|\weight{}\|_\max,\|\weight{}\|_\infty$, seem to contradict each other. In the next section, we discuss how to solve this problem.  
 
 % subSection~a_moment_inequality_for_weighted_u_processes (end)
 
@@ -713,7 +713,7 @@ and the feasible initial solution. By \citet{lanckriet2009convergence}, the conc
 
 % subsection ptas (end)
 
-% An advantage of these algorithms is that we can improve existing schemes for weighting networked examples, e.g., equal weighting, independent subset, maximum fractional matching or min-variance weighting \citep{ramon2015learning} by setting them as the initial solution (weighting scheme). 
+% An advantage of these algorithms is that we can improve existing schemes for weighting networked examples, e.g., equal weighting, independent subset, maximum fractional matching or min-variance weighting \citep{wang2017learning} by setting them as the initial solution (weighting scheme). 
 
 % Section~weighting_scheme (end)
 
@@ -727,7 +727,7 @@ Then, we discuss the performance of this equal weighting scheme when the graph i
 \label{sub:complete_graph}
 
 When graph $G$ is complete, it is easy to see that weighting all examples equally gives the best risk bound, as all the terms $\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}$, $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ achieve minimum. 
-Compared to the results in \cite{ramon2015learning}, our theory puts additional constrains on $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ which encourages weighting examples fairly in this case, as illustrated in Figure~\ref{fig:weighting_scheme_complete_graph}. 
+Compared to the results in \cite{wang2017learning}, our theory puts additional constrains on $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ which encourages weighting examples fairly in this case, as illustrated in Figure~\ref{fig:weighting_scheme_complete_graph}. 
 Besides, this scheme, which coincides with $U$-statistics that \emph{average} the basic estimator applied to all sub-samples \cite{hoeffding1948class}, could produce a small variance. 
 *** degeneralize to Ranking
 
@@ -1778,7 +1778,7 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~4}{Usunier
     \[P[|\Pi_jf-\Pi_{j+1}f|]\le \sigma_j^2+\sigma_{j+1}^2=5\sigma_{j+1}^2\]
     and, therefore, since $|\Pi_jf-\Pi_{j+1}f|\le 1$,
     \[P[|\Pi_jf-\Pi_{j+1}f|^2]\le 5\sigma_{j+1}^2.\]
-    Moreover, \eqref{eq:bounded_entropy_mapping} ensures that the number of functions of the form $\Pi_jf-\Pi_{j+1}f$ when varies in $\mathcal{F}$ is not larger than $\exp(H_j+H_{j+1})\le \exp(2H_{j+1})$, Hence, we derive from the maximal inequality for random vectors \citep{see}{Lemma A.1}{Massart2006} and the by-product of the proof of Bernstein's inequality for the weighted sum of networked random variables \citep{see}{Lemma 16}{ramon2015learning} that
+    Moreover, \eqref{eq:bounded_entropy_mapping} ensures that the number of functions of the form $\Pi_jf-\Pi_{j+1}f$ when varies in $\mathcal{F}$ is not larger than $\exp(H_j+H_{j+1})\le \exp(2H_{j+1})$, Hence, we derive from the maximal inequality for random vectors \citep{see}{Lemma A.1}{Massart2006} and the by-product of the proof of Bernstein's inequality for the weighted sum of networked random variables \citep{see}{Lemma 16}{wang2017learning} that
     \DoubleColumn
     \begin{align*}
         \sqrt{\normo{\weight{}}}&\E[\sup_{f\in\mathcal{F}}[v_\weight(\Pi_jf)-v_\weight(\Pi_{j+1}f)]]\\
