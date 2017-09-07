@@ -20,6 +20,11 @@
 \usepackage{booktabs}       % professional-quality tables
 \usepackage{amsfonts}       % blackboard math symbols
 \usepackage{microtype}      % microtypography
+\usepackage{algorithm}
+% \usepackage{algorithmic}
+\usepackage[noend]{algpseudocode}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}} % Use Input in the format of Algorithm
+\renewcommand{\algorithmicensure}{\textbf{Output:}} % Use Output in the format of Algorithm
 % \usepackage{natbib}
 
 % For using \ifthenelse
@@ -154,7 +159,7 @@ Social network data nowadays is widely used in research on social science, netwo
 Similar examples of networked data such as traffic networks \cite{min2011real}, chemical interaction networks \cite{letovsky2003predicting}, citation networks \cite{mcgovern2003exploiting} abound throughout the machine learning world. 
 
 Admittedly, many efforts have been made to design practical algorithms for learning from networked data, e.g., \cite{pieter2003link,al2006link,macskassy2007classification}. 
-However, not many theoretical guarantees of these methods have been established, which is the main concern of this paper. More specifically, this paper deals with risk bounds of \emph{classifiers trained with networked data (\problemabbr{})} whose goal is to train a classifier with examples in a data graph $G$. 
+However, not many theoretical guarantees of these methods have been established, which is the main concern of this paper. More specifically, this paper deals with risk bounds of \emph{classifiers trained with networked data (\problemabbr{})*** modify the name} whose goal is to train a classifier with examples in a data graph $G$. 
 Every vertex of $G$ is an object and described by a feature vector $X\in \xspace{}$ that is drawn independently and identically (i.i.d.) from an unknown distribution, while every edge corresponds to a training example whose input is a pair of feature vectors $\pair{X,X'}$ of the two ends of this edge and whose target value $Y$ is in $\{0,1\}$.
 % The classifier takes a pair of feature vectors $\pair{X,X'}$ as input to predict the target value $Y\in \set{0,1}$. 
 
@@ -600,7 +605,7 @@ In the previous section, we have established risk bounds for weighted ERM. In th
 Then, we provide some methods that optimize the risk bounds progressively %but may not find the global optimal solution 
 to find proper weights for general cases. 
 Using these methods, we are able to improve existing weighting schemes.
-Finally, although the optimization problem is not convex, we prove that there exists a polynomial-time approximation scheme (PTAS) to solve this problem.
+Finally, although the optimization problem is not convex, we prove that there exists a fully polynomial-time approximation scheme (FPTAS) to solve this problem.
  % and guarantee that the new scheme is not worse than the old one. 
 %So there exists a trade-off between optimization time and tight risk bounds.
 
@@ -708,8 +713,26 @@ One of these methods is Concave-Convex Procedure \cite{Yuille2001The} which has 
 Using this method, the program \eqref{eq:optimization_program_final} can be solved by optimizing a sequence of convex program with the same constrains of \eqref{eq:optimization_program_final}, the iterative objective functions $(a^{(t+1)},b^{(t+1)})\in \mathop{\arg\min}_{a,b,\probdistri{}} b+\frac{a}{1+\complexbound{}}(a^{(t)})^{-\complexbound/(1+\complexbound{})}$
 and the feasible initial solution. By \citet{lanckriet2009convergence}, the concavity of $a^{1/(1+\complexbound{})}$ guarantees that $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t+1)}\le (a^{(t)})^{1/(1+\complexbound{})} + b^{(t)}$.
 
-\subsection{PTAS} % (fold)
+\subsection{FPTAS} % (fold)
 \label{sub:ptas}
+
+\begin{algorithm}[htb] 
+\caption{FPTAS for weighting optimization.} 
+\label{alg:FPTAS} 
+\begin{algorithmic}[1]
+\Require 
+A graph $G$ that contains $n$ vertices and $m$ edges, $\beta$ and $\delta$.
+\Ensure 
+An $\epsilon$-approximation of optimal solution $\probdistri{}$, $a$ and $b$ of the program \eqref{eq:optimization_program_final}.
+\State Divide the domain of $a$ into intervals with length $(1+\beta)\epsilon/n$;
+\State Divide the domain of $b$ into intervals with length $\sqrt{1/m}$;
+\State Consider the intersections $Intersections$ of the intervals of $a$ and $b$;
+\State Fix $a, b$ to the intersection in $Intersections$;
+\State Sovle the program \eqref{eq:optimization_program_final} by ***METHOD*** and obtain several solutions $Solutions$.
+\State Find the optimal weighting $\probdistri{}^*$ from $Solutions$;\\
+\Return $\probdistri{}^*$.
+\end{algorithmic} 
+\end{algorithm}
 
 % subsection ptas (end)
 
