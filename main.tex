@@ -716,23 +716,58 @@ and the feasible initial solution. By \citet{lanckriet2009convergence}, the conc
 \subsection{FPTAS} % (fold)
 \label{sub:ptas}
 
-\begin{algorithm}[htb] 
+\begin{algorithm}[!htb] 
 \caption{FPTAS for weighting optimization.} 
 \label{alg:FPTAS} 
 \begin{algorithmic}[1]
 \Require 
-A graph $G$ that contains $n$ vertices and $m$ edges, $\beta$ and $\delta$.
+$\beta$, $\delta$ and a graph $G$ that contains $n$ vertices and $m$ edges.
 \Ensure 
-An $\epsilon$-approximation of optimal solution $\probdistri{}$, $a$ and $b$ of the program \eqref{eq:optimization_program_final}.
-\State Divide the domain of $a$ into intervals with length $(1+\beta)\epsilon/n$;
-\State Divide the domain of $b$ into intervals with length $\sqrt{1/m}$;
-\State Consider the intersections $Intersections$ of the intervals of $a$ and $b$;
-\State Fix $a, b$ to the intersection in $Intersections$;
-\State Sovle the program \eqref{eq:optimization_program_final} by ***METHOD*** and obtain several solutions $Solutions$.
-\State Find the optimal weighting $\probdistri{}^*$ from $Solutions$;\\
-\Return $\probdistri{}^*$.
-\end{algorithmic} 
+An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ for the program \eqref{eq:optimization_program_final}.
+\State Divide the domain of $a$ into intervals $Intervals$ with length $t=\epsilon(1+\beta)/n$;
+% \State Divide the domain of $b$ into intervals with length $\sqrt{1/m}$;
+% \State Consider the intersections $Intersections$ of the intervals of $a$ and $b$;
+\For{$a'$ in $Intervals$}
+  \State Fix $a=a'$;
+  \State Sovle the program \eqref{eq:optimization_program_final} by the interior-point method with tolerance $\epsilon$ and add the solution into $Solutions$.
+\EndFor
+\State Find the optimal weighting $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ from $Solutions$;\\
+\Return $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$.
+\end{algorithmic}
 \end{algorithm}
+
+We prove that Algorithm \ref{alg:FPTAS} is a FPTAS for the program \eqref{eq:optimization_program_final}.
+Note that $1/n\le a\le 1$ in the program \eqref{eq:optimization_program_final}.
+Using Algorithm \ref{alg:FPTAS}, we first separate the program \eqref{eq:optimization_program_final} into
+\[\frac{1-1/n}{\epsilon(1+\beta)/n}=\frac{n-1}{\epsilon(1+\complexbound{})}\]
+convex programs.
+These convex programs can produce several $\epsilon$-approximate solutions by the interior-point method.
+Since the interior-point method is FPTAS\cite{boyd2004convex}, solving each of these programs needs polynomial time in the problem size $m+n$ and $1/\epsilon$.
+Thus, the complexity of Algorithm \ref{alg:FPTAS} is also polynomial in $m+n$ and $1/\epsilon$.
+
+It is easy to know the program \eqref{eq:optimization_program_final} always has the feasible solution, and thus the optimal solution $a^*$, $b^*$ and $\probdistri{}^*$.
+For any optimal solution $a^*$, we can find $a'$ in $Intervals$ such that $a^*\le a'<a^*+t$ and thus
+\begin{equation}
+\label{eq:a_bound}
+\begin{aligned}
+  (a')^{1/(1+\complexbound{})}&\le (a^*+t)^{1/(1+\complexbound{})}\\
+  &\le (a^*)^{1/(1+\complexbound{})} + t*\frac{1}{1+\complexbound{}}(a^*)^{-\complexbound{}/(1+\complexbound{})}\\
+  &\le (1+\epsilon)(a^*)^{1/(1+\complexbound{})}
+\end{aligned}
+\end{equation}
+The third inequality derives from the fact that $1/n\le a$.
+We assume that when we fix $a=a'$ the optimal solution for the program \eqref{eq:optimization_program_final} is $b=b'$.
+Because $a'\ge a^*$, $(a', b^*)$ is always a feasible solution for the program \ref{eq:optimization_program_final}, and thus we have $b'\le b^*$.
+Besides, the interior-point method should produce a $\epsilon$-approximate solution $b''$ such that
+\begin{equation}
+  \label{eq:b_bound}
+  b''\le (1+\epsilon)b'\le (1+\epsilon)b^*.
+\end{equation}
+Since in Algorithm \ref{alg:FPTAS} we select the optimal solution from all $Intervals$, combining \eqref{eq:a_bound} and \eqref{eq:b_bound}, we have for the solution $(a', b'')$ such that $a^*\le a'<a^*+t$,
+\begin{align*}
+  (\bar{a})^{1/(1+\complexbound{})} + \bar{b} & \le (a')^{1/(1+\complexbound{})} + b''\\
+  &\le (1+\epsilon)((a^*)^{1/(1+\complexbound{})} + b^*).
+\end{align*}
 
 % subsection ptas (end)
 
