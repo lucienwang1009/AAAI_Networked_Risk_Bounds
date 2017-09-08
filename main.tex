@@ -144,11 +144,14 @@ Palo Alto, California 94303\\
 \maketitle
 
 \begin{abstract}
-Networked data, in which every training example involves two objects and may share some common objects with others, is used in many machine learning tasks, e.g., learning to rank and link prediction. 
-A challenge is that target values are not known for some pairs of objects. 
+Networked data, in which every training example involves two objects and may share some common objects with others, is used in many machine learning tasks such as learning to rank and link prediction. 
+A challenge of learning from networked examples is that target values are not known for some pairs of objects. 
 In this case, neither the classical i.i.d.\ assumption nor techniques based on complete U-statistics can be used. 
-Most existing theoretical results on this problem are based on the classical ERM principle that always weights every example equally, but this strategy leads to unsatisfactory bounds. 
-We consider general weighted ERM and provide new universal risk bounds for this problem, based on which the efficient methods to find good weights are also discussed. 
+Most existing theoretical results of this problem only deal with the classical ERM principle that always weights every example equally, 
+but this strategy leads to unsatisfactory bounds. 
+We consider general weighted ERM and show new universal risk bounds for this problem. 
+These new bounds naturally define an optimization problem which leads to appropriate weights for networked examples. 
+This optimization problem is concave, so we devise a new polynomial-time approximation scheme to solve it. 
 \end{abstract}
 
 \section{Introduction}
@@ -724,15 +727,28 @@ and the feasible initial solution. By \citet{lanckriet2009convergence}, the conc
 $\beta$, $\delta$ and a graph $G$ that contains $n$ vertices and $m$ edges.
 \Ensure 
 An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ for the program \eqref{eq:optimization_program_final}.
-\State Divide the domain of $a$ into intervals $Intervals$ with length $t=\epsilon(1+\beta)/n$;
+\State Let $I:=\{(1+i\cdot\epsilon(1+\beta))/n \mid  i\in \mathbb{N} \hbox{ and } i\le (n-1)/\epsilon(1+\beta)\}$. 
+% \State Divide the domain of $a$ into intervals $Intervals$ with length $t=\epsilon(1+\beta)/n$;
 % \State Divide the domain of $b$ into intervals with length $\sqrt{1/m}$;
 % \State Consider the intersections $Intersections$ of the intervals of $a$ and $b$;
-\For{$a'$ in $Intervals$}
-  \State Fix $a=a'$;
-  \State Sovle the program \eqref{eq:optimization_program_final} by the interior-point method with tolerance $\epsilon$ and add the solution into $Solutions$.
-\EndFor
-\State Find the optimal weighting $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ from $Solutions$;\\
-\Return $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$.
+\For{$a \in I$}
+%   \State Fix $a=a'$;
+  \State Solve the following program using the interior-point method with tolerance $\epsilon$ and add the solution into $S$.
+  \begin{equation}
+    \label{eq:optimization_program_final_fix_a}
+\begin{aligned}
+    \min_{b,\probdistri{}} \quad&
+    b\\
+    \mbox{s.t.} \quad &\forall \pair{i,j}\in E, p_{i,j}\ge 0 \\
+    & \forall \pair{i,j}\in E, p_{i,j}\log(1/\delta) - b \le 0\\
+    & \forall i, \sum_{j:\pair{i,j}\in E} p_{i,j} -a  \le 0\\
+    & \forall i, \left(\sum_{j:\pair{i,j}\in E} p^2_{i,j}\log(1/\delta)\right)^{1/2} -b  \le 0\\
+    & \|\probdistri{}\|_2 -b \le 0 \quad \mbox{and} \quad \sum_{\pair{i,j}\in E} p_{i,j}= 1
+\end{aligned}
+\end{equation}
+  
+\EndFor\\
+\Return the best weighting $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ from $S$. 
 \end{algorithmic}
 \end{algorithm}
 
