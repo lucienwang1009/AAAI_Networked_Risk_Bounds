@@ -128,6 +128,10 @@
 \newcommand{\trainingset}{S}
 \newcommand{\rademachercomplexity}{\mathfrak{R}}
 
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\todo}[1]{\red{\textsc{todo:} #1}}
+
+
 % For aaai citation
 \newcommand{\citet}[1]{\citeauthor{#1}\ (\citeyear{#1})}
 \newcommand{\citett}[2]{\citeauthor{#2}\ (\citeyear{#2}, #1)}
@@ -136,10 +140,7 @@
 
 \begin{document}
 \title{On the ERM Principle with Networked Data}
-\author{AAAI Press\\
-Association for the Advancement of Artificial Intelligence\\
-2275 East Bayshore Road, Suite 160\\
-Palo Alto, California 94303\\
+\author{
 }
 \maketitle
 
@@ -151,18 +152,20 @@ Most existing theoretical results of this problem only deal with the classical E
 but this strategy leads to unsatisfactory bounds. 
 We consider general weighted ERM and show new universal risk bounds for this problem. 
 These new bounds naturally define an optimization problem which leads to appropriate weights for networked examples. 
-This optimization problem is concave, so we devise a new polynomial-time approximation scheme to solve it. 
+This optimization problem is concave, so we devise a new polynomial-time approximation scheme to solve it. \todo{@Yuyi: need to rewrite part of the abstract at the end}
 \end{abstract}
 
 \section{Introduction}
 \label{sec:introduction}
 \textit{``No man is an island, entire of itself ...''}, the beginning of a well-known poem by the 17th century English poet John Donne, might be able to explain why social networking websites are so popular. 
-These social media do not only make communications convenient and enrich our lives, but also bring us data, of an unimaginable amount, that is intrinsically networked. 
-Social network data nowadays is widely used in research on social science, network dynamics, and as an inevitable fate, data mining and machine learning.
+These social media not only make communications convenient and enrich our lives, but also bring us data, of an unimaginable amount, that is intrinsically networked. 
+Social network data nowadays is widely used in research on social science, network dynamics, and as an inevitable fate, data mining and machine learning. 
 Similar examples of networked data such as traffic networks \cite{min2011real}, chemical interaction networks \cite{letovsky2003predicting}, citation networks \cite{mcgovern2003exploiting} abound throughout the machine learning world. 
 
+\todo{@Lucien: it would be good if we can find more recent literature}
+
 Admittedly, many efforts have been made to design practical algorithms for learning from networked data, e.g., \cite{pieter2003link,al2006link,macskassy2007classification}. 
-However, not many theoretical guarantees of these methods have been established, which is the main concern of this paper. More specifically, this paper deals with risk bounds of \emph{classifiers trained with networked data (\problemabbr{})*** modify the name} whose goal is to train a classifier with examples in a data graph $G$. 
+However, not many theoretical guarantees of these methods have been established, which is the main concern of this paper. More specifically, this paper deals with risk bounds of \emph{classifiers trained with networked data (\problemabbr{})\todo{modify the name}} whose goal is to train a classifier with examples in a data graph $G$. 
 Every vertex of $G$ is an object and described by a feature vector $X\in \xspace{}$ that is drawn independently and identically (i.i.d.) from an unknown distribution, while every edge corresponds to a training example whose input is a pair of feature vectors $\pair{X,X'}$ of the two ends of this edge and whose target value $Y$ is in $\{0,1\}$.
 % The classifier takes a pair of feature vectors $\pair{X,X'}$ as input to predict the target value $Y\in \set{0,1}$. 
 
@@ -326,7 +329,7 @@ Let $E_<=\{\pair{i,j}: i<j, \pair{i,j}\in E\}$ be the ordered edge set. If Condi
 \label{sub:intiution_and_examples}
 % There have been many methods that can be used to establish risk bounds for \problemabbr{}.
 % We divide them by the learning principle (weighted or unweighted), the graph type of application (complete or incomplete) and whether considering the ``low-noise'' condition respectively, as shown in Table~\ref{ta:methods}.
-% It is fair to say that our result is better than these methods in any problem learning from networked examples, e.g., our risk bounds might not be suitable for the framework of line graph, in which every vertex denote a example and the dependency between two examples is represented by a edge connected their corresponding vertices.
+% It is fair to say that our result is better than these methods in any problem learning from networked examples, e.g., our risk bounds might not be suitable for the framework of line graph, in which every vertex denote an example and the dependency between two examples is represented by an edge connected their corresponding vertices.
 % But, in the framework we consider in this paper, we argue that our method including the weighted ERM and the ``low-noise'' condition has many advantages compared with prior works.
 % 详细点。
 
@@ -385,40 +388,47 @@ in absence of any restrictive condition imposed on the data distribution.
 % In this paper, we show more general results for weighted incomplete $U$-processes.
 % subsection intiution_comparison_and_examples (end)
 
+\todo{@Lucien: maybe change the title of this section, "main result" is not good}
 \section{Main Result} % (fold)
 \label{sec:risk_bounds}
 % give an introduction.
-In this section, we introduce the covering number as the measurement of hypothesis set, and then present our main results.
+In this section, we use covering numbers as the complexity measurement of hypothesis sets, and then present our main results. 
 % In this section, we show that the risk bounds established by \citep{wang2017learning} can be improved without any additional assumptions on the data distribution and the results obtained by \citep{papa2016graph} can be generalized into the case of incomplete graphs. 
 
 \subsection{Covering Numbers} % (fold)
 \label{sub:covering number}
-The excess risk $\risk{}(r_\weight{})-\bayeserror{}$ depends on the hypothesis set $R$ whose complexity is measured by \emph{covering number} \cite{cucker2007learning} in this paper. 
+The excess risk $\risk{}(r_\weight{})-\bayeserror{}$ depends on the hypothesis set $R$ whose complexity can be measured by \emph{covering number} \cite{cucker2007learning}. 
 % can be decomposed as
 % \[\risk{}(r_\weight{})-\bayeserror{} = [\risk{}(r_\weight{})-\inf_{r\in R}\risk{}(r)] + [\inf_{r\in R}\risk{}(r)-\bayeserror{}].\]
 % To bound the approximation error $\inf_{r\in R}\risk{}(r)-\bayeserror{}$, we need to measure the hypothesis set $R$.
 A similar result using VC-dimension \cite{vapnik1971uniform} can be obtained as well. 
+
 \begin{definition}[covering numbers]
-$\mathcal{C}\subset \real{}^m$ is a $\lebesgue{}_p$ \emph{cover} of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon>0$ if for all $f\in\mathcal{F}$, there exists $\mathbf{c}_f\in \mathcal{C}$ such that
+A set $\mathcal{C}\subset \real{}^m$ is called an \emph{$\lebesgue{}_p$ cover} of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon>0$ if for all $f\in\mathcal{F}$, there exists $\mathbf{c}_f\in \mathcal{C}$ such that
 $\|(f(x_1),\dots,f(x_m))-\mathbf{c}_f\|_p\le \epsilon.$
-The empirical covering number $N_p(\mathcal{F},\epsilon;x_1,\dots,x_m)$ is the size of a smallest $\mathcal{C}$ which is a $d_p$ cover of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon$.
-We define the covering number $N_p(\mathcal{F},\epsilon,m):=\sup_{x_1,\dots,x_m}N_p(\mathcal{F},\epsilon;x_1,\dots,x_m)$ and simply denote $N_p(\mathcal{F},\epsilon,m)$ by $N_p(\mathcal{F},\epsilon)$, if the context is clear.
+The \emph{empirical covering number} $N_p(\mathcal{F},\epsilon;x_1,\dots,x_m)$ is the size of a smallest 
+%$\mathcal{C}$ which is an 
+$\lebesgue{}_p$ cover of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon$.
+We define the \emph{covering number} $N_p(\mathcal{F},\epsilon,m):=\sup_{x_1,\dots,x_m}N_p(\mathcal{F},\epsilon;x_1,\dots,x_m)$ and simply denote $N_p(\mathcal{F},\epsilon,m)$ by $N_p(\mathcal{F},\epsilon)$, if the context is clear.
 \end{definition}
-In this paper, we focus on the $\lebesgue_\infty$ covering number $N_\infty(\mathcal{F},\epsilon)$ and assume that it satisfies the following assumption.
+
+In this paper, we focus on the $\lebesgue_\infty$ covering number $N_\infty(\mathcal{F},\epsilon)$ and suppose that it satisfies the following assumption.
+
 \begin{assumption}\label{ass:covering_number} There exists a nonnegative number $\complexbound < 1$ and a constant $K$ such that $\log N_\infty(\mathcal{F},\epsilon) \le K\epsilon^{-\complexbound}$ for all $\epsilon\in (0,1]$.
 \end{assumption}
-% ****虽然，但是所有的文献，因为。。
-Similar to \cite{Massart2006} and \cite{rejchel2012ranking}, we restrict to $\complexbound{} < 1$, whereas in the empirical process theory this exponent usually belongs to $[0,2)$. This restriction is needed to prove Lemma~\ref{le:uniform_approximation}, which involves the integral of $\log N_\infty(\mathcal{F},\epsilon)$ through $0$.
-By Sauer's lemma \cite{sauer1972density}, one can easily prove a binary function class with VC-dimension $V$ satisfies Assumption \ref{ass:covering_number} with $K=V\log(em/V)$ and $\complexbound{}=0$.
-Besides, \citet{Dudley1974Metric}, \citet{Korostelev1993Minimax} and \citet{Mammen1995Asymptotical} have given various examples of classes $\mathcal{F}$ satisfying Assumption \ref{ass:covering_number}.
-We also refer to (\citeauthor{Mammen1998Smooth} \citeyear{Mammen1998Smooth}, p.\ 1813) for concrete examples of hypothesis classes with smooth boundaries satisfying Assumption~\ref{ass:covering_number}. 
+
+Similar to \cite{Massart2006} and \cite{rejchel2012ranking}, we restrict to $\complexbound{} < 1$, whereas in the empirical process theory this exponent usually belongs to $[0,2)$. This restriction is needed to prove Lemma~\ref{le:uniform_approximation}, which involves the integral of $\log N_\infty(\mathcal{F},\epsilon)$ through $0$. 
+\todo{@Lucien: maybe move the discussion of VC dimension to some other place, and point out that $K$ is independent of $m$}
+By Sauer's lemma \cite{sauer1972density}, one can easily prove that any binary function class with VC-dimension $V$ satisfies Assumption \ref{ass:covering_number} with $K=V\log(em/V)$ and $\complexbound{}=0$. 
+Besides, \citet{Dudley1974Metric}, \citet{Korostelev1993Minimax} and \citet{Mammen1995Asymptotical} presented various examples of classes $\mathcal{F}$ satisfying Assumption \ref{ass:covering_number}.
+We also refer to (\citeauthor{Mammen1998Smooth} \citeyear{Mammen1998Smooth}, p.\ 1813) for more concrete examples of hypothesis classes with smooth boundaries satisfying Assumption~\ref{ass:covering_number}. 
 
 \subsection{Risk Bounds} % (fold)
 \label{sub:risk_bounds}
-Now we are ready to state the main result of the paper.
+Now we are ready to state the main result \todo{@Lucien: the algorithm is another main result} of the paper.
 \begin{theorem}[risk bounds]
     \label{th:main_theorem}
-    Consider a minimizer $r_\weight{}$ of the weighted empirical risk $\empiricalrisk{\weight{}}$ over a class $R$ that satisfies Assumption~\ref{ass:covering_number}. There exists a constant $C>0$ such that for all $\delta\in(0,1]$, with probability at least $1-\delta$, the excess risk of $r_\weight{}$ satisfies
+    Let $r_\weight{}$ be a minimizer of the weighted empirical risk $\empiricalrisk{\weight{}}$ over a class $R$ that satisfies Assumption~\ref{ass:covering_number}. There exists a constant $C>0$ such that for all $\delta\in(0,1]$, with probability at least $1-\delta$, the excess risk of $r_\weight{}$ satisfies
     \DoubleColumn
     \begin{equation}
         \begin{aligned}
@@ -446,10 +456,9 @@ From Theorem~\ref{th:main_theorem}, for all
 $\delta\in\Bigg(\exp\Big(-\min(\|\weight{}\|_2/\|\weight{}\|_\infty,\|\weight{}\|_2^2/\|\weight{}\|_\max^2)\Big),1\Bigg],$ the risk bounds are of the order
 $O\left((1/\normo{\weight{}})^{1/(1+\complexbound)}+\|\weight{}\|_2/\normo{\weight{}}\right).$ 
 In this case, our bounds are tighter than $O(1/\sqrt{\normo{\weight{}}})$ (recall that $\weight{}$ must be a fractional matching and $0<\complexbound{}<1$)
-%是不是不要用1/\sqrt{\normo{\weight{}}}，因为1范数是可以变的，而p则更直接一些。但我不确定是在这里用个脚注还是换成p
-% 这个我感觉还是挺显然的吧，用p就是不太好说
 as $\|\weight\|_2/\normo{\weight}\le 1/\sqrt{\normo{\weight}}$.
-If $G$ is complete and every example is unweighted, the bounds of the order $O((1/n)^{1/(1+\complexbound)})$ can achieve the same results in \cite{papa2016graph} (with the same condition on $\delta$ but different complexity measurements of the hypothesis set).
+If $G$ is complete and every example is equally weighted, 
+the bounds of the order $O((1/n)^{1/(1+\complexbound)})$ achieves the same results in \cite{papa2016graph} (with the same condition on $\delta$ but different complexity measurements of the hypothesis set).
 
 \begin{remark*}
 Theorem~\ref{th:main_theorem} provides universal risk bounds no matter what the distribution of the data is. The factor of $2$ in front of the approximation error $\inf_{r\in R}\risk(r)-\bayeserror$ has no special meaning and can be replaced by any constant larger than $1$ with a cost of increasing the constant $C$. 
@@ -491,11 +500,11 @@ where
 \[T_\weight{}(r)=\Lambda(r)+\frac{2}{\normo{\weight{}}}\sum_{i=1}^n\sum_{j:\pair{i,j}\in E}w_{i,j}h_r(X_i)\]
 is a weighted average of i.i.d.\ random variables with $h_r(X_i)=\E[q_r(X_i,X_j,Y_{i,j})\mid X_i]-\Lambda(r)$,
 \[U_\weight{}(r)=\frac{1}{\normo{\weight{}}}\sum_{\pair{i,j}\in E} w_{i,j}(\hat{h}_r(X_i,X_j)\]
-is a weighted \emph{degenerated} $U$-statisitc of order $2$ with symmetric kernel 
+is a weighted \emph{degenerated} $U$-statistic \todo{@Lucien: if possible, explain what are degenerated U-statistics} of order $2$ with symmetric kernel 
 $\hat{h}_r(X_i,X_j)=\E[q_r(X_i,X_j,Y_{i,j})\mid X_i,X_j]-\Lambda(r)-h_r(X_i)-h_r(X_j)$ 
 and
 \[\widetilde{U}_\weight{}(r)=\frac{1}{\normo{\weight{}}}\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})\]
-with a \emph{degenerated} kernel
+with a \emph{degenerated} kernel \todo{@Lucien: if possible, explain what are degenerated kernels}
 $\tilde{h}_r(X_i,X_j,Y_{i,j})=q_r(X_i,X_j\linebreak,Y_{i,j})-\E[q_r(X_i,X_j,Y_{i,j})\mid X_i,X_j].$ 
 In the following, we bound the three terms $T_\weight{}, U_\weight{}$ and $\widetilde{U}_\weight{}$ in \eqref{eq:graph_reconstruction_hoeffding_decomposition} respectively. 
 
@@ -528,7 +537,7 @@ In the following, we bound the three terms $T_\weight{}, U_\weight{}$ and $\wide
 
 % *** give some intuition
 To prove Lemma~\ref{le:uniform_approximation}, we show that $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by Rademacher chaos using classical symmetrization and randomization tricks combined with the decoupling method (see Section~B in the Appendix). We handle these Rademacher chaos by generalizing the approach used in \cite{clemenccon2008ranking}. 
-Specifically, we utilize the moment inequalities from \cite{Boucheron2005} to convert them to the sum of simpler processes, which can be bounded by the metric entropy inequality for Khinchine-type processes \citep{see}{Proposition 2.6}{Dembo1994} and Assumption~\ref{ass:covering_number}.
+Specifically, we utilize the moment inequalities from \cite{Boucheron2005} to convert them into a sum of simpler processes, which can be bounded by the metric entropy inequality for Khinchine-type processes \citep{see}{Proposition 2.6}{Dembo1994} and Assumption~\ref{ass:covering_number}.
 
 Lemma~\ref{le:uniform_approximation} shows that the contribution of the degenerated parts $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ to the excess risk can be bounded. 
 This implies that minimizing $\Lambda_\weight{}(r)$ is approximately equivalent to minimizing $T_\weight{}(r)$ and thus $r_\weight{}$ is a $\rho$-minimizer of $T_\weight{}(r)$ in the sense that $T_\weight{}(r_\weight{})\le \rho+\inf_{r\in R}T_\weight{}(r)$.
@@ -537,7 +546,7 @@ Based on this result, tight bounds for the excess risk with respect to $T_\weigh
 can be obtained if the variance of the excess risk is controlled by its expected value.
 By Lemma~\ref{le:variant_control}, $T_\weight{}(r)$ fulfills this condition, which leads to Lemma~\ref{le:risk_bounds_iid}.
 
-\begin{lemma}[condition leads to ``low-noise'', {\citett{Lemma 2}{papa2016graph}}]
+\begin{lemma}[condition leads to ``low-noise'', {\cite[Lemma 2]{papa2016graph}}]
     \label{le:variant_control}
     If the learning problem \problemabbr{} is symmetric, then
     \begin{equation}
@@ -554,10 +563,13 @@ By Lemma~\ref{le:variant_control}, $T_\weight{}(r)$ fulfills this condition, whi
 \end{lemma}
 % *** Lemma 3 --> Lemma 2
 
-\begin{proof}[Proof of Theorem~\ref{th:main_theorem}]
-    Let us consider the Hoeffding decomposition \eqref{eq:graph_reconstruction_hoeffding_decomposition} of $\Lambda_\weight{}(r)$ that is minimized over $r\in R$. The idea of this proof is that the degenerate part $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by the moment inequality for weighted $U$-processes. Therefore, $r_\weight{}$ is an approximate minimizer of $T_\weight{}(r)$, which can be handled by Lemma~\ref{le:risk_bounds_iid}.
 
-    Let $A$ be the event on which
+\todo{@Lucien: add something like "with ..., now we are ready to prove Theorem XXX"}
+
+\begin{proof}[Proof of Theorem~\ref{th:main_theorem}]
+    Let us consider the Hoeffding decomposition \eqref{eq:graph_reconstruction_hoeffding_decomposition} of $\Lambda_\weight{}(r)$ that is minimized over $r\in R$. The idea of this proof is that the degenerate parts $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by the moment inequality for weighted $U$-processes. Therefore, $r_\weight{}$ is an approximate minimizer of $T_\weight{}(r)$, which can be handled by Lemma~\ref{le:risk_bounds_iid}.
+
+    Let $A$ be the event on which\todo{@Lucien: I don't understand this sentence, in particular "on which"}
     \[\sup_{r\in R}|U_\weight{}(r)|\le \kappa_A,\]
     where
     \DoubleColumn
@@ -571,7 +583,7 @@ By Lemma~\ref{le:variant_control}, $T_\weight{}(r)$ fulfills this condition, whi
     \kappa_A&=\frac{C_A}{1-\complexbound{}}\max\Big(\frac{\|\weight{}\|_2\log(1/\delta)}{\normo{\weight{}}},\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}}, \frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)
     \end{align*}
     \SingleColumnEnd
-    for an appropriate constant $C_A$. Then by Lemma~\ref{le:uniform_approximation}, $\Pro[A]\ge 1-\delta/4$. Similarly, let $B$ be the event on which
+    for an appropriate constant $C_A$. Then by Lemma~\ref{le:uniform_approximation}, $\Pro[A]\ge 1-\delta/4$. Similarly, let $B$ be the event on which\todo{@Lucien: similar here}
     \[\sup_{r\in R}|\widetilde{U}_\weight{}(r)|\le \kappa_B.\]
     where
     \DoubleColumn
@@ -588,12 +600,13 @@ By Lemma~\ref{le:variant_control}, $T_\weight{}(r)$ fulfills this condition, whi
     for an appropriate constant $C_B$.
     Then $\Pro[B]\ge 1-\delta/4$.
 
-    By \eqref{eq:graph_reconstruction_hoeffding_decomposition}, it is clear that, on $A\cap B$, $r_\weight{}$ is a $\rho$-minimizer of $T_\weight{}(r)$ over $r\in R$ in the sense that the value of this latter quantity at its minimum is at most $(\kappa_A+\kappa_B)$ smaller than at $r_\weight{}$. 
-    Then, from Lemma~\ref{le:risk_bounds_iid}, with probability at least $1-\delta/2$, $r_\weight{}$ is a $(\kappa_A+\kappa_B)$-minimizer of $T_\weight{}(r)$, which the result follows.
+    By \eqref{eq:graph_reconstruction_hoeffding_decomposition}, it is clear that, on $A\cap B$\todo{@Lucien: you want to say when both A and B heppen?}, $r_\weight{}$ is a $\rho$-minimizer of $T_\weight{}(r)$ over $r\in R$ in the sense that the value of this latter quantity at its minimum is at most $(\kappa_A+\kappa_B)$ smaller \todo than at $r_\weight{}$. 
+    Then, from Lemma~\ref{le:risk_bounds_iid}, with probability at least $1-\delta/2$, $r_\weight{}$ is a $(\kappa_A+\kappa_B)$-minimizer of $T_\weight{}(r)$, which the result follows.\todo{@Lucien: we may need to go through this paragraph on Sunday}
 \end{proof}
 
 % *****
-An intuition obtained from our result is how to choose weights for networked data. By Theorem~\ref{th:main_theorem}, to obtain tight risk bounds, we need to maximize $\normo{\weight{}}$ (under the constraint that this weight vector is a fractional matching), which resembles the result of \cite{wang2017learning} (but they only need to maximize $\normo{\weight{}}$ and this is why they end in the $O(1/\sqrt{\nu^*(G)})$ bound), while making $\|\weight{}\|_2,\|\weight{}\|_\max,\|\weight{}\|_\infty$ as small as possible, which appears to suggest putting nearly average weights on examples and vertices respectively. These two objectives, maximizing $\normo{\weight{}}$ and minimizing $\|\weight{}\|_2,\|\weight{}\|_\max,\|\weight{}\|_\infty$, seem to contradict each other. In the next section, we discuss how to solve this problem.  
+An intuition obtained from our result is how to choose weights for networked data. By Theorem~\ref{th:main_theorem}, to obtain tight risk bounds, we need to maximize $\normo{\weight{}}$ (under the constraint that this weight vector is a fractional matching), which resembles the result of \cite{wang2017learning} (but they only need to maximize $\normo{\weight{}}$ and this is why they end in the $O(1/\sqrt{\nu^*(G)})$ bound), while making $\|\weight{}\|_2,\|\weight{}\|_\max,\|\weight{}\|_\infty$ as small as possible, which appears to suggest putting nearly average weights on examples and vertices respectively. These two objectives, maximizing $\normo{\weight{}}$ and minimizing $\|\weight{}\|_2,\|\weight{}\|_\max,\|\weight{}\|_\infty$, seem to contradict each other. 
+In the next section, we discuss how to solve this problem.  
 
 % subSection~a_moment_inequality_for_weighted_u_processes (end)
 
@@ -601,14 +614,13 @@ An intuition obtained from our result is how to choose weights for networked dat
 Another advantage of our result is that if the risk bounds are optimized, we could reduce the computation complexity of minimizing $\empiricalrisk{\weight{}}$ by subsampling examples with large weights which by Theorem~\ref{th:main_theorem} may not significantly deteriorate the performance of weighted ERM.
 \LongVersionEnd
 
-\section{Weighting Optimization} % (fold)
+\section{Weight Vector Optimization} % (fold)
 \label{sec:weighting_scheme}
 
 In the previous section, we have established risk bounds for weighted ERM. In this section, we first formulate the optimization problem that minimizes the risk bounds in Theorem \ref{th:main_theorem}. 
-Then, we provide some methods that optimize the risk bounds progressively %but may not find the global optimal solution 
-to find proper weights for general cases. 
+Then, we provide some methods that optimize the risk bounds progressively to find proper weights for general cases. \todo{@Lucien: maybe we now just mention this instead of presenting the details of this method, but need to point out we are solving a CONCAVE problem}
 Using these methods, we are able to improve existing weighting schemes.
-Finally, although the optimization problem is not convex, we prove that there exists a fully polynomial-time approximation scheme (FPTAS) to solve this problem.
+Finally, although the optimization problem is not convex, we present a fully polynomial-time approximation scheme (FPTAS) to solve this problem.
  % and guarantee that the new scheme is not worse than the old one. 
 %So there exists a trade-off between optimization time and tight risk bounds.
 
@@ -637,12 +649,12 @@ According to Theorem~\ref{th:main_theorem}, given a graph $G$, $\complexbound\in
 \end{equation}
 \SingleColumnEnd
 
-To get rid of the fraction of norms in the program above, we consider a distribution $\probdistri{}$ on edges $p_{i,j}:=w_{i,j}/\normo{\weight{}}$ and have 
+To get rid of the fraction of norms in the program above, we consider a distribution $\probdistri{}$ on edges $p_{i,j}:=w_{i,j}/\normo{\weight{}}$ and then 
 $\normo{\weight{}} \le 1/\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}.$
 % \[\normo{\weight{}} \le \frac{1}{\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}}.\]
 Every distribution $\probdistri{}$ corresponds to a valid weighting vector $\weight{}$. 
 % Since there exists at least one vertex $i$ such that $\sum_{j:\pair{i,j}\in E} w_{i,j}= 1$ in the optimal solution of \eqref{eq:optimization_program}, 
-Optimizing the original program \eqref{eq:optimization_program} is equivalent to solving
+Solving the original program \eqref{eq:optimization_program} is equivalent to solving
 \DoubleColumn
 \begin{equation}
     \label{eq:optimization_program_1}
@@ -702,22 +714,26 @@ We rewrite the program \eqref{eq:optimization_program_1} by introducing two auxi
 \end{equation}
 \DoubleColumnEnd
 Note that the constraints are all convex. 
-If the hypothesis set is a VC class or even finite, i.e., $\complexbound{}=0$, then the objective function becomes linear and then \eqref{eq:optimization_program_final} is a convex optimization problem that can be solved by standard convex optimization methods (see e.g., \cite{boyd2004convex}).
+If the hypothesis set is a VC class or even finite \todo{@Lucien: we should be careful}, i.e., $\complexbound{}=0$, then the objective function becomes linear and \eqref{eq:optimization_program_final} is a convex optimization problem that can be solved by standard convex optimization methods (see e.g., \cite{boyd2004convex}) such as interior-point methods. 
 
 If $\complexbound{}>0$, the objective function is not convex any more. In fact, the program \eqref{eq:optimization_program_final} becomes a concave problem that can be optimized globally by some complex algorithms \cite{benson1995concave,hoffman1981method} that often need tremendous computation. Instead, one may not need to find the global optimum and only approximate it using some efficient methods. 
-% Next, we will introduce two approximation algorithms for \eqref{eq:optimization_program_final}.
-% 证明coordinate descent是个PTAS的方法
 
-\textbf{Coordinate Descent} Note that if $a$ (or $b$) is fixed, then the objective function of \eqref{eq:optimization_program_final} is monotonic (thus convex because we can remove the exponent $1/(1+\complexbound{})$ of $a$), we can solve \eqref{eq:optimization_program_final} by coordinate descent which optimizes $a$ and $b$ successively. That is, starting with a feasible solution, at each step, we solve the primal optimization problem \eqref{eq:optimization_program_final} by fixing $a$ or $b$ at its value from the current iteration and minimizing the objective with respect to the remaining components.
-Since each iteration is a convex optimization problem, we can solve it by some standard methods \cite{boyd2004convex}. Clearly, the new solution $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t)}$ (respectively $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t+1)}$) is better than the old one $(a^{(t)})^{1/(1+\complexbound{})} + b^{(t)}$ (respectively $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t)}$).
-
+\todo{@Lucien: keep the follows? if yes, shorten it.}
 \textbf{Concave-Convex Procedure} Since the objective function of \eqref{eq:optimization_program_final} can be rewritten to $b-(-a^{1/(1+\complexbound{})})$ that is difference of convex function (d.c.), one can also solve \eqref{eq:optimization_program_final} by the elaborate optimization methods for d.c. program. 
-One of these methods is Concave-Convex Procedure \cite{Yuille2001The} which has been wildly used in sparse support vector machine (SVM) and transductive SVM. 
+One of these methods is Concave-Convex Procedure \cite{Yuille2001The} which has been widely used in sparse support vector machine (SVM) and transductive SVM. 
 Using this method, the program \eqref{eq:optimization_program_final} can be solved by optimizing a sequence of convex program with the same constrains of \eqref{eq:optimization_program_final}, the iterative objective functions $(a^{(t+1)},b^{(t+1)})\in \mathop{\arg\min}_{a,b,\probdistri{}} b+\frac{a}{1+\complexbound{}}(a^{(t)})^{-\complexbound/(1+\complexbound{})}$
 and the feasible initial solution. By \citet{lanckriet2009convergence}, the concavity of $a^{1/(1+\complexbound{})}$ guarantees that $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t+1)}\le (a^{(t)})^{1/(1+\complexbound{})} + b^{(t)}$.
 
-\subsection{FPTAS} % (fold)
+\subsection{Fully polynomial-time approximation scheme} % (fold)
 \label{sub:ptas}
+
+In this section, we propose an algorithm to solve this problem and show that this algorithm is a fully polynomial-time approximation scheme. 
+
+% 证明coordinate descent是个PTAS的方法
+\todo{@Lucien: we write this FPTAS instead of the Coordinate descent}
+\textbf{Coordinate Descent} Note that if $a$ (or $b$) is fixed, then the objective function of \eqref{eq:optimization_program_final} is monotonic (thus convex because we can remove the exponent $1/(1+\complexbound{})$ of $a$), we can solve \eqref{eq:optimization_program_final} by coordinate descent which optimizes $a$ and $b$ successively. That is, starting with a feasible solution, at each step, we solve the primal optimization problem \eqref{eq:optimization_program_final} by fixing $a$ or $b$ at its value from the current iteration and minimizing the objective with respect to the remaining components.
+Since each iteration is a convex optimization problem, we can solve it by some standard methods \cite{boyd2004convex}. Clearly, the new solution $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t)}$ (respectively $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t+1)}$) is better than the old one $(a^{(t)})^{1/(1+\complexbound{})} + b^{(t)}$ (respectively $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t)}$).
+
 
 \begin{algorithm}[!htb] 
 \caption{FPTAS for weighting optimization.} 
@@ -746,22 +762,22 @@ An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$
     & \|\probdistri{}\|_2 -b \le 0 \quad \mbox{and} \quad \sum_{\pair{i,j}\in E} p_{i,j}= 1
 \end{aligned}
 \end{equation}
-  
+
 \EndFor\\
 \Return the best weighting $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ from $S$. 
 \end{algorithmic}
 \end{algorithm}
 
-We prove that Algorithm \ref{alg:FPTAS} is a FPTAS for the program \eqref{eq:optimization_program_final}.
-Note that $1/n\le a\le 1$ in the program \eqref{eq:optimization_program_final}.
-Using Algorithm \ref{alg:FPTAS}, we first separate the program \eqref{eq:optimization_program_final} into
+We prove that Algorithm \ref{alg:FPTAS} is a FPTAS. % for the program \eqref{eq:optimization_program_final}.
+Note that $1/n\le a\le 1$ if the graph is not empty. % in the program \eqref{eq:optimization_program_final}.
+In Algorithm \ref{alg:FPTAS}, we first divide the problem into 
 \[\frac{1-1/n}{\epsilon(1+\beta)/n}=\frac{n-1}{\epsilon(1+\complexbound{})}\]
-convex programs.
-These convex programs can produce several $\epsilon$-approximate solutions by the interior-point method.
-Since the interior-point method is FPTAS\cite{boyd2004convex}, solving each of these programs needs polynomial time in the problem size $m+n$ and $1/\epsilon$.
+convex programs, each of which can produce a $\epsilon$-approximate solution by some interior-point method. 
+Since the interior-point method is a FPTAS for convex problems \cite{boyd2004convex}, solving each of these programs needs polynomial time in the problem size $m+n$ and $1/\epsilon$.
 Thus, the complexity of Algorithm \ref{alg:FPTAS} is also polynomial in $m+n$ and $1/\epsilon$.
 
-It is easy to know the program \eqref{eq:optimization_program_final} always has the feasible solution, and thus the optimal solution $a^*$, $b^*$ and $\probdistri{}^*$.
+% It is easy to know the program \eqref{eq:optimization_program_final} always has the feasible solution, and thus the optimal solution $a^*$, $b^*$ and $\probdistri{}^*$. 
+\todo{@Lucien: follow this idea: If $(a,b)$ is feasible for this program, then $(a',b)$ must be also feasible if $a'>a$.  }
 For any optimal solution $a^*$, we can find $a'$ in $Intervals$ such that $a^*\le a'<a^*+t$ and thus
 \begin{equation}
 \label{eq:a_bound}
@@ -771,7 +787,7 @@ For any optimal solution $a^*$, we can find $a'$ in $Intervals$ such that $a^*\l
   &\le (1+\epsilon)(a^*)^{1/(1+\complexbound{})}
 \end{aligned}
 \end{equation}
-The third inequality derives from the fact that $1/n\le a$.
+The third inequality follows from the fact that $1/n\le a$.
 We assume that when we fix $a=a'$ the optimal solution for the program \eqref{eq:optimization_program_final} is $b=b'$.
 Because $a'\ge a^*$, $(a', b^*)$ is always a feasible solution for the program \ref{eq:optimization_program_final}, and thus we have $b'\le b^*$.
 Besides, the interior-point method should produce a $\epsilon$-approximate solution $b''$ such that
@@ -784,6 +800,8 @@ Since in Algorithm \ref{alg:FPTAS} we select the optimal solution from all $Inte
   (\bar{a})^{1/(1+\complexbound{})} + \bar{b} & \le (a')^{1/(1+\complexbound{})} + b''\\
   &\le (1+\epsilon)((a^*)^{1/(1+\complexbound{})} + b^*).
 \end{align*}
+
+\todo{@Lucien: write the result as a theorem}
 
 % subsection ptas (end)
 
@@ -799,11 +817,10 @@ Then, we discuss the performance of this equal weighting scheme when the graph i
 
 \subsection{Complete Graphs} % (fold)
 \label{sub:complete_graph}
-
 When graph $G$ is complete, it is easy to see that weighting all examples equally gives the best risk bound, as all the terms $\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}$, $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ achieve minimum. 
 Compared to the results in \cite{wang2017learning}, our theory puts additional constrains on $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ which encourages weighting examples fairly in this case, as illustrated in Figure~\ref{fig:weighting_scheme_complete_graph}. 
 Besides, this scheme, which coincides with $U$-statistics that \emph{average} the basic estimator applied to all sub-samples \cite{hoeffding1948class}, could produce a small variance. 
-*** degeneralize to Ranking
+*** degenerate to Ranking 
 
 \begin{figure}[h]
   \centering
@@ -836,7 +853,7 @@ Besides, this scheme, which coincides with $U$-statistics that \emph{average} th
         \includegraphics[width=0.17\textwidth]{complete_graph_2.pdf}
     }
   \SingleColumnEnd
-    \caption{(a) and (b) are two different data graphs while both of them correspond to the same line graph (a triangle). (c) and (d) are two weighting schemes for a complete graph formed by points $X_1$, $X_2$, $X_3$, $X_4$. Solid line means its weight $p>0$ while dash line means $p=0$. (c): Weight every example equally. (d): Only the two examples in a independent subset get equally non-zero weights and other weights are $0$ (dashed line). Note that $\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}$ of these two weighting schemes are the same, but (c) has the tighter risk bounds, as $\|\probdistri{}\|_2, \|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ of (c) are smaller than that of (d) respectively.}
+    \caption{(a) and (b) are two different data graphs while both of them correspond to the same line graph (a triangle). (c) and (d) are two weighting schemes for a complete graph formed by points $X_1$, $X_2$, $X_3$, $X_4$. Solid line means its weight $p>0$ while dash line means $p=0$. (c): Weight every example equally. (d): Only the two examples in an independent subset get equally non-zero weights and other weights are $0$ (dashed line). Note that $\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}$ of these two weighting schemes are the same, but (c) has the tighter risk bounds, as $\|\probdistri{}\|_2, \|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ of (c) are smaller than that of (d) respectively.}
     \label{fig:weighting_scheme_complete_graph}
 \end{figure}
 
@@ -844,7 +861,7 @@ Besides, this scheme, which coincides with $U$-statistics that \emph{average} th
 
 \subsection{Equal Weighting} % (fold)
 \label{sub:equally_weighting}
-Let us discuss further the equal weighting scheme that gives every example the same weight. Denote by $\Delta(G)$ the maximum degree of $G$ (note that this is not the maximum degree of $D_G$) and let $p_{i,j}=1/m$ (recall that $m$ is the number of examples) for all $\pair{i,j}\in E$. According to program \eqref{eq:optimization_program_1}, using equal weighting scheme, the risk bounds are of the order
+Let us discuss further the equal weighting scheme that gives every example the same weight. Denote by $\Delta(G)$ the maximum degree of $G$ (note that this is not the maximum degree of $D_G$) and let $p_{i,j}=1/m$ (recall that $m$ is the number of examples) for all $\pair{i,j}\in E$. According to program \eqref{eq:optimization_program_1}, using equal weighting scheme, the risk bounds are of the order 
 \begin{equation}
 \label{eq:equally_weighting_scheme}
     O((\frac{\Delta(G)}{m})^{1/(1+\complexbound{})} + \frac{1}{\sqrt{m}}).
@@ -861,7 +878,7 @@ Consider a data graph with $|E|=m \gg 1$ and $E$ consists of $m/2$ disjoint edge
 % \begin{figure}[h]
 %     \centering
 %     \includegraphics[width=0.2\textwidth]{equal_weighting.eps}
-%     \caption{Two weighting schemes for the complete graph formed by points $X_1$, $X_2$, $X_3$, $X_4$. Solid line means its weight $w>0$ while dash line means $w=0$. (a): Weights of every example equal $1/3$. (b): Only the examples in a independent set get weights $1$, i.e. $w_{1,4}=w_{4,1}=w_{2,3}=w_{3,2}=1$ and other weights are $0$. Note that $\normo{\probdistri{}}$ of these two weighting schemes are both $4$ but (a) have the tighter risk bounds from our results.}
+%     \caption{Two weighting schemes for the complete graph formed by points $X_1$, $X_2$, $X_3$, $X_4$. Solid line means its weight $w>0$ while dash line means $w=0$. (a): Weights of every example equal $1/3$. (b): Only the examples in an independent set get weights $1$, i.e. $w_{1,4}=w_{4,1}=w_{2,3}=w_{3,2}=1$ and other weights are $0$. Note that $\normo{\probdistri{}}$ of these two weighting schemes are both $4$ but (a) have the tighter risk bounds from our results.}
 %     \label{fig:equal_weighting}
 % \end{figure}
 % subSection~equally_weighting (end)
@@ -1608,7 +1625,7 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~4}{Usunier
 \subsection{Proof of Theorem \ref{th:weighted_bennett_inequality}} % (fold)
 \label{sub:proof_of_theorem_th:weighted_bennett_inequality}
 
-    We use a auxiliary random variable
+    We use an auxiliary random variable
     \[\widetilde{Z}=\frac{\normo{\weight{}}}{2b}Z=\sup_{f\in\mathcal{F}}\frac{1}{2b}\sum_{i=1}^nw_i\allowbreak(f(X_i)-\E[f(X_i)]).\]
     We denote by $f_k$ a function such that
     \[f_k = \frac{1}{2b}\sup_{f\in\mathcal F} \sum_{i\neq k}w_i(f(X_i)-\E[f(X_i)]).\]
