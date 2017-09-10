@@ -692,7 +692,7 @@ Solving the original program \eqref{eq:optimization_program} is equivalent to so
 
 % subSection~optimization_problem (end)
 
-\subsection{Optimization methods} % (fold)
+\subsection{Optimization Methods} % (fold)
 \label{sub:optimization}
 
 We rewrite the program \eqref{eq:optimization_program_1} by introducing two auxiliary variables $a$ and $b$: 
@@ -726,7 +726,7 @@ Note that the constraints are all convex.
 If the hypothesis set is finite \todo{@Lucien: we should be careful}, i.e., $\complexbound{}=0$, then the objective function becomes linear and \eqref{eq:optimization_program_final} is a convex optimization problem that can be solved by standard convex optimization methods (see e.g., \cite{boyd2004convex}) such as interior-point methods. 
 
 If $\complexbound{}>0$, the objective function is not convex any more. In fact, the program \eqref{eq:optimization_program_final} becomes a concave problem that can be optimized globally by some complex algorithms \cite{benson1995concave,hoffman1981method} that often need tremendous computation. 
-Instead, one may not need to find the global optimum and only approximate it using some efficient methods. 
+Instead, one may not need to find the global optimum and only approximate it using some efficient methods, e.g., Concave-Convex Procedure\cite{Yuille2001The} and Coordinate Descent\cite{wright2015coordinate}.
 
 \todo{@Lucien: keep the follows? if yes, shorten it.}
 % \textbf{Concave-Convex Procedure} Since the objective function of \eqref{eq:optimization_program_final} can be rewritten to $b-(-a^{1/(1+\complexbound{})})$ that is difference of convex function (d.c.), one can also solve \eqref{eq:optimization_program_final} by the elaborate optimization methods for d.c. program. 
@@ -734,7 +734,7 @@ Instead, one may not need to find the global optimum and only approximate it usi
 % Using this method, the program \eqref{eq:optimization_program_final} can be solved by optimizing a sequence of convex program with the same constrains of \eqref{eq:optimization_program_final}, the iterative objective functions $(a^{(t+1)},b^{(t+1)})\in \mathop{\arg\min}_{a,b,\probdistri{}} b+\frac{a}{1+\complexbound{}}(a^{(t)})^{-\complexbound/(1+\complexbound{})}$
 % and the feasible initial solution. By \citet{lanckriet2009convergence}, the concavity of $a^{1/(1+\complexbound{})}$ guarantees that $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t+1)}\le (a^{(t)})^{1/(1+\complexbound{})} + b^{(t)}$.
 
-\subsection{Fully polynomial-time approximation scheme} % (fold)
+\subsection{Fully Polynomial-time Approximation Scheme} % (fold)
 \label{sub:ptas}
 
 In this section, we propose an algorithm to solve this problem and show that this algorithm is a fully polynomial-time approximation scheme. 
@@ -1031,7 +1031,7 @@ In section 3, the excess risk is split into two types of processes: the weighted
 In this section, we prove general risk bounds for the weighted empirical process of i.i.d.\ examples. 
 The main idea is similar to \cite{Massart2006} that tighter bounds for the excess risk can be obtained if the variance of the excess risk is controlled by its expected value.
 
-\subsection{Bennett concentration inequality} % (fold)
+\subsection{Bennett Concentration Inequality} % (fold)
 \label{subsub:bennett_type_inequality}
 
 % subsection bennett_type_inequality (end)
