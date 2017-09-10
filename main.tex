@@ -119,7 +119,7 @@
 \newcommand{\lebesgue}{\mathbb{L}}
 \newcommand{\bmlambda}{\bm{\lambda}}
 % a better name
-\newcommand{\problemabbr}{\textnormal{C}\textsc{tnd}}
+\newcommand{\problemabbr}{\textnormal{C}\textsc{lanet}}
 % Symmetric relational classification
 \newcommand{\normo}[1]{\|#1\|_1}
 \newcommand{\fcoloring}{\chi^*}
@@ -162,7 +162,9 @@ Social network data nowadays is widely used in research on social science, netwo
 Similar examples of networked data such as traffic networks \cite{min2011real}, chemical interaction networks \cite{letovsky2003predicting}, citation networks \cite{mcgovern2003exploiting} abound throughout the machine learning world. 
 
 Admittedly, many efforts have been made to design practical algorithms for learning from networked data, e.g., \cite{pieter2003link,al2006link,macskassy2007classification}. 
-However, not many theoretical guarantees of these methods have been established, which is the main concern of this paper. More specifically, this paper deals with risk bounds of \emph{classifiers trained with networked data (\problemabbr{})*** modify the name} whose goal is to train a classifier with examples in a data graph $G$. 
+However, not many theoretical guarantees of these methods have been established, which is the main concern of this paper. More specifically, this paper deals with risk bounds of the \emph{classifier trained with networked data (\problemabbr{})
+% *** modify the name
+} whose goal is to train a classifier with examples in a data graph $G$. 
 Every vertex of $G$ is an object and described by a feature vector $X\in \xspace{}$ that is drawn independently and identically (i.i.d.) from an unknown distribution, while every edge corresponds to a training example whose input is a pair of feature vectors $\pair{X,X'}$ of the two ends of this edge and whose target value $Y$ is in $\{0,1\}$.
 % The classifier takes a pair of feature vectors $\pair{X,X'}$ as input to predict the target value $Y\in \set{0,1}$. 
 
@@ -727,12 +729,19 @@ and the feasible initial solution. By \citet{lanckriet2009convergence}, the conc
 $\beta$, $\delta$ and a graph $G$ that contains $n$ vertices and $m$ edges.
 \Ensure 
 An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ for the program \eqref{eq:optimization_program_final}.
-\State Let $I:=\{(1+i\cdot\epsilon(1+\beta))/n \mid  i\in \mathbb{N} \hbox{ and } i\le (n-1)/\epsilon(1+\beta)\}$. 
-% \State Divide the domain of $a$ into intervals $Intervals$ with length $t=\epsilon(1+\beta)/n$;
-% \State Divide the domain of $b$ into intervals with length $\sqrt{1/m}$;
-% \State Consider the intersections $Intersections$ of the intervals of $a$ and $b$;
+\State Sovle the following program using the interior-point method, and obtain an $\epsilon$-approximation $\tilde{a}$;
+  \begin{equation}
+    \label{eq:optimization_program_final_fix_b}
+\begin{aligned}
+    \min_{a,\probdistri{}} \quad&
+    a^{1/(1+\complexbound{})}\\
+    \mbox{s.t.} \quad &\forall \pair{i,j}\in E, p_{i,j}\ge 0 \\
+    & \forall i, \sum_{j:\pair{i,j}\in E} p_{i,j} -a  \le 0\\
+    & \sum_{\pair{i,j}\in E} p_{i,j}= 1
+\end{aligned}
+\end{equation}
+\State Let $I:=\{\tilde{a}+i\cdot\epsilon(1+\beta)/n \mid  i\in \mathbb{N} \hbox{ and } i\le n(1-\tilde{a})/\epsilon(1+\beta)\}$. 
 \For{$a \in I$}
-%   \State Fix $a=a'$;
   \State Solve the following program using the interior-point method with tolerance $\epsilon$ and add the solution into $S$.
   \begin{equation}
     \label{eq:optimization_program_final_fix_a}
@@ -748,21 +757,29 @@ An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$
 \end{equation}
   
 \EndFor\\
-\Return the best weighting $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ from $S$. 
+\Return the best solution $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ from $S$. 
 \end{algorithmic}
 \end{algorithm}
 
 We prove that Algorithm \ref{alg:FPTAS} is a FPTAS for the program \eqref{eq:optimization_program_final}.
 Note that $1/n\le a\le 1$ in the program \eqref{eq:optimization_program_final}.
-Using Algorithm \ref{alg:FPTAS}, we first separate the program \eqref{eq:optimization_program_final} into
+Using Algorithm \ref{alg:FPTAS}, we first use the interior-point method to find minimal feasible solution $\tilde{a}$ of the program \eqref{eq:optimization_program_final}. 
+Since the interior-point method is FPTAS\cite{boyd2004convex}, solving this program needs polynomial time in the program size $m+n$ and $1/\epsilon$. 
+Then the program \eqref{eq:optimization_program_final} is separated into
 \[\frac{1-1/n}{\epsilon(1+\beta)/n}=\frac{n-1}{\epsilon(1+\complexbound{})}\]
 convex programs.
-These convex programs can produce several $\epsilon$-approximate solutions by the interior-point method.
-Since the interior-point method is FPTAS\cite{boyd2004convex}, solving each of these programs needs polynomial time in the problem size $m+n$ and $1/\epsilon$.
+% These convex programs can produce several $\epsilon$-approximate solutions by the interior-point method.
+% Since the interior-point method is FPTAS\cite{boyd2004convex}, 
+Solving each of these programs needs polynomial time in the problem size $m+n$ and $1/\epsilon$.
 Thus, the complexity of Algorithm \ref{alg:FPTAS} is also polynomial in $m+n$ and $1/\epsilon$.
 
-It is easy to know the program \eqref{eq:optimization_program_final} always has the feasible solution, and thus the optimal solution $a^*$, $b^*$ and $\probdistri{}^*$.
-For any optimal solution $a^*$, we can find $a'$ in $Intervals$ such that $a^*\le a'<a^*+t$ and thus
+It is clear that the program \eqref{eq:optimization_program_final} always has the feasible solution, and thus the optimal solution $a^*$, $b^*$ and $\probdistri{}^*$.
+For any optimal solution $a^*$, if $a^*$ achieve minimum for the program \eqref{eq:optimization_program_final_fix_b}, we can find $a'$ in $I$ (actually $\tilde{a}$) such that 
+\begin{equation}
+  \label{eq:a_mini_bound}
+  (a')^{1/(1+\complexbound{})}\le (1+\epsilon)(a^*)^{1/(1+\complexbound{})}.
+\end{equation}
+Otherwise, we can also find $a'$ in $I$ such that $a^*\le a'<a^*+\epsilon(1+\beta)/n$ and thus
 \begin{equation}
 \label{eq:a_bound}
 \begin{aligned}
@@ -772,14 +789,14 @@ For any optimal solution $a^*$, we can find $a'$ in $Intervals$ such that $a^*\l
 \end{aligned}
 \end{equation}
 The third inequality derives from the fact that $1/n\le a$.
-We assume that when we fix $a=a'$ the optimal solution for the program \eqref{eq:optimization_program_final} is $b=b'$.
-Because $a'\ge a^*$, $(a', b^*)$ is always a feasible solution for the program \ref{eq:optimization_program_final}, and thus we have $b'\le b^*$.
+We assume that when we fix $a=a'$ the optimal solution for the program \eqref{eq:optimization_program_final_fix_a} is $b=b'$.
+Because $a'\ge a^*$, $(a', b^*)$ is always a feasible solution for the program \eqref{eq:optimization_program_final_fix_a}, and thus we have $b'\le b^*$.
 Besides, the interior-point method should produce a $\epsilon$-approximate solution $b''$ such that
 \begin{equation}
   \label{eq:b_bound}
   b''\le (1+\epsilon)b'\le (1+\epsilon)b^*.
 \end{equation}
-Since in Algorithm \ref{alg:FPTAS} we select the optimal solution from all $Intervals$, combining \eqref{eq:a_bound} and \eqref{eq:b_bound}, we have for the solution $(a', b'')$ such that $a^*\le a'<a^*+t$,
+Since in Algorithm \ref{alg:FPTAS} we select the optimal solution from all possible solutions $S$, combining \eqref{eq:a_mini_bound}, \eqref{eq:a_bound} and \eqref{eq:b_bound}, we have
 \begin{align*}
   (\bar{a})^{1/(1+\complexbound{})} + \bar{b} & \le (a')^{1/(1+\complexbound{})} + b''\\
   &\le (1+\epsilon)((a^*)^{1/(1+\complexbound{})} + b^*).
@@ -803,7 +820,7 @@ Then, we discuss the performance of this equal weighting scheme when the graph i
 When graph $G$ is complete, it is easy to see that weighting all examples equally gives the best risk bound, as all the terms $\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}$, $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ achieve minimum. 
 Compared to the results in \cite{wang2017learning}, our theory puts additional constrains on $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ which encourages weighting examples fairly in this case, as illustrated in Figure~\ref{fig:weighting_scheme_complete_graph}. 
 Besides, this scheme, which coincides with $U$-statistics that \emph{average} the basic estimator applied to all sub-samples \cite{hoeffding1948class}, could produce a small variance. 
-*** degeneralize to Ranking
+% *** degeneralize to Ranking
 
 \begin{figure}[h]
   \centering
@@ -890,7 +907,7 @@ We also propose efficient optimization algorithms to improve the existing weight
 \bibliography{Mendeley}
 \bibliographystyle{aaai}
 
-
+\newpage
 \section*{Appendix} % (fold)
 \appendix
 \label{sec:appendix}
