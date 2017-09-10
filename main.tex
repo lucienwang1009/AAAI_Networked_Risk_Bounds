@@ -125,7 +125,7 @@
 \newcommand{\fcoloring}{\chi^*}
 \newcommand{\complexbound}{\beta}
 \newcommand{\set}[1]{\{#1\}}
-\newcommand{\trainingset}{S}
+\newcommand{\trainingset}{\mathbb{S}}
 \newcommand{\rademachercomplexity}{\mathfrak{R}}
 
 \newcommand{\red}[1]{\textcolor{red}{#1}}
@@ -140,7 +140,11 @@
 
 \begin{document}
 \title{On the ERM Principle with Networked Data}
-\author{
+
+\author{AAAI Press\\
+Association for the Advancement of Artificial Intelligence\\
+2275 East Bayshore Road, Suite 160\\
+Palo Alto, California 94303\\
 }
 \maketitle
 
@@ -164,8 +168,8 @@ Similar examples of networked data such as traffic networks \cite{min2011real}, 
 
 \todo{@Lucien: it would be good if we can find more recent literature}
 
-Admittedly, many efforts have been made to design practical algorithms for learning from networked data, e.g., \cite{pieter2003link,al2006link,macskassy2007classification}. 
-However, not many theoretical guarantees of these methods have been established, which is the main concern of this paper. More specifically, this paper deals with risk bounds of \emph{classifiers trained with networked data (\problemabbr{})\todo{modify the name}} whose goal is to train a classifier with examples in a data graph $G$. 
+Admittedly, many efforts have been made to design practical algorithms for learning from networked data, e.g., \cite{liben2007link,macskassy2007classification,li2016robust,garcia2016combining}. 
+However, not many theoretical guarantees of these methods have been established, which is the main concern of this paper. More specifically, this paper deals with risk bounds of \emph{classifiers trained with networked data (\problemabbr{}) \todo{modify the name}} whose goal is to train a classifier with examples in a data graph $G$. 
 Every vertex of $G$ is an object and described by a feature vector $X\in \xspace{}$ that is drawn independently and identically (i.i.d.) from an unknown distribution, while every edge corresponds to a training example whose input is a pair of feature vectors $\pair{X,X'}$ of the two ends of this edge and whose target value $Y$ is in $\{0,1\}$.
 % The classifier takes a pair of feature vectors $\pair{X,X'}$ as input to predict the target value $Y\in \set{0,1}$. 
 
@@ -236,7 +240,7 @@ The link prediction which predicts the occurrence of an linkage between the vert
 \label{sub:weighted_empirical_risk_minimization}
 
 % just introduce and formulate, not argue anything in this section.
-ERM aims to find the function from a hypothesis set that minimizes the empirical estimator of \eqref{eq:graph_reconstruction_risk} on the training examples $S=\{(X_i,X_j,Y_{i,j})\}_{\pair{i,j}\in E}$:
+ERM aims to find the function from a hypothesis set that minimizes the empirical estimator of \eqref{eq:graph_reconstruction_risk} on the training examples $\trainingset{}=\{(X_i,X_j,Y_{i,j})\}_{\pair{i,j}\in E}$:
 \begin{equation}
     \label{eq:graph_reconstruction_non_weighted_erm}
     \empiricalrisk{m}(r) := \frac{1}{m}\sum_{\pair{i,j}\in E} \lossf(r, (X_i,X_j, Y_{i,j})).
@@ -404,12 +408,17 @@ The excess risk $\risk{}(r_\weight{})-\bayeserror{}$ depends on the hypothesis s
 A similar result using VC-dimension \cite{vapnik1971uniform} can be obtained as well. 
 
 \begin{definition}[covering numbers]
-A set $\mathcal{C}\subset \real{}^m$ is called an \emph{$\lebesgue{}_p$ cover} of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon>0$ if for all $f\in\mathcal{F}$, there exists $\mathbf{c}_f\in \mathcal{C}$ such that
-$\|(f(x_1),\dots,f(x_m))-\mathbf{c}_f\|_p\le \epsilon.$
-The \emph{empirical covering number} $N_p(\mathcal{F},\epsilon;x_1,\dots,x_m)$ is the size of a smallest 
-%$\mathcal{C}$ which is an 
-$\lebesgue{}_p$ cover of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon$.
-We define the \emph{covering number} $N_p(\mathcal{F},\epsilon,m):=\sup_{x_1,\dots,x_m}N_p(\mathcal{F},\epsilon;x_1,\dots,x_m)$ and simply denote $N_p(\mathcal{F},\epsilon,m)$ by $N_p(\mathcal{F},\epsilon)$, if the context is clear.
+\todo{\cite{wang2017learning}}
+Let $(\mathcal{F}, \lebesgue{}_p)$ be a metric space and $\epsilon>0$. We define the covering number $N(\mathcal{F},\lebesgue{}_p,\epsilon)$ be the minimal $l\in\mathbb{N}$ such that there exist $l$ disks in $\mathcal{F}$ with radius $\epsilon$ covering $\mathcal{F}$. If the context is clear, we simply denote $N(\mathcal{F},\lebesgue{}_p, \epsilon)$ by $N_p(\mathcal{F},\epsilon)$.
+
+% Let $\mathcal{F}$ be a metric space and $\epsilon>0$. We define the covering number $N(\mathcal{F}, \epsilon)$ to be the minimal $k\in\mathbb{N}$ such that there exists $k$ disks in $\mathcal{F}$ with radius $\epsilon$ covering $\mathcal{F}$. When $\mathcal{F}$ is compact, this number is finite.
+
+% A set $\mathcal{C}\subset \real{}^m$ is called an \emph{$\lebesgue{}_p$ cover} of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon>0$ if for all $f\in\mathcal{F}$, there exists $\mathbf{c}_f\in \mathcal{C}$ such that
+% $\|(f(x_1),\dots,f(x_m))-\mathbf{c}_f\|_p\le \epsilon.$
+% The \emph{empirical covering number} $N_p(\mathcal{F},\epsilon;x_1,\dots,x_m)$ is the size of a smallest 
+% %$\mathcal{C}$ which is an 
+% $\lebesgue{}_p$ cover of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon$.
+% We define the \emph{covering number} $N_p(\mathcal{F},\epsilon,m):=\sup_{x_1,\dots,x_m}N_p(\mathcal{F},\epsilon;x_1,\dots,x_m)$ and simply denote $N_p(\mathcal{F},\epsilon,m)$ by $N_p(\mathcal{F},\epsilon)$, if the context is clear.
 \end{definition}
 
 In this paper, we focus on the $\lebesgue_\infty$ covering number $N_\infty(\mathcal{F},\epsilon)$ and suppose that it satisfies the following assumption.
@@ -574,41 +583,44 @@ With Lemma \ref{le:risk_bounds_iid} and \ref{le:uniform_approximation}, now we a
 \begin{proof}[Proof of Theorem~\ref{th:main_theorem}]
     Let us consider the Hoeffding decomposition \eqref{eq:graph_reconstruction_hoeffding_decomposition} of $\Lambda_\weight{}(r)$ that is minimized over $r\in R$. The idea of this proof is that the degenerate parts $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by the moment inequality for weighted $U$-processes. Therefore, $r_\weight{}$ is an approximate minimizer of $T_\weight{}(r)$, which can be handled by Lemma~\ref{le:risk_bounds_iid}.
 
-    Let $A$ be the event on which\todo{@Lucien: I don't understand this sentence, in particular "on which" (on the event)}
-    \[\sup_{r\in R}|U_\weight{}(r)|\le \kappa_A,\]
+    Let $A$ be the event that
+    \todo{@Lucien: I don't understand this sentence, in particular "on which" (on the event)}
+    \[\sup_{r\in R}|U_\weight{}(r)|\le \kappa_1,\]
     where
     \DoubleColumn
     \begin{align*}
-    \kappa_A&=\frac{C_A}{1-\complexbound{}}\max\Big(\frac{\|\weight{}\|_2\log(1/\delta)}{\normo{\weight{}}},\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\\
+    \kappa_1&=\frac{C_1}{1-\complexbound{}}\max\Big(\frac{\|\weight{}\|_2\log(1/\delta)}{\normo{\weight{}}},\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\\
     &\qquad\qquad \frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)
     \end{align*}
     \DoubleColumnEnd
     \SingleColumn
     \begin{align*}
-    \kappa_A&=\frac{C_A}{1-\complexbound{}}\max\Big(\frac{\|\weight{}\|_2\log(1/\delta)}{\normo{\weight{}}},\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}}, \frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)
+    \kappa_1&=\frac{C_1}{1-\complexbound{}}\max\Big(\frac{\|\weight{}\|_2\log(1/\delta)}{\normo{\weight{}}},\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}}, \frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)
     \end{align*}
     \SingleColumnEnd
-    for an appropriate constant $C_A$. Then by Lemma~\ref{le:uniform_approximation}, $\Pro[A]\ge 1-\delta/4$. Similarly, let $B$ be the event on which\todo{@Lucien: similar here}
-    \[\sup_{r\in R}|\widetilde{U}_\weight{}(r)|\le \kappa_B.\]
+    for an appropriate constant $C_1$. Then by Lemma~\ref{le:uniform_approximation}, $\Pro[A]\ge 1-\delta/4$. Similarly, let $B$ be the event that
+    \todo{@Lucien: similar here}
+    \[\sup_{r\in R}|\widetilde{U}_\weight{}(r)|\le \kappa_2.\]
     where
     \DoubleColumn
     \begin{align*}
-    \kappa_B&=\frac{C_B}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\\
+    \kappa_2&=\frac{C_2}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\\
     &\qquad\qquad\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)
     \end{align*}
     \DoubleColumnEnd
     \SingleColumn
     \begin{align*}
-    \kappa_B&=\frac{C_B}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)
+    \kappa_2&=\frac{C_2}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)
     \end{align*}
     \SingleColumnEnd
-    for an appropriate constant $C_B$.
+    for an appropriate constant $C_2$.
     Then $\Pro[B]\ge 1-\delta/4$.
 
     By \eqref{eq:graph_reconstruction_hoeffding_decomposition}, it is clear that, if both $A$ and $B$ happen,
     \todo{@Lucien: you want to say when both A and B heppen?}, 
-    $r_\weight{}$ is a $\rho$-minimizer of $T_\weight{}(r)$ over $r\in R$ in the sense that the value of this latter quantity at its minimum is at most $(\kappa_A+\kappa_B)$ smaller \todo than at $r_\weight{}$. 
-    Then, from Lemma~\ref{le:risk_bounds_iid}, with probability at least $1-\delta/2$, $r_\weight{}$ is a $(\kappa_A+\kappa_B)$-minimizer of $T_\weight{}(r)$, which the result follows.\todo{@Lucien: we may need to go through this paragraph on Sunday}
+    $r_\weight{}$ is a $\rho$-minimizer of $T_\weight{}(r)$ over $r\in R$ in the sense that the difference between the value of this latter quantity at its minimum and $r_\weight{}$ is at most $(\kappa_1+\kappa_1)$.
+    % smaller \todo{the difference} than at $r_\weight{}$. 
+    Then, from Lemma~\ref{le:risk_bounds_iid}, with probability at least $1-\delta/2$, $r_\weight{}$ is a $(\kappa_1+\kappa_2)$-minimizer of $T_\weight{}(r)$, which the result follows. \todo{@Lucien: we may need to go through this paragraph on Sunday}
 \end{proof}
 
 % *****
@@ -625,13 +637,18 @@ Another advantage of our result is that if the risk bounds are optimized, we cou
 \label{sec:weighting_scheme}
 
 In the previous section, we have established risk bounds for weighted ERM. In this section, we first formulate the optimization problem that minimizes the risk bounds in Theorem \ref{th:main_theorem}. 
-Although this optimization problem is \emph{concave} unless the hypothesis set is finite, we present a fully polynomial-time approximation scheme (FPTAS) to solve this problem.
+Although this optimization problem is \emph{concave} unless the hypothesis set is finite, we present a \emph{fully polynomial-time approximation scheme (FPTAS)} to solve this problem.
 % Then, we provide some methods that optimize the risk bounds progressively to find proper weights for general cases. 
 \todo{@Lucien: maybe we now just mention this instead of presenting the details of this method, but need to point out we are solving a CONCAVE problem}
 % Using these methods, we are able to improve existing weighting schemes.
 % Finally, although the optimization problem is not convex, we present a fully polynomial-time approximation scheme (FPTAS) to solve this problem.
  % and guarantee that the new scheme is not worse than the old one. 
 %So there exists a trade-off between optimization time and tight risk bounds.
+\begin{definition}[FPTAS]
+  An Algorithm $\mathcal{A}$ is a FPTAS for an optimization problem $\Pi$, if given an input $\mathcal{I}$ for $\Pi$ and $\epsilon>0$, $\mathcal{A}$ finds in time polynomial in the size of $\mathcal{I}$ and in $1/\epsilon$, a solution $s$ for $\mathcal{I}$ that satisfies
+  \[|f_\Pi(s)-\mathrm{OPT}|\le \epsilon \mathrm{OPT},\]
+  where $f_\Pi$ is the objective function of $\Pi$ and $\mathrm{OPT}$ is the optimal value of a solution for $\mathcal{I}$.
+\end{definition}
 
 \subsection{Optimization Problem} % (fold)
 \label{sub:optimization_problem}
@@ -727,6 +744,7 @@ If the hypothesis set is finite \todo{@Lucien: we should be careful}, i.e., $\co
 
 If $\complexbound{}>0$, the objective function is not convex any more. In fact, the program \eqref{eq:optimization_program_final} becomes a concave problem that can be optimized globally by some complex algorithms \cite{benson1995concave,hoffman1981method} that often need tremendous computation. 
 Instead, one may not need to find the global optimum and only approximate it using some efficient methods, e.g., Concave-Convex Procedure\cite{Yuille2001The} and Coordinate Descent\cite{wright2015coordinate}.
+However, these methods are lack of complexity analysis and may even lead to a local optimum.
 
 \todo{@Lucien: keep the follows? if yes, shorten it.}
 % \textbf{Concave-Convex Procedure} Since the objective function of \eqref{eq:optimization_program_final} can be rewritten to $b-(-a^{1/(1+\complexbound{})})$ that is difference of convex function (d.c.), one can also solve \eqref{eq:optimization_program_final} by the elaborate optimization methods for d.c. program. 
@@ -737,7 +755,7 @@ Instead, one may not need to find the global optimum and only approximate it usi
 \subsection{Fully Polynomial-time Approximation Scheme} % (fold)
 \label{sub:ptas}
 
-In this section, we propose an algorithm to solve this problem and show that this algorithm is a fully polynomial-time approximation scheme. 
+To solve the program \eqref{eq:optimization_program_final} efficiently, we propose Algorithm \ref{alg:FPTAS} and show that it is a fully polynomial-time approximation scheme for \eqref{eq:optimization_program_final}. 
 
 % 证明coordinate descent是个PTAS的方法
 \todo{@Lucien: we write this FPTAS instead of the Coordinate descent}
@@ -765,9 +783,9 @@ An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$
     & \sum_{\pair{i,j}\in E} p_{i,j}= 1
 \end{aligned}
 \end{equation}
-\State Let $I:=\{\tilde{a}+i\cdot\epsilon(1+\beta)/n \mid  i\in \mathbb{N} \hbox{ and } i\le n(1-\tilde{a})/\epsilon(1+\beta)\}$. 
-\For{$a \in I$}
-  \State Solve the following program using the interior-point method with tolerance $\epsilon$ and add the solution into $S$.
+\State Let $Grid:=\{\tilde{a}+i\cdot\epsilon(1+\beta)/n \mid  i\in \mathbb{N} \hbox{ and } i\le n(1-\tilde{a})/\epsilon(1+\beta)\}$. 
+\For{$a \in Grid$}
+  \State Solve the following program using the interior-point method with tolerance $\epsilon$ and add the solution into $Solutions$.
   \begin{equation}
     \label{eq:optimization_program_final_fix_a}
 \begin{aligned}
@@ -782,43 +800,57 @@ An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$
 \end{equation}
 
 \EndFor\\
-\Return the best solution $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ from $S$. 
+\Return the best solution $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ from $Solutions$. 
 \end{algorithmic}
 \end{algorithm}
 
-We prove that Algorithm \ref{alg:FPTAS} is a FPTAS. % for the program \eqref{eq:optimization_program_final}.
-Note that $1/n\le a\le 1$ if the graph is not empty. % in the program \eqref{eq:optimization_program_final}.
-In Algorithm \ref{alg:FPTAS}, we first divide the problem into 
-\[\frac{1-1/n}{\epsilon(1+\beta)/n}=\frac{n-1}{\epsilon(1+\complexbound{})}\]
-convex programs, each of which can produce a $\epsilon$-approximate solution by some interior-point method. 
-Since the interior-point method is a FPTAS for convex problems \cite{boyd2004convex}, solving each of these programs needs polynomial time in the problem size $m+n$ and $1/\epsilon$.
-Thus, the complexity of Algorithm \ref{alg:FPTAS} is also polynomial in $m+n$ and $1/\epsilon$.
+\begin{theorem}
+\label{th:fptas}
+  Algorithm \ref{alg:FPTAS} is a FPTAS for the program \eqref{eq:optimization_program_final}.
+\end{theorem}
 
-% It is easy to know the program \eqref{eq:optimization_program_final} always has the feasible solution, and thus the optimal solution $a^*$, $b^*$ and $\probdistri{}^*$. 
-\todo{@Lucien: follow this idea: If $(a,b)$ is feasible for this program, then $(a',b)$ must be also feasible if $a'>a$.  }
-For any optimal solution $a^*$, we can find $a'$ in $Intervals$ such that $a^*\le a'<a^*+t$ and thus
+\begin{proof}[Proof of Theorem \ref{th:fptas}]
+  
+  Note that $1/n\le a\le 1$ if the graph is not empty. % in the program \eqref{eq:optimization_program_final}.
+  In Algorithm \ref{alg:FPTAS}, we first divide the problem into 
+  \[\frac{1-1/n}{\epsilon(1+\beta)/n}=\frac{n-1}{\epsilon(1+\complexbound{})}\]
+  convex programs, each of which can produce a $\epsilon$-approximate solution by some interior-point method. 
+  Since the interior-point method is a FPTAS for convex problems \cite{boyd2004convex}, solving each of these programs needs polynomial time in the problem size $m+n$ and $1/\epsilon$.
+  Thus, the complexity of Algorithm \ref{alg:FPTAS} is also polynomial in $m+n$ and $1/\epsilon$.
 
-\begin{equation}
-\label{eq:a_bound}
-\begin{aligned}
-  (a')^{1/(1+\complexbound{})}&\le (a^*+t)^{1/(1+\complexbound{})}\\
-  &\le (a^*)^{1/(1+\complexbound{})} + t*\frac{1}{1+\complexbound{}}(a^*)^{-\complexbound{}/(1+\complexbound{})}\\
-  &\le (1+\epsilon)(a^*)^{1/(1+\complexbound{})}
-\end{aligned}
-\end{equation}
-The third inequality derives from the fact that $1/n\le a$.
-We assume that when we fix $a=a'$ the optimal solution for the program \eqref{eq:optimization_program_final_fix_a} is $b=b'$.
-Because $a'\ge a^*$, $(a', b^*)$ is always a feasible solution for the program \eqref{eq:optimization_program_final_fix_a}, and thus we have $b'\le b^*$.
-Besides, the interior-point method should produce a $\epsilon$-approximate solution $b''$ such that
-\begin{equation}
-  \label{eq:b_bound}
-  b''\le (1+\epsilon)b'\le (1+\epsilon)b^*.
-\end{equation}
-Since in Algorithm \ref{alg:FPTAS} we select the optimal solution from all possible solutions $S$, combining \eqref{eq:a_mini_bound}, \eqref{eq:a_bound} and \eqref{eq:b_bound}, we have
-\begin{align*}
-  (\bar{a})^{1/(1+\complexbound{})} + \bar{b} & \le (a')^{1/(1+\complexbound{})} + b''\\
-  &\le (1+\epsilon)((a^*)^{1/(1+\complexbound{})} + b^*).
-\end{align*}
+  For any optimal solution $a^*$, if $a^*$ achieve minimum for the program \eqref{eq:optimization_program_final_fix_b}, we can find $a'$ in $Grid$ (actually $\tilde{a}$) such that 
+  \begin{equation}
+    \label{eq:a_mini_bound}
+    (a')^{1/(1+\complexbound{})}\le (1+\epsilon)(a^*)^{1/(1+\complexbound{})}.
+  \end{equation}
+  Otherwise, we can also find $a'$ in $Grid$ such that $a^*\le a'<a^*+\epsilon(1+\beta)/n$ and thus
+
+  % It is easy to know the program \eqref{eq:optimization_program_final} always has the feasible solution, and thus the optimal solution $a^*$, $b^*$ and $\probdistri{}^*$. 
+  \todo{@Lucien: follow this idea: If $(a,b)$ is feasible for this program, then $(a',b)$ must be also feasible if $a'>a$.  }
+  \begin{equation}
+  \label{eq:a_bound}
+  \begin{aligned}
+    (a')^{1/(1+\complexbound{})}&\le (a^*+\epsilon(1+\beta)/n)^{1/(1+\complexbound{})}\\
+    &\le (a^*)^{1/(1+\complexbound{})} + \epsilon(1+\beta)/n\\
+    &\qquad\frac{1}{1+\complexbound{}}(a^*)^{-\complexbound{}/(1+\complexbound{})}\\
+    &\le (1+\epsilon)(a^*)^{1/(1+\complexbound{})}
+  \end{aligned}
+  \end{equation}
+  The third inequality derives from the fact that $1/n\le a$.
+  We assume that when we fix $a=a'$, the optimal solution for the program \eqref{eq:optimization_program_final_fix_a} is $b=b'$.
+  Because $(a^*,b^*)$ is feasible and $a'>a^*$, $(a', b^*)$ is always a feasible solution for the program \eqref{eq:optimization_program_final_fix_a}, and thus we have $b'\le b^*$.
+  Besides, the interior-point method can produces a $\epsilon$-approximate solution $b''$ such that
+  \begin{equation}
+    \label{eq:b_bound}
+    b''\le (1+\epsilon)b'\le (1+\epsilon)b^*.
+  \end{equation}
+  Finally, we select the optimal solution $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ from all possible solutions. 
+  Combining \eqref{eq:a_mini_bound}, \eqref{eq:a_bound} and \eqref{eq:b_bound}, we have
+  \begin{align*}
+    (\bar{a})^{1/(1+\complexbound{})} + \bar{b} & \le (a')^{1/(1+\complexbound{})} + b''\\
+    &\le (1+\epsilon)((a^*)^{1/(1+\complexbound{})} + b^*).
+  \end{align*}
+\end{proof}
 
 \todo{@Lucien: write the result as a theorem}
 
@@ -961,15 +993,15 @@ The weight $W(\mathcal{C})$ of $\mathcal{C}$ is given by $W(\mathcal{C})=\sum_{j
 By the Janson's decomposition, one splits all examples into several independent sets according to a fraction coloring of $D_G$ and then analyze each set using the standard method for i.i.d.\ examples.
 
 In particular, Theorem~\ref{th:fractional_mcdiarmid} \citep{also see}{Theorem~$2$}{Usunier2005} provides a variation of McDiarmid's theorem using the Janson's decomposition.
-For simplicity, let $\trainingset=\set{z_i}_{i=1}^{m}$ be the training examples drawn from $\zspace^m$ and $S_{\mathcal{C}_j}$ be the examples included in $\mathcal{C}_j$.
-Also, let $k_j^i$ be the index of the $i$-th example of $\mathcal{C}_j$ in the training set $S$ and denote by $\weight{}=\set{w_i}_{i=1}^m$ the weights on $S$.
+For simplicity, let $\trainingset=\set{z_i}_{i=1}^{m}$ be the training examples drawn from $\zspace^m$ and $\trainingset{}_{\mathcal{C}_j}$ be the examples included in $\mathcal{C}_j$.
+Also, let $k_j^i$ be the index of the $i$-th example of $\mathcal{C}_j$ in the training set $\trainingset{}$ and denote by $\weight{}=\set{w_i}_{i=1}^m$ the weights on $\trainingset{}$.
 
 \begin{theorem}
    \label{th:fractional_mcdiarmid}
    Using the notations defined above, let $\mathcal{C} = \set{(\mathcal{C}_j, q_j)}_{j=1}^J$ be a fractional coloring of $D_G$. Let $f:\zspace^m \to \real{}$ such that
    \begin{itemize}
      \item there exist $J$ functions $\zspace^{|\mathcal{C}_j|} \to \real{}$ which satisfy $\forall S\in \zspace^m$, $f(S)=\sum_{j=1}^J q_j f_j(S_{\mathcal{C}_j})$.
-     \item there exist $c_i,\dots,c_m\in \real{}_+$ such that $\forall j,\forall S_{\mathcal{C}_j}, S_{\mathcal{C}_j}^k$ such that $S_{\mathcal{C}_j}$ and $S_{\mathcal{C}_j}^k$ differ only in the $k$-th example, $|f_j(S_{\mathcal{C}_j}) - f_j(S_{\mathcal{C}_j}^k)|\le c_{k_j^i}$.
+     \item there exist $c_i,\dots,c_m\in \real{}_+$ such that $\forall j,\forall S_{\mathcal{C}_j}, S_{\mathcal{C}_j}^k$ such that $\trainingset{}_{\mathcal{C}_j}$ and $\trainingset{}_{\mathcal{C}_j}^k$ differ only in the $k$-th example, $|f_j(S_{\mathcal{C}_j}) - f_j(S_{\mathcal{C}_j}^k)|\le c_{k_j^i}$.
    \end{itemize}
      Then, we have
      \[\Pro[f(S)-\E[f(S)]\ge \epsilon] \le \exp\left(-\frac{2\epsilon^2}{\fcoloring{}(D_G)\sum_{i=1}^mc_i^2}\right).\]
@@ -1476,7 +1508,7 @@ If the hypothesis set $\mathcal{F}$ is a subset of $\lebesgue{}_\infty(\xspace^2
 
 % section lagrangian_dual_problem (end)
 
-\section{Proofs from the Main Track} % (fold)
+\section{Proofs Omitted from the Main Track} % (fold)
 \label{sec:technical_proofs}
 
 \subsection{Proof of Lemma~1} % (fold)
@@ -1598,7 +1630,7 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
 
 % subsection proof_of_lemma_3 (end)
 
-\section{Proofs from the Appendix} % (fold)
+\section{Proofs Omitted from the Appendix} % (fold)
 \label{sec:proofs_of_the_appendix}
 
 \subsection{Proof of Theorem \ref{th:fractional_coloring_weighted}} % (fold)
@@ -1625,7 +1657,7 @@ We write, for all $r\in R$,
 \DoubleColumnEnd
 Now, consider, for each $j$,
 \[f_j(S_{\mathcal{C}_j}) = \sup_{r\in R}\sum_{i\in\mathcal{C}_j} \frac{w_{k_j^i}}{\normo{\weight{}}} (\E[\ell(r,z)] - \ell(r,z_{k_j^i})).\]
-Let $f$ is defined by, for all training set $S$, $f(S)=\sum_{j=1}^Jp_jf_j(S_{\mathcal{C}_j})$, then $f$ satisfies the conditions of Theorem~\ref{th:fractional_mcdiarmid} with, for any $i\in \set{1,\dots,m}$, $\beta_i\le w_i/\normo{\weight{}}$. Therefore, we can claim that, with probability at least $1-\delta$,
+Let $f$ is defined by, for all training set $\trainingset{}$, $f(\trainingset{})=\sum_{j=1}^Jp_jf_j(S_{\mathcal{C}_j})$, then $f$ satisfies the conditions of Theorem~\ref{th:fractional_mcdiarmid} with, for any $i\in \set{1,\dots,m}$, $\beta_i\le w_i/\normo{\weight{}}$. Therefore, we can claim that, with probability at least $1-\delta$,
 \SingleColumn
 \begin{align*}
   \risk{}(r) - \empiricalrisk{\weight{}}(r)&\le \E\left[\sup_{r\in R}\left[\E[\ell(r,z)] - \frac{1}{\normo{\weight{}}}\sum_{i=1}^m w_i\ell(r,z_i)]\right]\right] + \sqrt{\fcoloring(D_G)\log(1/\delta)}\frac{\|\weight{}\|_2}{\normo{\weight{}}}
