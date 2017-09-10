@@ -814,7 +814,7 @@ An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$
   Note that $1/n\le a\le 1$ if the graph is not empty. % in the program \eqref{eq:optimization_program_final}.
   In Algorithm \ref{alg:FPTAS}, we first divide the problem into 
   \[\frac{1-1/n}{\epsilon(1+\beta)/n}=\frac{n-1}{\epsilon(1+\complexbound{})}\]
-  convex programs, each of which can produce a $\epsilon$-approximate solution by some interior-point method. 
+  convex programs, then each of which can produce a $\epsilon$-approximate solution by some interior-point methods. 
   Since the interior-point method is a FPTAS for convex problems \cite{boyd2004convex}, solving each of these programs needs polynomial time in the problem size $m+n$ and $1/\epsilon$.
   Thus, the complexity of Algorithm \ref{alg:FPTAS} is also polynomial in $m+n$ and $1/\epsilon$.
 
@@ -837,7 +837,7 @@ An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$
   \end{aligned}
   \end{equation}
   The third inequality derives from the fact that $1/n\le a$.
-  We assume that when we fix $a=a'$, the optimal solution for the program \eqref{eq:optimization_program_final_fix_a} is $b=b'$.
+  We assume that the optimal solution for the program \eqref{eq:optimization_program_final_fix_a} is $b=b'$ when we fix $a=a'$.
   Because $(a^*,b^*)$ is feasible and $a'>a^*$, $(a', b^*)$ is always a feasible solution for the program \eqref{eq:optimization_program_final_fix_a}, and thus we have $b'\le b^*$.
   Besides, the interior-point method can produces a $\epsilon$-approximate solution $b''$ such that
   \begin{equation}
