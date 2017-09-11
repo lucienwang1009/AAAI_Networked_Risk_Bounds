@@ -1513,12 +1513,14 @@ If the hypothesis set $\mathcal{F}$ is a subset of $\lebesgue{}_\infty(\xspace^2
 % section lagrangian_dual_problem (end)
 
 \todo{@Lucien: using "proofs omitted in Section \ref{}"}
-\section{Proofs Omitted in Section \ref{sec:risk_bounds}} % (fold)
+\section{Technical Proofs} % (fold)
 \label{sec:technical_proofs}
 
-\subsection{Proof of Lemma~1} % (fold)
-\label{sub:proof_of_lemma_}
+\subsection{Proofs Omitted in Section~\ref{sec:risk_bounds}} % (fold)
+\label{sub:proofs_omitted_in_section_sec:risk_bounds}
 
+% subsection proofs_omitted_in_section_sec:risk_bounds (end)
+\begin{proof}[Proof of Lemma~1] % (fold)
 Since $R\subset\lebesgue{}_\infty(\xspace{}^2)$ (Assumption~$1$), by Corollary~\ref{cor:covering_number_inequality}, the weighted degenerated $U$-process $\sup_{r\in R}|U_\weight{}(r)|$ can be bounded by the $\lebesgue{}_\infty$ covering number of $R$, that is, for any $\delta\in (0,1/e)$, we have
 \[\Pro[\sup_{r\in R}|U_\weight{}(r)|\le \kappa]\ge 1-\delta\]
 where 
@@ -1540,11 +1542,11 @@ Then the first inequality for $\sup_{r\in R}|U_\weight{}(r)|$ follows the fact t
 Similarly, by Lemma~\ref{le:weighted_decoupling_undecoupling} and Lemma~\ref{le:weighted_randomization}, we can convert the moment of $\sup_{r\in R}|\widetilde{U}_\weight{}(r)|$ to the moment of Rademacher chaos
 \[4^q\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}\sigma_i\sigma_j^\prime w_{i,j}\tilde{h}_r(X_i, X_j^\prime,\tilde{Y}_{i,j})|^q]\] 
 which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}. More specifically, using \eqref{eq:inequality_rademacher_chaos_1} and \eqref{eq:inequality_rademacher_chaos_2} combined with the arguments in Corollary~$1$ and Assumption~$1$ will gives the second inequality for $\sup_{r\in R}|\widetilde{U}_\weight{}(r)|$.
+\end{proof}
 
 % subsection proof_of_lemma_ (end)
 
-\subsection{Proof of Lemma~2} % (fold)
-\label{sub:proofs_of_main_track}
+\begin{proof}[Proof of Lemma~2] % (fold)
     For any function $r\in\mathcal{R}$, observe first that
     \DoubleColumn
     \begin{align*}
@@ -1577,9 +1579,9 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
         &= \Lambda(r).
     \end{align*}
     \DoubleColumnEnd
+\end{proof}
 
-\subsection{Proof of Lemma~3} % (fold)
-\label{sub:proof_of_lemma_3}
+\begin{proof}[Proof of Lemma~3] % (fold)
     First, we introduce some notations of weighted ERM of the i.i.d.\ case. 
     We denote $\{\bar{w}_i=\sum_{j:\pair{i,j}\in E}w_{i,j}: i=1,\dots,n\}$ the weights on vertices and introduce the ``loss function''
     \[\gamma(r, X)=2h_r(X)+\Lambda{}(r)\]
@@ -1632,12 +1634,13 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
     When $ R$ satisfies Assumption~$1$, there exists a universal constant $C^\prime$ such that
     \[\epsilon_*^2\le C^\prime K^{1/(1+\complexbound{})}(\frac{1}{(1-\complexbound{})^2\normo{\verticeweight{}}})^{1/(1+\complexbound{})}\]
     which completes the proof.
+\end{proof}
 
 % subsection proof_of_lemma_3 (end)
 
-\section{Proofs Omitted in Section \ref{sec:fractional_coloring_approach}} % (fold)
-\label{sec:proofs_of_the_appendix}
-
+\subsection{Proof Omitted in Section \ref{sec:fractional_coloring_approach}} % (fold)
+\label{sub:proofs_omitted_in_section_a}
+\begin{proof}[Proof of Theorem~\ref{th:fractional_coloring_weighted}]
 We write, for all $r\in R$,
 \SingleColumn
 \begin{equation}
@@ -1672,16 +1675,14 @@ Let $f$ is defined by, for all training set $\trainingset{}$, $f(\trainingset{})
 \end{align*}
 \DoubleColumnEnd
 Then, using the standard symmetrization technique \citep{see}{Theorem~4}{Usunier2005}, one can bound the first item in the right hand side by $\mathfrak{R}_{\weight{}}^*(R,S)$ which completes the proof. 
-% subsection proof_of_theorem_th:fractional_coloring_weighted (end)
+\end{proof}
 
-\section{Proofs Omitted in Section \ref{sec:weighted_risk_bounds}} % (fold)
+\subsection{Proofs Omitted in Section \ref{sec:weighted_risk_bounds}} % (fold)
 \label{sec:proof_omitted_in_section_sec:weighted_risk_bounds}
 
 % section proof_omitted_in_section_sec:weighted_risk_bounds (end)
 
-\subsection{Proof of Theorem \ref{th:weighted_bennett_inequality}} % (fold)
-\label{sub:proof_of_theorem_th:weighted_bennett_inequality}
-
+\begin{proof}[Proof of Theorem \ref{th:weighted_bennett_inequality}] % (fold)
     We use an auxiliary random variable
     \[\widetilde{Z}=\frac{\normo{\weight{}}}{2b}Z=\sup_{f\in\mathcal{F}}\frac{1}{2b}\sum_{i=1}^nw_i\allowbreak(f(X_i)-\E[f(X_i)]).\]
     We denote by $f_k$ a function such that
@@ -1732,6 +1733,7 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~4}{Usunier
     \end{align*}
     \SingleColumnEnd
     which proves the inequality.
+\end{proof}
 % The following inequality is Lemma A.5 of \citep{Massart2006}.
 % \begin{lemma}[\citep{Massart2006}]
 %     \label{le:weighted_process_inequality}
@@ -1741,9 +1743,7 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~4}{Usunier
 %     \[\E[\sup_{t\in S}\frac{Z(u)-Z(t)}{a^2(t)+x^2}]\le 4x^{-2}\varphi(x).\]
 % \end{lemma}
 
-\subsection{Proof of Theorem \ref{th:weighted_erm_risk_bounds}} % (fold)
-\label{sub:proof_of_theorem_th:weighted_erm_risk_bounds}
-
+\begin{proof}[Proof of Theorem \ref{th:weighted_erm_risk_bounds}] % (fold)
     Since $R$ satisfies Condition \ref{con:separability_condition}, we notice that, by dominated convergence, for every $r\in R$, considering the sequence $\{r_k\}$ provided by Condition \ref{con:separability_condition}, one has $\Pro[\gamma(\cdot,r_k)]$ that tends to $\Pro[\gamma(\cdot, r)]$ as $k$ tends to infinity. Denote the bias term of loss $\relossf(r^*,R)=\inf_{r\in R}\relossf(r^*,r)$. Hence, $\relossf(r^*,R)=\relossf(r^*,R^\prime)$, which implies that there exists some point $\pi(r^*)$ (which may depend on $\epsilon_*$) such that $\pi(r^*)\in R^\prime$ and
     \begin{equation}
         \label{eq:asymptotic_function_inequality}
@@ -1865,10 +1865,9 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~4}{Usunier
         \end{align*}
     \DoubleColumnEnd
     We get the required probability bound \eqref{th:weighted_erm_risk_bounds} by setting $K=K^\prime+3$.
+\end{proof}
 
-\subsection{Proof of Lemma \ref{le:maximal_entropy_inequality}} % (fold)
-\label{sub:proof_of_lemma_le:maximal_entropy_inequality}
-
+\begin{proof}[Proof of Lemma \ref{le:maximal_entropy_inequality}] % (fold)
     We first perform the control of $\E[\sup_{f\in\mathcal{F}}v_\weight(f-f_0)]$. For simplicity, we denote $H_\infty(\mathcal{F}, \epsilon)=\log N_\infty(\mathcal{F},\epsilon)$. For any integer $j$, we set $\sigma_j=\sigma2^{-j}$ and $H_j=H_\infty(\mathcal{F},\sigma_j^2)$. By definition of $H_j=H_\infty(\mathcal{F},\sigma_j^2)$, for any integer $j\ge 1$, we can define a mapping $\Pi_j$ from $\mathcal{F}$ to some finite collection of functions such that
     \begin{equation}
         \label{eq:bounded_entropy_mapping}
@@ -1965,14 +1964,13 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~4}{Usunier
     \[\sqrt{\normo{\weight{}}}\E[\sup_{f\in\mathcal{F}}-v_\weight(f)]\le 6\sum_{j=1}^{J+1}\sigma_j\sqrt{H_j},\]
     and the result follows. The control of $\E[\sup_{f\in\mathcal{F}}v_\weight(f-f_0)]$ can be performed analogously.
     % , changing lower into upper approximations in the dyadic approximation scheme described above.
+\end{proof}
 
-\section{Proofs Omitted in Section \ref{sec:a_moment_inequality_for_weighted_u_processes}} % (fold)
+\subsection{Proofs Omitted in Section \ref{sec:a_moment_inequality_for_weighted_u_processes}} % (fold)
 \label{sec:proofs_omitted_in_section_sec:a_moment_inequality_for_weighted_u_processes}
 
 % section proofs_omitted_in_section_sec:a_moment_inequality_for_weighted_u_processes (end)
-\subsection{Proof of Lemma \ref{le:weighted_decoupling_undecoupling}} % (fold)
-\label{sub:proof_of_lemma_le:weighted_decoupling_undecoupling}
-
+\begin{proof}[Proof of Lemma \ref{le:weighted_decoupling_undecoupling}] % (fold)
     This Lemma is derived from Lemma \ref{le:weighted_u_statistics_decoupling}, thus we can follow the similar arguments that can be found in \cite{de2012decoupling}.
 
     For any random variable $X$, we denote by $\mathcal L(X)$ its distribution. We denote by $\Sigma$ (respectively $\Sigma^\prime$) the sigma-filed generated by $\{X_1,\dots,X_n\}$ (respectively $\{X_1^\prime,\dots,X_n^\prime\}$). Let $(Y_{i,j}^\prime)_{(i,j)\in E}$ be Bernoulli random variables such that $\Pro[Y_{i,j}'=1\mid \Sigma, \Sigma^\prime]=\eta(X_i^\prime, X_j^\prime)$. Let $(\sigma_i)_{i=1}^n$ be independent Rademacher variables and define:
@@ -2107,10 +2105,9 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~4}{Usunier
     \end{align*}
     \SingleColumnEnd
     which \eqref{eq:weighted_u_statistic_coupling} follows.
+\end{proof}
 
-\subsection{Proof of Lemma \ref{le:weighted_randomization}} % (fold)
-\label{sub:proof_of_lemma_le:weighted_randomization}
-
+\begin{proof}[Proof of Lemma \ref{le:weighted_randomization}] % (fold)
     Re-using the notations used in the proof of Lemma \ref{le:weighted_u_statistics_decoupling}, we further introduce $(X_i^{\prime\prime})_{i=1}^n$, a copy of $(X_i^\prime)_{i=1}^n$, independent from $\Sigma$, $\Sigma^\prime$, and denote by $\Sigma^{\prime\prime}$ its sigma-field. Let $(\tilde{Y}_{i,j}^{\prime\prime})_{(i,j)\in E}$ Bernoulli random variables such that $\Pro[\tilde{Y}_{i,j}^{\prime\prime}=1\mid \Sigma,\Sigma^\prime,\Sigma^{\prime\prime}]=\eta(X_i,X_j^{\prime\prime})$. We now use classic randomization techniques and introduce our "ghost" sample:
     \DoubleColumn
 \begin{align*}
@@ -2171,11 +2168,10 @@ and get
 \end{align*}
 \SingleColumnEnd
 Then repeating the same argument but for the $(X_i)_{i=1}^n$ will give the similar inequality. The desired inequality will follows putting these two inequalities togather.
+\end{proof}
 
 % section proofs_of_the_appendix (end)
-\subsection{Proof of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}} % (fold)
-\label{sub:proof_of_theorem_}
-
+\begin{proof}[Proof of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}] % (fold)
 By the decoupling, undecoupling and randomization techniques (see Lemma~\ref{le:weighted_u_statistics_decoupling}, Lemma~\ref{le:weighted_u_statistics_randomization}), the symmetry and the degeneration of $f$ and the symmetry of $(w_{i,j})_{\pair{i,j}\in E}$, we have
 \begin{align*}
     \E[\sup_f&|\sum_{\pair{i,j}\in E}w_{i,j} f(X_i,X_j)|^q]\\
@@ -2288,57 +2284,9 @@ In order to derive the exponential inequality, we use Markov's inequality $\Pro[
 \end{align*}
 \SingleColumnEnd
 for an appropriate constant $C$.
+\end{proof}
 
-% subsection proofs_of_main_track (end)
-
-% \begin{proof}[Proof of Theorem 2]
-%     Since the solution $(a^*,b^*,\probdistri{}^*)$ and the vector $\bmlambda^*$ satisfy the KKT condition of program (10), according to \eqref{eq:lagrangian_function}, we have
-%     \[\partial L/\partial a = \frac{1}{1+r}a^{*-r/(1+r)}-\sum_{i=1}^n\lambda_i^{(3)*}n_i - \lambda^{(8)*} = 0\]
-%     then
-%     \[\frac{1}{1+r}a^{*-r/(1+r)}=\sum_{i=1}^n\lambda_i^{(3)*}n_i - \lambda^{(8)*}.\]
-%     Let us consider a new program called (P) that we add a constrain $a\le a^*-\epsilon$ to (10). The KKT condition of (P) is the same as (10) expect from the contains of $a$. We write the lagrangian function of (P) as
-%     \begin{equation}
-%         \label{eq:lagrangian_function}
-%         L^\prime(a,b,\probdistri{},\bmlambda)=L(a,b,\probdistri{},\bmlambda)+\lambda^{(10)}(a-a^*+\epsilon),
-%     \end{equation}
-%     then
-%     \begin{align*}
-%         &\partial L^\prime/\partial a = \frac{1}{1+r}(a^*-\epsilon)^{-r/(1+r)}-\sum_{i=1}^n\lambda_i^{(3)*}n_i - \lambda^{(8)*}\\
-%         &\qquad - (\frac{1}{1+r}(a^*-\epsilon)^{-r/(1+r)} - \frac{1}{1+r}a^{*-r/(1+r)}) = 0
-%     \end{align*}
-%     and
-%     \[\frac{1}{1+r}((a^*-\epsilon)^{-r/(1+r)} - a^{*-r/(1+r)})(a^*-\epsilon-a^*+\epsilon)=0.\]
-%     So the solution $(a^*-\epsilon,b^*,\probdistri{}^*)$ and the vector $(\bmlambda^*,\lambda^{(10)*})$ where
-%     \[\lambda^{(10)*}= \frac{1}{1+r}((a^*-\epsilon)^{-r/(1+r)} - a^{*-r/(1+r)})\]
-%     also satisfy the KKT condition of (P).
-    
-%     Next, we will show that $(a^*-\epsilon,b^*,\probdistri{}^*)$ is optimal for (P) by the invex of the Lagrangian function of (P) and the sufficient optimality condition of \citep{Hanson1981On}.
-%     Since $\bmlambda^*\ge 0$, the parts of $\probdistri{}$ in \eqref{eq:lagrangian_function} is convex (the only negative part is linear) and the parts of $b$ in \eqref{eq:lagrangian_function} is linear. When $a\le a^*$, the part of $a$
-%     \begin{align*}
-%         a^{1/(1+r)}    &- \sum_{i=1}^n\lambda_i^{(3)*}n_ia-\lambda^{(8)*}a\\
-%         &=a^{1/(1+r)} - a(\frac{1}{1+r}(a^*-\epsilon)^{-r/(1+r)}-\lambda^{(10)*})\\
-%         &= a^{1/(1+r)} - \frac{a}{1+r}a^{*-r/(1+r)}
-%     \end{align*}
-%     is monotonous.
-%     Choosing the vector function $\eta=(\eta_a,\eta_b,(\eta_{i,j})_{\pair{i,j}\in E})$ such that
-%     \begin{align*}
-%         &\eta_a(a_1,a_2)\\
-%         &= \frac{(1+r)(a_1^{1/(1+r)}-a_2^{1/(1+r)})+(a_2-a_1)a^{*-r/(1+r)}}{a_2^{-r/(1+r)}-a^{*-r/(1+r)}},
-%     \end{align*}
-%     $\eta_b(b_1,b_2)=(b_1-b_2)$ and $\eta_{i,j}(p^{(1)}_{i,j},p^{(2)}_{i,j})=p^{(1)}_{i,j}-p^{(2)}_{i,j}$ for all $\pair{i,j}\in E$, we have
-%     \begin{align*}
-%         L^\prime(&a_1,b_1,\probdistri{}_1,\bmlambda^*)-L^\prime(a_2,b_2,\probdistri{}_2,\bmlambda^*)\\
-%         &\ge \eta((a_1,b_1,\probdistri{}_1), (a_2,b_2,\probdistri{}_2))^{\rm T}\nabla L^\prime(a_2,b_2,\probdistri{}_2,\bmlambda^*)
-%     \end{align*}
-%     where $(a_1,b_1,\probdistri{}_1)$ and $(a_2,b_2,\probdistri{}_2)$ are feasible solutions of (P).
-%     So $L^\prime(a_1,b_1,\probdistri{}_1,\bmlambda^*)$ is invex. By the sufficient optimality conditions introduced by \citep{Hanson1981On}, $(a^*-\epsilon,b^*,\probdistri{}^*)$ is optimal for (P).
-
-%     Similarly, we add a constrain $a\ge a^*+\epsilon$ to (10) and have that $(a^*,b^*,\probdistri{}^*)$ is also optimal for this program.
-%     Finally, we make a conclusion that if $(a^*,b^*,\probdistri{}^*)$ satisfies the KKT condition of (10), then $(a^*,b^*,\probdistri{}^*)$ is optimal for (10).
-% \end{proof}
-\subsection{Proof of Corollary~\ref{cor:covering_number_inequality}} % (fold)
-\label{sub:proof_of_corollary_}
-
+\begin{proof}[Proof of Corollary~\ref{cor:covering_number_inequality}] % (fold)
     From Theorem~3, it is easy to know
     \DoubleColumn
     \begin{equation}
@@ -2426,7 +2374,8 @@ Clearly, $u_\rademacher$ satisfies the Kinchine inequality with degree $1$. Also
 Thus, $\E[U_\rademacher]\le K\|\weight{}\|_2\int_0^{2F}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon$.
 
 Pluging all these part into \eqref{eq:moment_inequality_of_weighted_u_statistics} will complete the corollary.
-% section technical_proofs (end)
+\end{proof}
+
 \section{Metric Entropy Inequality} % (fold)
 \label{sub:metric_entropy_inequality}
 
