@@ -169,7 +169,9 @@ Similar examples of networked data such as traffic networks \cite{min2011real}, 
 % \todo{@Lucien: it would be good if we can find more recent literature}
 
 Admittedly, many efforts have been made to design practical algorithms for learning from networked data, e.g., \cite{liben2007link,macskassy2007classification,li2016robust,garcia2016combining}. 
-However, not many theoretical guarantees of these methods have been established, which is the main concern of this paper. More specifically, this paper deals with risk bounds of \emph{classifiers trained with networked data (\problemabbr{}) \todo{modify the name}} whose goal is to train a classifier with examples in a data graph $G$. 
+However, not many theoretical guarantees of these methods have been established, which is the main concern of this paper. More specifically, this paper deals with risk bounds of \emph{classifiers trained with networked data (\problemabbr{})
+% \todo{modify the name}
+} whose goal is to train a classifier with examples in a data graph $G$. 
 Every vertex of $G$ is an object and described by a feature vector $X\in \xspace{}$ that is drawn independently and identically (i.i.d.) from an unknown distribution, while every edge corresponds to a training example whose input is a pair of feature vectors $\pair{X,X'}$ of the two ends of this edge and whose target value $Y$ is in $\{0,1\}$.
 % The classifier takes a pair of feature vectors $\pair{X,X'}$ as input to predict the target value $Y\in \set{0,1}$. 
 
@@ -410,8 +412,8 @@ The excess risk $\risk{}(r_\weight{})-\bayeserror{}$ depends on the hypothesis s
 A similar result using VC-dimension \cite{vapnik1971uniform} can be obtained as well. 
 
 \begin{definition}[covering numbers]
-\todo{\cite{wang2017learning}}
-Let $(\mathcal{F}, \lebesgue{}_p)$ be a metric space and $\epsilon>0$. We define the covering number $N(\mathcal{F},\lebesgue{}_p,\epsilon)$ be the minimal $l\in\mathbb{N}$ such that there exist $l$ disks in $\mathcal{F}$ with radius $\epsilon$ covering $\mathcal{F}$. If the context is clear, we simply denote $N(\mathcal{F},\lebesgue{}_p, \epsilon)$ by $N_p(\mathcal{F},\epsilon)$.
+% \todo{\cite{wang2017learning}}
+Let $(\mathcal{F}, \lebesgue{}_p)$ be a metric space with $\lebesgue{}_p$-pseudometric. We define the covering number $N(\mathcal{F},\lebesgue{}_p,\epsilon)$ be the minimal $l\in\mathbb{N}$ such that there exist $l$ disks in $\mathcal{F}$ with radius $\epsilon$ covering $\mathcal{F}$. If the context is clear, we simply denote $N(\mathcal{F},\lebesgue{}_p, \epsilon)$ by $N_p(\mathcal{F},\epsilon)$.
 
 % Let $\mathcal{F}$ be a metric space and $\epsilon>0$. We define the covering number $N(\mathcal{F}, \epsilon)$ to be the minimal $k\in\mathbb{N}$ such that there exists $k$ disks in $\mathcal{F}$ with radius $\epsilon$ covering $\mathcal{F}$. When $\mathcal{F}$ is compact, this number is finite.
 
