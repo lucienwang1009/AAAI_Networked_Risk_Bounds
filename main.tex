@@ -814,7 +814,7 @@ $a_{min}$;
 % \todo{@Lucien: $\bar{a}$ and $\tilde{a}$ look similar? maybe change one of them? }
 \end{algorithmic}
 \end{algorithm}
-\footnotetext{A number of methods have been proposed to solve LPs such as the simplex method, the ellipsoid method and the interior methods. The simplex method is usually fast in practice, but not theoretically efficient. On the contrary, the ellipsoid method is usually not fast in practice, but theoretically efficient. The recent interior methods usually performance well in both practice and theory, and they are sufficient for our analysis.}
+\footnotetext{A number of methods have been proposed to solve LPs such as the simplex method, the ellipsoid method and the interior methods. The simplex method is usually fast in practice, but not theoretically efficient. On the contrary, the ellipsoid method is usually not fast in practice, but theoretically efficient. The recent interior methods usually performance well in both practice and theory, and they are sufficient for our analysis \cite{boyd2004convex}.}
 
 \begin{theorem}
 \label{th:fptas}
@@ -925,7 +925,8 @@ Besides, this scheme, which coincides with $U$-statistics that \emph{average} th
         \includegraphics[width=0.17\textwidth]{complete_graph_2.pdf}
     }
   \SingleColumnEnd
-    \caption{(a) and (b) are two different data graphs while both of them correspond to the same line graph (a triangle). (c) and (d) are two weighting schemes for a complete graph formed by points $X_1$, $X_2$, $X_3$, $X_4$. Solid line means its weight $p>0$ while dash line means $p=0$. (c): Weight every example equally. (d): Only the two examples in an independent subset get equally non-zero weights and other weights are $0$ (dashed line). Note that $\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}$ of these two weighting schemes are the same, but (c) has the tighter risk bounds, as $\|\probdistri{}\|_2, \|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ of (c) are smaller than that of (d) respectively.}
+    \caption{(a) and (b) are two different data graphs, but both of them correspond to the same line graph (a triangle). 
+    (c) and (d) are two weighting schemes for a complete graph formed by points $X_1$, $X_2$, $X_3$, $X_4$. Solid line means its weight $p>0$ while dash line means $p=0$. (c): Weight every example equally. (d): Only the two examples in an independent subset get equally non-zero weights and other weights are $0$ (dashed line). Note that $\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}$ of these two weighting schemes are the same, but (c) has the tighter risk bounds, as $\|\probdistri{}\|_2, \|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ of (c) are smaller than that of (d) respectively.}
     \label{fig:weighting_scheme_complete_graph}
 \end{figure}
 
