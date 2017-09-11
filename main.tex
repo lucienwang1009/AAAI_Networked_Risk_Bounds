@@ -14,7 +14,7 @@
   \pdfinfo{
 /Title (2018 Formatting Instructions for Authors Using LaTeX)
 /Author (AAAI Press Staff)}
-\setcounter{secnumdepth}{0} 
+\setcounter{secnumdepth}{2} 
 
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage{booktabs}       % professional-quality tables
@@ -513,12 +513,12 @@ where
 is a weighted average of i.i.d.\ random variables with $h_r(X_i)=\E[q_r(X_i,X_j,Y_{i,j})\mid X_i]-\Lambda(r)$,
 \[U_\weight{}(r)=\frac{1}{\normo{\weight{}}}\sum_{\pair{i,j}\in E} w_{i,j}(\hat{h}_r(X_i,X_j)\]
 is a weighted \emph{degenerated} (i.e., the symmetric kernel $\hat{h}_r(x_1,x_2)$ such that $\E[\hat{h}_r(x_1, X_2)\mid X_2]=0$ for all $x_1\in\xspace{}$) $U$-statistic 
-\todo{@Lucien: if possible, explain what are degenerated U-statistics} of order $2$ with symmetric kernel 
+% \todo{@Lucien: if possible, explain what are degenerated U-statistics} of order $2$ with symmetric kernel 
 $\hat{h}_r(X_i,X_j)=\E[q_r(X_i,X_j,Y_{i,j})\mid X_i,X_j]-\Lambda(r)-h_r(X_i)-h_r(X_j)$ 
 and
 \[\widetilde{U}_\weight{}(r)=\frac{1}{\normo{\weight{}}}\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})\]
 with a \emph{degenerated} kernel 
-\todo{@Lucien: if possible, explain what are degenerated kernels}
+% \todo{@Lucien: if possible, explain what are degenerated kernels}
 $\tilde{h}_r(X_i,X_j,Y_{i,j})=q_r(X_i,X_j\linebreak,Y_{i,j})-\E[q_r(X_i,X_j,Y_{i,j})\mid X_i,X_j].$ 
 In the following, we bound the three terms $T_\weight{}, U_\weight{}$ and $\widetilde{U}_\weight{}$ in \eqref{eq:graph_reconstruction_hoeffding_decomposition} respectively. 
 
@@ -773,7 +773,7 @@ To solve the program \eqref{eq:optimization_program_final} efficiently, we propo
 $\epsilon$, $\beta$, $\delta$ and a graph $G$ that contains $n$ vertices and $m$ edges. 
 \Ensure 
 An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ for the program \eqref{eq:optimization_program_final}.
-\State Solve the following linear program (LP) efficiently\todo{@Lucien: I want to add this as a footnote or something similar "{A number of methods have been proposed to solve LPs such as the simplex method, the ellipsoid method and the interior methods. The simplex method is usually fast in practice, but not theoretically efficient. On the contrary, the ellipsoid method is usually not fast in practice, but theoretically efficient. The recent interior methods usually performance well in both practice and theory, and they are sufficient for our analysis.}"}, and obtain an $\epsilon$-approximation \todo{@Lucien: I change this to LP, so maybe here $\epsilon$ should be changed? related to $\beta$} $\tilde{a}$;
+\State Solve the following linear program (LP) efficiently\todo{@Lucien: I want to add this as a footnote or something similar "{A number of methods have been proposed to solve LPs such as the simplex method, the ellipsoid method and the interior methods. The simplex method is usually fast in practice, but not theoretically efficient. On the contrary, the ellipsoid method is usually not fast in practice, but theoretically efficient. The recent interior methods usually performance well in both practice and theory, and they are sufficient for our analysis.}"}, and obtain an $\epsilon$-approximation \todo{@Lucien: I change this to LP, so maybe here $\epsilon$ should be changed? related to $\beta$} $a_{min}$;
   \begin{equation}
     \label{eq:optimization_program_final_fix_b}
 \begin{aligned}
@@ -784,7 +784,7 @@ An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$
     & \sum_{\pair{i,j}\in E} p_{i,j}= 1
 \end{aligned}
 \end{equation}
-\State Let $Grid:=\{\tilde{a}+i\cdot\epsilon(1+\beta)/n \mid  i\in \mathbb{N} \hbox{ and } i\le n(1-\tilde{a})/\epsilon(1+\beta)\}$ and $Solutions := \emptyset$. 
+\State Let $Grid:=\{a_{min}+i\cdot\epsilon(1+\beta)/n \mid  i\in \mathbb{N} \hbox{ and } i\le n(1-\tilde{a})/\epsilon(1+\beta)\}$ and $Solutions := \emptyset$. 
 \For{$a \in Grid$}
   \State Solve the following program using some interior-point method with tolerance $\epsilon$ and add the solution into $Solutions$.
   \begin{equation}
@@ -823,7 +823,7 @@ We first analyze the running time of this algorithm.
 
 Now we show that this algorithm indeed results in an $\epsilon$-approximation of this optimal solution. 
 
-  For any optimal solution $a^*$ \todo{@Lucien: note that a solution should have three parts (a,b,p)}, if $a^*$ achieves minimum for the program \eqref{eq:optimization_program_final_fix_b}, we can find $a'$ in $Grid$ (actually $\tilde{a}$) such that 
+  For any optimal solution $(a^*, b^*, \probdistri{}^*)$ \todo{@Lucien: note that a solution should have three parts (a,b,p)}, if $a^*$ achieves minimum for the program \eqref{eq:optimization_program_final_fix_b}, we can find $a'$ in $Grid$ (actually $a_{min}$) such that 
   \begin{equation}
     \label{eq:a_mini_bound}
     (a')^{1/(1+\complexbound{})}\le (1+\epsilon)(a^*)^{1/(1+\complexbound{})}.
@@ -841,7 +841,7 @@ Now we show that this algorithm indeed results in an $\epsilon$-approximation of
     &\le (1+\epsilon)(a^*)^{1/(1+\complexbound{})}
   \end{aligned}
   \end{equation}
-  The third inequality follows from the fact that $1/n\le a$ \todo{@Lucien: and $1/n \le \tilde{a}$? }. 
+  The third inequality follows from the fact that $1/n\le a^*$ \todo{@Lucien: and $1/n \le \tilde{a}$? }. 
   We assume that the optimal solution for the program \eqref{eq:optimization_program_final_fix_a} is $b=b'$ when we fix $a=a'$.
   Because $(a^*,b^*)$ is feasible and $a'>a^*$, $(a', b^*)$ is always a feasible solution for the program \eqref{eq:optimization_program_final_fix_a}, and thus we have $b'\le b^*$.
   Besides, the interior-point method can produces an $\epsilon$-approximate solution $b''$ such that
@@ -916,10 +916,12 @@ Besides, this scheme, which coincides with $U$-statistics that \emph{average} th
 
 \subsection{Equal Weighting} % (fold)
 \label{sub:equally_weighting}
-Let us discuss further the equal weighting scheme that gives every example the same weight. Denote by $\Delta(G)$ the maximum degree of $G$ (note that this is not the maximum degree of $D_G$) and let $p_{i,j}=1/m$ (recall that $m$ is the number of examples) for all $\pair{i,j}\in E$. According to program \eqref{eq:optimization_program_1} \todo{@Lucien: since I merged two programs, we need to modify the \ref{} here}, using equal weighting scheme, the risk bounds are of the order 
+Let us discuss further the equal weighting scheme that gives every example the same weight. Denote by $\Delta(G)$ the maximum degree of $G$ (note that this is not the maximum degree of $D_G$) and let $p_{i,j}=1/m$ (recall that $m$ is the number of examples) for all $\pair{i,j}\in E$. According to program \eqref{eq:optimization_program_final},
+\todo{@Lucien: since I merged two programs, we need to modify the \ref{} here}
+using equal weighting scheme, the risk bounds are of the order 
 \begin{equation}
 \label{eq:equally_weighting_scheme}
-    O((\frac{\Delta(G)}{m})^{1/(1+\complexbound{})} + \frac{1}{\sqrt{m}}).
+    O((\frac{\Delta(G)}{m})^{1/(1+\complexbound{})} + \frac{1}{\sqrt{m}}),
 \end{equation}
 if $\delta\in (\exp(-m/\Delta(G)),1]$. In some cases, such as bounded degree graphs and complete graphs, this scheme provides reasonable risk bounds.
 Note that $\Delta(G)$ is smaller than the maximum size of cliques in its corresponding line graph $D_G$ and $\fcoloring{}(D_G)$ is larger than the maximum size of cliques in $D_G$, these bounds above are always better than the bounds of order $O(\sqrt{\fcoloring{}(D_G)/m})$ built by Janson's decomposition. 
