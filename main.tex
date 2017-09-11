@@ -346,7 +346,7 @@ In this case, \citet{clemenccon2008ranking} formulate the ``low-noise'' conditio
 If the graph is incomplete, one can use either Janson's decomposition \cite{janson2004large,Usunier2005,ralaivola2009chromatic,DBLP:conf/icml/RalaivolaA15} or the fractional matching approach by \citet{wang2017learning} to derive risk bounds. 
 The main differences between these two approaches are: 
 \begin{itemize}
-  \item \citet{wang2017learning} considers the data graph $G$ while Janson's decomposition uses only the line graph $D_G$. 
+  \item \citet{wang2017learning} consider the data graph $G$ while Janson's decomposition uses only the line graph $D_G$. 
    % and hence wastes some (important) information in the data graph $G$ (see the example in \ref{TODO}). 
   \item The fractional matching approach considers general weighted ERM while \citet{janson2004large}, \citet{Usunier2005}, \citet{ralaivola2009chromatic} and \citet{DBLP:conf/icml/RalaivolaA15} only prove bounds for unweighted ERM.
 \end{itemize}
@@ -359,7 +359,7 @@ Though \citet{wang2017learning} show improved risk bounds, as far as we know, th
 % Besides, our method can be applied to both complete and incomplete graph thus recover the result of  \citep{clemenccon2008ranking,papa2016graph}. 
 
 \todo{coherent}
-\paragraph{Line graphs} 
+\paragraph{Line Graphs} 
 %使用line graph会丢失信息
 %Janson's decomposition似乎不太好，这个只是结果? 要不说Janson's Decomposition? 要不说line graph based method? 
 Compared to Janson's decomposition, our method utilizes the additional dependency information in the data graph $G$. 
@@ -370,10 +370,10 @@ In Section~\ref{sub:equally_weighting}, we show that our bounds are tighter than
 
 %这个例子里，我们本来也就没法让它达到0,还是从monotonic来说？
 % 但是weighted的bounds是趋近0的（随着m的增加），而unweighted不行
-\paragraph{Asymptotic risk}
+\paragraph{Asymptotic Risk}
 As mentioned by \citet{wang2017learning}, if several examples share a vertex, then we are likely to put less weight on them because the influence of this vertex to the empirical risk should be bounded. Otherwise, if we treat every example equally, then these dependent examples may dominate the training process and lead to the risk bounds that do not converge to $0$ (see the example in Section~\ref{sub:equally_weighting}).
 
-\paragraph{Uniform bounds} 
+\paragraph{Uniform Bounds} 
 Although \citet{DBLP:conf/icml/RalaivolaA15} prove an entropy-base concentration inequality for networked data using Janson's decomposition, the %``low-noise'' 
 condition it required is too restrictive to be satisfied %in the case of complete graphs 
 (see Section~A.2 in appendix). 
@@ -794,7 +794,7 @@ An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$
 
 \EndFor\\
 \Return the vector $\bar{\probdistri{}}$ which makes $\bar{a}^{1/(1+\beta)}+\bar{b}$ smallest from $Solutions$. 
-\todo{@Lucien: $\bar{a}$ and $\tilde{a}$ look similar? maybe change one of them? }
+% \todo{@Lucien: $\bar{a}$ and $\tilde{a}$ look similar? maybe change one of them? }
 \end{algorithmic}
 \end{algorithm}
 
@@ -815,7 +815,9 @@ We first analyze the running time of this algorithm.
 
 Now we show that this algorithm indeed results in an $\epsilon$-approximation of this optimal solution. 
 
-  For any optimal solution $(a^*, b^*, \probdistri{}^*)$ \todo{@Lucien: note that a solution should have three parts (a,b,p)}, if $a^*$ achieves minimum for the program \todo{@Lucien: I am kind of confused here...} \eqref{eq:optimization_program_final_fix_b}, we can find $a'$ in $Grid$ (actually $a_{min}$) such that 
+For any optimal solution $(a^*, b^*, \probdistri{}^*)$, % \todo{@Lucien: note that a solution should have three parts (a,b,p)}, 
+if $a^*$ achieves minimum for the program % \todo{@Lucien: I am kind of confused here...} 
+\eqref{eq:optimization_program_final_fix_b}, we can find $a'$ in $Grid$ (actually $a_{min}$) such that 
   \begin{equation}
     \label{eq:a_mini_bound}
     (a')^{1/(1+\complexbound{})}\le (1+\epsilon)(a^*)^{1/(1+\complexbound{})}.
@@ -1512,7 +1514,7 @@ If the hypothesis set $\mathcal{F}$ is a subset of $\lebesgue{}_\infty(\xspace^2
 
 % section lagrangian_dual_problem (end)
 
-\todo{@Lucien: using "proofs omitted in Section \ref{}"}
+% \todo{@Lucien: using "proofs omitted in Section \ref{}"}
 \section{Technical Proofs} % (fold)
 \label{sec:technical_proofs}
 
