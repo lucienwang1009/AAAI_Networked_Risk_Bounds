@@ -361,7 +361,7 @@ Though \citet{wang2017learning} show improved risk bounds, as far as we know, th
 % Besides, our method can be applied to both complete and incomplete graph thus recover the result of  \citep{clemenccon2008ranking,papa2016graph}. 
 
 \todo{coherent}
-\paragraph{Line graphs} 
+\paragraph{Line Graphs} 
 %使用line graph会丢失信息
 %Janson's decomposition似乎不太好，这个只是结果? 要不说Janson's Decomposition? 要不说line graph based method? 
 Compared to Janson's decomposition, our method utilizes the additional dependency information in the data graph $G$. 
@@ -372,10 +372,10 @@ In Section~\ref{sub:equally_weighting}, we show that our bounds are tighter than
 
 %这个例子里，我们本来也就没法让它达到0,还是从monotonic来说？
 % 但是weighted的bounds是趋近0的（随着m的增加），而unweighted不行
-\paragraph{Asymptotic risk}
+\paragraph{Asymptotic Risk}
 As mentioned by \citet{wang2017learning}, if several examples share a vertex, then we are likely to put less weight on them because the influence of this vertex to the empirical risk should be bounded. Otherwise, if we treat every example equally, then these dependent examples may dominate the training process and lead to the risk bounds that do not converge to $0$ (see the example in Section~\ref{sub:equally_weighting}).
 
-\paragraph{Uniform bounds} 
+\paragraph{Uniform Bounds} 
 Although \citet{DBLP:conf/icml/RalaivolaA15} prove an entropy-base concentration inequality for networked data using Janson's decomposition, the %``low-noise'' 
 condition it required is too restrictive to be satisfied %in the case of complete graphs 
 (see Section~A.2 in appendix). 
@@ -409,7 +409,7 @@ The excess risk $\risk{}(r_\weight{})-\bayeserror{}$ depends on the hypothesis s
 % can be decomposed as
 % \[\risk{}(r_\weight{})-\bayeserror{} = [\risk{}(r_\weight{})-\inf_{r\in R}\risk{}(r)] + [\inf_{r\in R}\risk{}(r)-\bayeserror{}].\]
 % To bound the approximation error $\inf_{r\in R}\risk{}(r)-\bayeserror{}$, we need to measure the hypothesis set $R$.
-A similar result using VC-dimension \cite{vapnik1971uniform} can be obtained as well. 
+A similar but looser result using VC-dimension \cite{vapnik1971uniform} can be obtained as well. 
 
 \begin{definition}[covering numbers]
 % \todo{\cite{wang2017learning}}
@@ -431,7 +431,7 @@ In this paper, we focus on the $\lebesgue_\infty$ covering number $N_\infty(\mat
 There exists a nonnegative number $\complexbound < 1$ and a constant $K$ such that $\log N_\infty(\mathcal{F},\epsilon) \le K\epsilon^{-\complexbound}$ for all $\epsilon\in (0,1]$. 
 \end{assumption}
 
-Note that the constant $K$ is independent of $m$. 
+% Note that the constant $K$ is independent of $m$. 
 Similar to \cite{Massart2006} and \cite{rejchel2012ranking}, we restrict to $\complexbound{} < 1$, whereas in the empirical process theory this exponent usually belongs to $[0,2)$. This restriction is needed to prove Lemma~\ref{le:uniform_approximation}, which involves the integral of $\log N_\infty(\mathcal{F},\epsilon)$ through $0$. 
 % \todo{@Lucien: maybe move the discussion of VC dimension to some other place, and point out that $K$ is independent of $m$}
 % By Sauer's lemma \cite{sauer1972density}, one can easily prove that any binary function class with VC-dimension $V$ satisfies Assumption \ref{ass:covering_number} with $K=V\log(em/V)$ and $\complexbound{}=0$. 
@@ -780,7 +780,7 @@ An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$
 \end{equation}
 \State Let $Grid:=\{a_{min}+i\cdot\epsilon(1+\beta)/n \mid  i\in \mathbb{N} \hbox{ and } i\le n(1-\tilde{a})/\epsilon(1+\beta)\}$ and $Solutions := \emptyset$. 
 \For{$a \in Grid$}
-  \State Solve the following program using some interior-point method with tolerance $\epsilon$ and add the solution into $Solutions$.
+  \State Solve the following program using some interior-point method with \todo tolerance $\epsilon$ and add the solution into $Solutions$.
   \begin{equation}
     \label{eq:optimization_program_final_fix_a}
 \begin{aligned}
@@ -835,7 +835,8 @@ Now we show that this algorithm indeed results in an $\epsilon$-approximation of
     &\le (1+\epsilon)(a^*)^{1/(1+\complexbound{})}
   \end{aligned}
   \end{equation}
-  The third inequality follows from the fact that $1/n\le a^*$ \todo{@Lucien: and $1/n \le \tilde{a}$? }. 
+  The third inequality follows from the fact that $1/n\le a^*$.
+  % \todo{@Lucien: and $1/n \le \tilde{a}$? }
   We assume that the optimal solution for the program \eqref{eq:optimization_program_final_fix_a} is $b=b'$ when we fix $a=a'$.
   Because $(a^*,b^*)$ is feasible and $a'>a^*$, $(a', b^*)$ is always a feasible solution for the program \eqref{eq:optimization_program_final_fix_a}, and thus we have $b'\le b^*$.
   Besides, the interior-point method can produces an $\epsilon$-approximate solution $b''$ such that
