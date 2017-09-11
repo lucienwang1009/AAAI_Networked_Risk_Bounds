@@ -658,7 +658,7 @@ Although this optimization problem is \emph{concave} unless the hypothesis set i
  % and guarantee that the new scheme is not worse than the old one. 
 %So there exists a trade-off between optimization time and tight risk bounds.
 \begin{definition}[FPTAS]
-  An algorithm $\mathcal{A}$ is a FPTAS for an optimization problem $\Pi$, if given an input $\mathcal{I}$ for $\Pi$ and $\epsilon>0$, $\mathcal{A}$ finds in time polynomial in the size of $\mathcal{I}$ and in $1/\epsilon$, a solution $s$ for $\mathcal{I}$ that satisfies
+  An algorithm $\mathcal{A}$ is a FPTAS for an optimization problem $\Pi$, if given an input $\mathcal{I}$ for $\Pi$ and $\epsilon>0$, $\mathcal{A}$ finds in time polynomial in both the size of $\mathcal{I}$ and $1/\epsilon$, a solution $s$ for $\mathcal{I}$ that satisfies
   \[|f_\Pi(s)-\mathrm{OPT}|\le \epsilon \cdot \mathrm{OPT},\]
   where $f_\Pi$ is the objective function of $\Pi$ and $\mathrm{OPT}$ is the optimal value of a solution for $\mathcal{I}$.
 \end{definition}
@@ -771,13 +771,13 @@ However, these methods are lack of complexity analysis and may even lead to a lo
 To solve the program \eqref{eq:optimization_program_final} efficiently, we propose Algorithm \ref{alg:FPTAS} and show that it is a fully polynomial-time approximation scheme for \eqref{eq:optimization_program_final}. 
 
 \begin{algorithm}[!htb] 
-\caption{FPTAS for weighting optimization.} 
+\caption{FPTAS for weighting vector optimization.} 
 \label{alg:FPTAS} 
 \begin{algorithmic}[1]
 \Require 
 $\epsilon$, $\beta$, $\delta$ and a graph $G$ that contains $n$ vertices and $m$ edges. 
 \Ensure 
-An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ for the program \eqref{eq:optimization_program_final}.
+An approximate optimal weighting vector $\bar{\probdistri{}}$ for the program \eqref{eq:optimization_program_final}.
 \State Solve the following linear program (LP) efficiently\footnotemark,
 % \todo{@Lucien: I want to add this as a footnote or something similar "{A number of methods have been proposed to solve LPs such as the simplex method, the ellipsoid method and the interior methods. The simplex method is usually fast in practice, but not theoretically efficient. On the contrary, the ellipsoid method is usually not fast in practice, but theoretically efficient. The recent interior methods usually performance well in both practice and theory, and they are sufficient for our analysis.}"}
 and obtain an $\epsilon$-approximation 
@@ -793,7 +793,7 @@ $a_{min}$;
     & \sum_{\pair{i,j}\in E} p_{i,j}= 1
 \end{aligned}
 \end{equation}
-\State Let $Grid:=\{a_{min}+i\cdot\epsilon(1+\beta)/n \mid  i\in \mathbb{N} \hbox{ and } i\le n(1-\tilde{a})/\epsilon(1+\beta)\}$ and $Solutions := \emptyset$. 
+\State Let $Grid:=\{a_{min}+i\cdot\epsilon(1+\beta)/n \mid  i\in \mathbb{N} \hbox{ and } i\le n(1-a_{min})/\epsilon(1+\beta)\}$ and $Solutions := \emptyset$. 
 \For{$a \in Grid$}
   \State Use some interior-point methods to obtain an $\epsilon$-approximation of the following program and add the solution into $Solutions$.
   \begin{equation}
@@ -810,7 +810,7 @@ $a_{min}$;
 \end{equation}
 
 \EndFor\\
-\Return the vector $\bar{\probdistri{}}$ which makes $\bar{a}^{1/(1+\beta)}+\bar{b}$ smallest from $Solutions$. 
+\Return the vector $\bar{\probdistri{}}$ which makes $a^{1/(1+\beta)}+b$ smallest from $Solutions$. 
 % \todo{@Lucien: $\bar{a}$ and $\tilde{a}$ look similar? maybe change one of them? }
 \end{algorithmic}
 \end{algorithm}
@@ -827,8 +827,8 @@ We first analyze the running time of this algorithm.
   Note that $1/n\le a\le 1$ if the graph is not empty. % in the program \eqref{eq:optimization_program_final}. 
   In Algorithm \ref{alg:FPTAS}, we first divide the problem into at most
   \[\frac{1-1/n}{\epsilon(1+\beta)/n}=\frac{n-1}{\epsilon(1+\complexbound{})}\]
-  convex programs, then each of which can produce an $\epsilon$-approximate solution by some interior-point methods. 
-  Since the interior-point method is a FPTAS for convex problems \cite{boyd2004convex}, solving each of these programs needs polynomial time in the problem size $m+n$ and $1/\epsilon$. 
+  convex programs, each of which produces an $\epsilon$-approximate solution by some interior-point methods. 
+  Since interior-point methods are FPTAS for convex problems \cite{boyd2004convex}, solving each of these programs needs polynomial time in the problem size $m+n$ and $1/\epsilon$. 
   Thus, the complexity of Algorithm \ref{alg:FPTAS} is also polynomial in $m+n$ and $1/\epsilon$.
 
 Now we show that this algorithm indeed results in an $\epsilon$-approximation of this optimal solution. 
@@ -859,18 +859,19 @@ if $a^*$ achieves minimum for the program % \todo{@Lucien: I am kind of confused
   The third inequality follows from the fact that $1/n\le a^*$.
   % \todo{@Lucien: and $1/n \le \tilde{a}$? }
   We assume that the optimal solution for the program \eqref{eq:optimization_program_final_fix_a} is $b=b'$ when we fix $a=a'$.
-  Because $(a^*,b^*)$ is feasible and $a'>a^*$, $(a', b^*)$ is always a feasible solution for the program \eqref{eq:optimization_program_final_fix_a}, and thus we have $b'\le b^*$.
-  Besides, the interior-point method can produces an $\epsilon$-approximate solution $b''$ such that
+  Because $(a^*,b^*)$ is feasible and $a'>a^*$, $(a', b^*)$ is always a feasible solution for the program \eqref{eq:optimization_program_final_fix_a}, which leads to $b'\le b^*$.
+  Besides, interior-point methods can produces an $\epsilon$-approximate solution $b''$ such that
   \begin{equation}
     \label{eq:b_bound}
     b''\le (1+\epsilon)b'\le (1+\epsilon)b^*.
   \end{equation}
-  Finally, we select the optimal solution $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ from all possible solutions. 
-  Combining \eqref{eq:a_mini_bound}, \eqref{eq:a_bound} and \eqref{eq:b_bound}, we have
+  Finally, we select the approximate optimal weighting vector $\bar{\probdistri{}}$ from all possible solutions. 
+  Combining \eqref{eq:a_mini_bound}, \eqref{eq:a_bound} and \eqref{eq:b_bound}, we have the objective value for $\bar{\probdistri{}}$
   \begin{align*}
-    (\bar{a})^{1/(1+\complexbound{})} + \bar{b} & \le (a')^{1/(1+\complexbound{})} + b''\\
+    (a_{\bar{\probdistri{}}})^{1/(1+\complexbound{})} + b_{\bar{\probdistri{}}} & \le (a')^{1/(1+\complexbound{})} + b''\\
     &\le (1+\epsilon)((a^*)^{1/(1+\complexbound{})} + b^*).
   \end{align*}
+  where $(a_{\bar{\probdistri{}}}, b_{\bar{\probdistri{}}}, \bar{\probdistri{}})\in Solutions$. 
 \end{proof}
 
 % \todo{@Lucien: write the result as a theorem}
@@ -966,9 +967,10 @@ Consider a data graph with $|E|=m \gg 1$ and $E$ consists of $m/2$ disjoint edge
 \label{sec:conclusion}
 In this paper, we consider weighted ERM of the symmetric \problemabbr{} problem and establish tight universal risk bounds under the ``low-noise'' condition. 
 There new bounds are tighter in the case of incomplete graphs and can be degenerate to the known tightest bound when graphs are complete. 
-Based on this result, one can train a classifier with better generalization by putting proper weights on networked examples. 
+Based on this result, one can train a classifier with better generalization by putting proper weights on training examples. 
+We propose an efficient algorithm to obtain the approximate optimal weighting vector and prove the algorithm is a FPTAS for the weighting optimization problem.
+Finally, we present two special situations to show the advantages of our new risk bounds.
 In particular, we show that, in terms of these risk bounds, weighting all examples equally is optimal for complete graphs but not always good for incomplete graphs. 
-We also propose efficient optimization algorithms to improve the existing weighting schemes in general cases. 
 
 % Section~conclusion (end)
 
