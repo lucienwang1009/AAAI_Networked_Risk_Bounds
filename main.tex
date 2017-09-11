@@ -376,13 +376,14 @@ Though \citet{wang2017learning} show improved risk bounds, as far as we know, th
 Compared to Janson's decomposition, our method utilizes the additional dependency information in the data graph $G$. 
 For example, the complete line graph with three vertices (i.e., triangle) corresponds to two different data graphs, as illuminated in Figure~\ref{fig:weighting_scheme_complete_graph}.
 Hence, line graph based methods ignore some important information in the data graph. 
-This neglect makes it unable to improve bounds, no matter whether considering weighted ERM (see Section~A.1 in the appendix). 
+This negligence makes it unable to improve bounds, no matter whether considering weighted ERM or not (see Section~A.1 in the appendix). 
 In Section~\ref{sub:equally_weighting}, we show that our bounds are tighter than that of line graph based methods. 
 
 %这个例子里，我们本来也就没法让它达到0,还是从monotonic来说？
 % 但是weighted的bounds是趋近0的（随着m的增加），而unweighted不行
 \paragraph{Asymptotic Risk}
-As mentioned by \citet{wang2017learning}, if several examples share a vertex, then we are likely to put less weight on them because the influence of this vertex to the empirical risk should be bounded. Otherwise, if we treat every example equally, then these dependent examples may dominate the training process and lead to the risk bounds that do not converge to $0$ (see the example in Section~\ref{sub:equally_weighting}).
+As mentioned by \citet{wang2017learning}, if several examples share a vertex, then we are likely to put less weight on them because the influence of this vertex to the empirical risk should be bounded. 
+Otherwise, if we treat every example equally, then these dependent examples may dominate the training process and lead to the risk bounds that do not converge to $0$ (see the example in Section~\ref{sub:equally_weighting}).
 
 \paragraph{Uniform Bounds} 
 Although \citet{DBLP:conf/icml/RalaivolaA15} prove an entropy-base concentration inequality for networked data using Janson's decomposition, the %``low-noise'' 
