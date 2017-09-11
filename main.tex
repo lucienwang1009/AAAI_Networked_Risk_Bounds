@@ -152,7 +152,7 @@ Palo Alto, California 94303\\
 Networked data, in which every training example involves two objects and may share some common objects with others, is used in many machine learning tasks such as learning to rank and link prediction. 
 A challenge of learning from networked examples is that target values are not known for some pairs of objects. 
 In this case, neither the classical i.i.d.\ assumption nor techniques based on complete U-statistics can be used. 
-Most existing theoretical results of this problem only deal with the classical ERM principle that always weights every example equally, 
+Most existing theoretical results of this problem only deal with the classical ERM\todo{full name?} principle that always weights every example equally, 
 but this strategy leads to unsatisfactory bounds. 
 We consider general weighted ERM and show new universal risk bounds for this problem. 
 These new bounds naturally define an optimization problem which leads to appropriate weights for networked examples. 
@@ -190,13 +190,14 @@ We show that, the \emph{``low-noise'' condition}, also called the \emph{Mammen-T
 Based on these new bounds, we can efficiently find better weighting schemes. 
 \todo{@Lucien and Yuyi: add something about the algorithm}
 \todo{add contributions}
-Our contributions are three-fold:
+Our contributions are two-fold:
 
-\textbf{Moment inequalities for weighted $U$-processes}. We prove moment inequalities for weighted $U$-processes, the general case of incomplete $U$-processes, which involve adding weights on every example.
+\textbf{Universal Risk Bounds}. We prove universal new risk bounds for \problemabbr{}. 
+On the one hand, these bounds are more general, because they are proved for the situation that the graph is incomplete in \problemabbr{}. 
+On the other hand, these bounds are based on weighted ERM and the ``low-noise'' condition, which makes them tighter than previous results on the incomplete graph.
 
-\textbf{Tight universal bounds}. Using the moment inequality for weighted $U$-processes, we prove universal risk bounds for \problemabbr{} by weighted ERM. These bounds are of the same order of earlier results for complete graphs but tighter for incomplete graphs.
-
-\textbf{Optimization of bounds}. Based on these risk bounds, we propose some optimization programs to design the proper weighting schemes.
+\textbf{Optimization for Risk Bounds}. Since our new risk bounds depend on the weights added to every training examples, to achieve the tightest bound, we need to sovle a concave program for weighting vector.
+Thus, we propose an algorithm to obtain the approximate optimal weighting vector and prove that the algorithm is a FPTAS for this concave program.
 
 \section{Preliminaries} % (fold)
 \label{sec:preliminaries}
@@ -367,9 +368,8 @@ Though \citet{wang2017learning} show improved risk bounds, as far as we know, th
 % \textbf{Expressiveness} 
 % We argue that instead of putting the same weight on training examples \citep{usunier2006generalization,ralaivola2009chromatic}, weighted ERM can be used to express important learning principles of interest, such as the unweighted ERM and integral-matching based method which trains the model from the maximum independent set of the training data.
 % Besides, our method can be applied to both complete and incomplete graph thus recover the result of  \citep{clemenccon2008ranking,papa2016graph}. 
-\todo{Compared with these results, the following three intuitions make our new risk bounds tighter and more general.}
 
-\todo{coherent}
+\todo{coherent}Compared with these results, the following three intuitions make our new risk bounds tighter and more general.
 \paragraph{Line Graphs} 
 %使用line graph会丢失信息
 %Janson's decomposition似乎不太好，这个只是结果? 要不说Janson's Decomposition? 要不说line graph based method? 
@@ -988,12 +988,15 @@ We also propose efficient optimization algorithms to improve the existing weight
 \appendix
 \label{sec:appendix}
 
-This appendix is organized as follows. Section \ref{sec:fractional_coloring_approach} \todo{@Lucien: \ref{ } does not show, please check carefully for every place} provides new risk bounds for weighted ERM following the Janson's decomposition and show that it cannot improve prior results. 
-Section \ref{sub:weighted_risk_bounds} establishes the tight risk bounds for weighted ERM on i.i.d. examples under the "low-noise" condition and proves upper bounds involved in covering number for weighted empirical processes. 
+This appendix is organized as follows. Section \ref{sec:fractional_coloring_approach} 
+% \todo{@Lucien: \ref{ } does not show, please check carefully for every place}
+provides new risk bounds for weighted ERM following the Janson's decomposition and show that it cannot improve prior results. 
+Section \ref{sec:weighted_risk_bounds} establishes universal risk bounds for weighted ERM on i.i.d. examples under the "low-noise" condition and proves upper bounds involved in covering number for weighted empirical processes. 
 Section \ref{sec:a_moment_inequality_for_weighted_u_processes} presents the classical symmetrization and randomization tricks and decoupling inequality for degenerated weighted $U$-processes and the degenerated part $\widetilde{U}_\weight{}(r)$.
 Then, some useful inequalities including the moment inequality are proved for weighted Rademacher chaos.
-Section \ref{sec:technical_proofs} and \ref{sec:proofs_of_the_appendix} provide technical proofs for the main track and the appendix.
-Section \ref{sub:metric_entropy_inequality} introduces the Khinchine inequality and gives the metric entropy inequality for Rademacher chaos.
+We mainly use these inequalities to bound $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$.
+Section \ref{sec:technical_proofs} provides technical proofs omitted from the main track and the appendix.
+For the sake of completeness, Section \ref{sub:metric_entropy_inequality} presents the Khinchine inequality and the metric entropy inequality for Rademacher chaos.
 
 \section{Janson's Decomposition} % (fold)
 \label{sec:fractional_coloring_approach}
