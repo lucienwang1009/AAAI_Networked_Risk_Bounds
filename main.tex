@@ -163,7 +163,7 @@ This optimization problem is concave, so we devise a new polynomial-time approxi
 \label{sec:introduction}
 \textit{``No man is an island, entire of itself ...''}, the beginning of a well-known poem by the 17th century English poet John Donne, might be able to explain why social networking websites are so popular. 
 These social media not only make communications convenient and enrich our lives, but also bring us data, of an unimaginable amount, that is intrinsically networked. 
-Social network data nowadays is widely used in research on social science, network dynamics, and as an inevitable fate, data mining and machine learning. 
+Social network data nowadays is widely used in research on social science, network dynamics, and as an inevitable fate, data mining and machine learning\cite{scott2017social}. 
 Similar examples of networked data such as traffic networks \cite{min2011real}, chemical interaction networks \cite{szklarczyk2014string}, citation networks \cite{dawson2014current} abound throughout the machine learning world. 
 
 % \todo{@Lucien: it would be good if we can find more recent literature}
@@ -340,7 +340,7 @@ Let $E_<=\{\pair{i,j}: i<j, \pair{i,j}\in E\}$ be the ordered edge set. If Condi
 
 We now have a look at previous works that are closely related to our work, as shown in Table~\ref{ta:methods}, and present the merits of our method. 
 \citet{Biau2006}, \citet{clemenccon2008ranking} and \citet{papa2016graph} deal with the case when the graph is complete, i.e., the target value of every pair of vertices is known. 
-In this case, \citet{clemenccon2008ranking} formulate the ``low-noise'' condition for the ranking problem and demonstrate that this condition can lead to tighter risk bounds by the moment inequality of $U$-processes.
+In this case, \citet{clemenccon2008ranking} formulate the ``low-noise'' condition for the ranking problem and demonstrate that this condition can lead to tighter risk bounds by the moment inequality for $U$-processes.
 \citet{papa2016graph} further consider the graph reconstruction problem introduced by \citet{Biau2006} and show this problem always satisfies the ``low-noise'' condition. 
 
 If the graph is incomplete, one can use either Janson's decomposition \cite{janson2004large,Usunier2005,ralaivola2009chromatic,DBLP:conf/icml/RalaivolaA15} or the fractional matching approach by \citet{wang2017learning} to derive risk bounds. 
@@ -358,6 +358,7 @@ Though \citet{wang2017learning} show improved risk bounds, as far as we know, th
 % We argue that instead of putting the same weight on training examples \citep{usunier2006generalization,ralaivola2009chromatic}, weighted ERM can be used to express important learning principles of interest, such as the unweighted ERM and integral-matching based method which trains the model from the maximum independent set of the training data.
 % Besides, our method can be applied to both complete and incomplete graph thus recover the result of  \citep{clemenccon2008ranking,papa2016graph}. 
 
+\todo{coherent}
 \paragraph{Line graphs} 
 %使用line graph会丢失信息
 %Janson's decomposition似乎不太好，这个只是结果? 要不说Janson's Decomposition? 要不说line graph based method? 
@@ -370,7 +371,7 @@ In Section~\ref{sub:equally_weighting}, we show that our bounds are tighter than
 %这个例子里，我们本来也就没法让它达到0,还是从monotonic来说？
 % 但是weighted的bounds是趋近0的（随着m的增加），而unweighted不行
 \paragraph{Asymptotic risk}
-As mentioned by \citet{wang2017learning}, if several examples share a vertex, then we are likely to put less weight on them because the influence of this vertex to the empirical risk should be bounded. Otherwise, if we treat every example equally, then these dependent examples may dominate the training process and lead to risk bounds that do not converge to $0$ (see the example in Section~\ref{sub:equally_weighting}).
+As mentioned by \citet{wang2017learning}, if several examples share a vertex, then we are likely to put less weight on them because the influence of this vertex to the empirical risk should be bounded. Otherwise, if we treat every example equally, then these dependent examples may dominate the training process and lead to the risk bounds that do not converge to $0$ (see the example in Section~\ref{sub:equally_weighting}).
 
 \paragraph{Uniform bounds} 
 Although \citet{DBLP:conf/icml/RalaivolaA15} prove an entropy-base concentration inequality for networked data using Janson's decomposition, the %``low-noise'' 
@@ -397,7 +398,7 @@ in absence of any restrictive condition imposed on the data distribution.
 \section{Universal Risk Bounds} % (fold)
 \label{sec:risk_bounds}
 % give an introduction.
-In this section, we use covering numbers as the complexity measurement of hypothesis sets, and then prove that tighter universal risk bounds are always attained by the minimizers of the weighted empirical risk \eqref{eq:graph_reconstruction_weighted_erm}.
+In this section, we use covering numbers as the complexity measurement of hypothesis sets to prove that tighter universal risk bounds are always attained by the minimizers of the weighted empirical risk \eqref{eq:graph_reconstruction_weighted_erm}.
 % In this section, we show that the risk bounds established by \citep{wang2017learning} can be improved without any additional assumptions on the data distribution and the results obtained by \citep{papa2016graph} can be generalized into the case of incomplete graphs. 
 
 \subsection{Covering Numbers} % (fold)
@@ -467,10 +468,9 @@ Now we are ready to show the tighter risk bounds for weighted empirical risk by 
 From Theorem~\ref{th:main_theorem}, for all
 $\delta\in\Bigg(\exp\Big(-\min(\|\weight{}\|_2/\|\weight{}\|_\infty,\|\weight{}\|_2^2/\|\weight{}\|_\max^2)\Big),1\Bigg],$ the risk bounds are of the order
 $O\left((1/\normo{\weight{}})^{1/(1+\complexbound)}+\|\weight{}\|_2/\normo{\weight{}}\right).$ 
-In this case, our bounds are tighter than $O(1/\sqrt{\normo{\weight{}}})$ (recall that $\weight{}$ must be a fractional matching and $0<\complexbound{}<1$)
-as $\|\weight\|_2/\normo{\weight}\le 1/\sqrt{\normo{\weight}}$.
+In this case, our bounds are tighter than $O(1/\sqrt{\normo{\weight{}}})$ as $\|\weight\|_2/\normo{\weight}\le 1/\sqrt{\normo{\weight}}$ (recall that $\weight{}$ must be a fractional matching and $0<\complexbound{}<1$).
 If $G$ is complete and every example is equally weighted, 
-the bounds of the order $O((1/n)^{1/(1+\complexbound)})$ achieves the same results in \cite{papa2016graph} (with the same condition on $\delta$ but different complexity measurements of the hypothesis set).
+the bounds of the order $O((1/n)^{1/(1+\complexbound)})$ achieves the same results in \cite{papa2016graph} with the same condition on $\delta$ but different complexity measurements of the hypothesis set.
 
 \begin{remark*}
 Theorem~\ref{th:main_theorem} provides universal risk bounds no matter what the distribution of the data is. The factor of $2$ in front of the approximation error $\inf_{r\in R}\risk(r)-\bayeserror$ has no special meaning and can be replaced by any constant larger than $1$ with a cost of increasing the constant $C$. 
@@ -483,8 +483,7 @@ Hence, Theorem~\ref{th:main_theorem} improves their results if the approximation
 %     The different orders of $\log(1/\delta)$ and norms is probably because we proved the bounds of $U_\weight{}$ and $\widetilde{U}_\weight{}$ for all models in the hypothesis set instead of the model with minimal weighted empirical risk which plays the main role in bounding $T_\weight{}$.
 % \end{remark}
 
-In the rest of this section, we outline the main ideas to obtain this result (the detailed proofs can be found in Section~D in the 
-appendix).
+In the rest of this section, we outline the main ideas to obtain this result.
 % later I'd like to split the main track and appendix.
 We first define
 \[q_r(x_1,x_2,y_{1,2}):=\lossf(r, x_1,x_2,y_{1,2})-\lossf(r^*,x_1,x_2,y_{1,2})\]
@@ -550,8 +549,8 @@ In the following, we bound the three terms $T_\weight{}, U_\weight{}$ and $\wide
 \end{lemma}
 
 % *** give some intuition
-To prove Lemma~\ref{le:uniform_approximation}, we show that $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by Rademacher chaos using classical symmetrization and randomization tricks combined with the decoupling method (see Section~B in the Appendix). We handle these Rademacher chaos by generalizing the approach used in \cite{clemenccon2008ranking}. 
-Specifically, we utilize the moment inequalities from \cite{Boucheron2005} to convert them into a sum of simpler processes, which can be bounded by the metric entropy inequality for Khinchine-type processes \citep{see}{Proposition 2.6}{Dembo1994} and Assumption~\ref{ass:covering_number}.
+To prove Lemma~\ref{le:uniform_approximation}, we show that $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by Rademacher chaos using classical symmetrization and randomization tricks combined with the decoupling method. We handle these Rademacher chaos by generalizing the moment inequality for $U$-statistics in \cite{clemenccon2008ranking}. 
+Specifically, we utilize the moment inequalities from \cite{Boucheron2005} to convert them into a sum of simpler processes, which can be bounded by the metric entropy inequality for Khinchine-type processes \citep{see}{Proposition 2.6}{Dembo1994} and Assumption~\ref{ass:covering_number}. The detailed proofs can be found in Section~B in the Appendix.
 
 Lemma~\ref{le:uniform_approximation} shows that the contribution of the degenerated parts $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ to the excess risk can be bounded. 
 This implies that minimizing $\Lambda_\weight{}(r)$ is approximately equivalent to minimizing $T_\weight{}(r)$ and thus $r_\weight{}$ is a $\rho$-minimizer of $T_\weight{}(r)$ in the sense that $T_\weight{}(r_\weight{})\le \rho+\inf_{r\in R}T_\weight{}(r)$.
@@ -636,9 +635,9 @@ Another advantage of our result is that if the risk bounds are optimized, we cou
 \section{Weighting Vector Optimization} % (fold)
 \label{sec:weighting_scheme}
 
-In the previous section, we have established risk bounds for weighted ERM with networked data. 
+% In the previous section, we have established risk bounds for weighted ERM with networked data. 
 In this section, we first formulate the optimization problem that minimizes the risk bounds in Theorem \ref{th:main_theorem}. 
-Although this optimization problem is \emph{concave} unless the hypothesis set is finite, we present a \emph{fully polynomial-time approximation scheme (FPTAS)} to solve this problem.
+Although this optimization problem is \emph{concave} unless the hypothesis set is finite, we present a \emph{fully polynomial-time approximation scheme (FPTAS)} to solve it.
 % Then, we provide some methods that optimize the risk bounds progressively to find proper weights for general cases. 
 % \todo{@Lucien: maybe we now just mention this instead of presenting the details of this method, but need to point out we are solving a CONCAVE problem}
 % Using these methods, we are able to improve existing weighting schemes.
@@ -741,10 +740,10 @@ By introducing two auxiliary variables $a$ and $b$, solving the original program
 \end{equation}
 \DoubleColumnEnd
 Note that the constraints are all convex. 
-If $\complexbound{}=0$, e.g., the hypothesis set is finite, then the objective function becomes linear and \eqref{eq:optimization_program_final} is a convex optimization problem that can be solved by standard convex optimization methods (see e.g., \cite{boyd2004convex}) such as interior-point methods. 
+If the hypothesis set is finite, e.g., $\complexbound{}=0$ and $K=|R|$, then the objective function becomes linear and thus \eqref{eq:optimization_program_final} is a convex optimization problem that can be solved by standard convex optimization methods (see e.g., \cite{boyd2004convex}) such as interior-point methods. 
 
-If $\complexbound{}>0$, the objective function is not convex any more. In fact, the program \eqref{eq:optimization_program_final} becomes a concave problem that can be optimized globally by some complex algorithms \cite{benson1995concave,hoffman1981method} that often need tremendous computation. 
-Instead, one may not need to find the global optimum and only approximate it using some efficient methods, e.g., Concave-Convex Procedure \cite{Yuille2001The} and Coordinate Descent \cite{wright2015coordinate}.
+If $\complexbound{}>0$, the objective function is not convex any more. In fact, the program \eqref{eq:optimization_program_final} becomes a concave problem that may be optimized globally by some complex algorithms \cite{benson1995concave,hoffman1981method} that often need tremendous computation. 
+Instead, one may not need to find the global optimum but only approximate it using some efficient methods, e.g., Concave-Convex Procedure \cite{Yuille2001The} and Coordinate Descent \cite{wright2015coordinate}.
 However, these methods are lack of complexity analysis and may even lead to a local optimum.
 
 % \todo{@Lucien: keep the follows? if yes, shorten it.}
@@ -868,6 +867,7 @@ Now we show that this algorithm indeed results in an $\epsilon$-approximation of
 \section{Discussion} % (fold)
 \label{sec:discussion}
 
+\todo{title, why do we discuss?}
 In this section, we first show that, according to our bounds, equal weighting is indeed the best weighting scheme for complete graphs. 
 Then, we discuss the performance of this equal weighting scheme when the graph is incomplete. % and show that it could provide a reasonable bounds. 
 
@@ -981,7 +981,7 @@ Section \ref{sub:metric_entropy_inequality} introduces the Khinchine inequality 
 \label{sec:fractional_coloring_approach}
 \todo{@Lucien: I want to keep Appendix as short as possible. Is it possible to shorten or remove some subsections from the appendix??}
 
-There is literature that uses Janson's decomposition derived from \cite{janson2004large} to study the problem learning from networked examples \cite{Usunier2005,Biau2006,ralaivola2009chromatic,DBLP:conf/icml/RalaivolaA15}.
+There are literatures that uses Janson's decomposition derived from \cite{janson2004large} to study the problem learning from networked examples \cite{Usunier2005,Biau2006,ralaivola2009chromatic,DBLP:conf/icml/RalaivolaA15}.
 They usually model the networked data with the line graph of $G$.
 \begin{definition}[line graph]
   \label{de:line graph}
@@ -1061,12 +1061,14 @@ Moreover, by the result in \cite{DBLP:conf/icml/RalaivolaA15}, tighter risk boun
 \end{assumption}
 The risk bounds of the order $O(\log(n)/n)$ may be achieved if $\theta=1$ \cite{Massart2006}, which however is very restrictive.
 We can use the example in \citet{papa2016graph} to show this.
+\begin{example}
 Let $N$ be a positive integer. For each vetex $i \in \set{1,\dots,n}$, we observe $X_i = (X_i^1, X_i^2)$ where $X_i^1$ and $X_i^2$ are two distinct elements drawn from $\set{1,\dots,N}$.
 This may, for instance correspond to the two preferred items of a user $i$ among a list of $N$ items.
 Consider now the case that two nodes are likely to be connected if they share common preference, e.g., $Y_{i,j} \sim Ber(\#(X_i\cap X_j)/2)$. One can easily check that $\Pro[|\eta(X_1,X_2)-1/2|=0]>0$, so tight risk bounds cannot be obtained for minimizers of \eqref{eq:fractional_coloring_ERM}.
+\end{example}
 
 \section{Universal Risk Bounds for Weighted ERM on i.i.d.\ Examples} % (fold)
-\label{sub:weighted_risk_bounds}
+\label{sec:weighted_risk_bounds}
 
 In section 3, the excess risk is split into two types of processes: the weighted empirical process of i.i.d.\ examples and two degenerated processes.
 In this section, we prove general risk bounds for the weighted empirical process of i.i.d.\ examples. 
@@ -1518,7 +1520,7 @@ If the hypothesis set $\mathcal{F}$ is a subset of $\lebesgue{}_\infty(\xspace^2
 % section lagrangian_dual_problem (end)
 
 \todo{@Lucien: using "proofs omitted in Section \ref{}"}
-\section{Proofs Omitted from the Main Track} % (fold)
+\section{Proofs Omitted in Section \ref{sec:risk_bounds}} % (fold)
 \label{sec:technical_proofs}
 
 \subsection{Proof of Lemma~1} % (fold)
@@ -1640,7 +1642,7 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
 
 % subsection proof_of_lemma_3 (end)
 
-\section{Proofs Omitted from the Appendix} % (fold)
+\section{Proofs Omitted in Section \ref{sec:weighted_risk_bounds}} % (fold)
 \label{sec:proofs_of_the_appendix}
 
 \subsection{Proof of Theorem \ref{th:fractional_coloring_weighted}} % (fold)
@@ -1969,6 +1971,10 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~4}{Usunier
     and the result follows. The control of $\E[\sup_{f\in\mathcal{F}}v_\weight(f-f_0)]$ can be performed analogously.
     % , changing lower into upper approximations in the dyadic approximation scheme described above.
 
+\section{Proofs Omitted in Section \ref{sec:a_moment_inequality_for_weighted_u_processes}} % (fold)
+\label{sec:proofs_omitted_in_section_sec:a_moment_inequality_for_weighted_u_processes}
+
+% section proofs_omitted_in_section_sec:a_moment_inequality_for_weighted_u_processes (end)
 \subsection{Proof of Lemma \ref{le:weighted_decoupling_undecoupling}} % (fold)
 \label{sub:proof_of_lemma_le:weighted_decoupling_undecoupling}
 
