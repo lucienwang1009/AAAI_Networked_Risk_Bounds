@@ -189,6 +189,14 @@ However, \citet{wang2017learning} (in fact, \citet{Usunier2005} and \citet{ralai
 We show that, the \emph{``low-noise'' condition}, also called the \emph{Mammen-Tsybakov noise condition}  \cite{Mammen1998Smooth}, which is commonly assumed in several typical learning problems with networked data, e.g., ranking \cite{clemenccon2008ranking} and graph reconstruction \cite{papa2016graph}, can be used to reasonably bound the dependencies of two examples that share a common vertex and then leads to \emph{tighter} risk bounds. 
 Based on these new bounds, we can efficiently find better weighting schemes. 
 \todo{@Lucien and Yuyi: add something about the algorithm}
+\todo{add contributions}
+Our contributions are three-fold:
+
+\textbf{Moment inequalities for weighted $U$-processes}. We prove moment inequalities for weighted $U$-processes, the general case of incomplete $U$-processes, which involve adding weights on every example.
+
+\textbf{Tight universal bounds}. Using the moment inequality for weighted $U$-processes, we prove universal risk bounds for \problemabbr{} by weighted ERM. These bounds are of the same order of earlier results for complete graphs but tighter for incomplete graphs.
+
+\textbf{Optimization of bounds}. Based on these risk bounds, we propose some optimization programs to design the proper weighting schemes.
 
 \section{Preliminaries} % (fold)
 \label{sec:preliminaries}
@@ -359,6 +367,7 @@ Though \citet{wang2017learning} show improved risk bounds, as far as we know, th
 % \textbf{Expressiveness} 
 % We argue that instead of putting the same weight on training examples \citep{usunier2006generalization,ralaivola2009chromatic}, weighted ERM can be used to express important learning principles of interest, such as the unweighted ERM and integral-matching based method which trains the model from the maximum independent set of the training data.
 % Besides, our method can be applied to both complete and incomplete graph thus recover the result of  \citep{clemenccon2008ranking,papa2016graph}. 
+\todo{Compared with these results, the following three intuitions make our new risk bounds tighter and more general.}
 
 \todo{coherent}
 \paragraph{Line Graphs} 
@@ -621,7 +630,8 @@ With Lemma \ref{le:uniform_approximation} Lemma \ref{le:risk_bounds_iid}, now we
     By \eqref{eq:graph_reconstruction_hoeffding_decomposition}, it is clear that, if both $A$ and $B$ happen,
     $r_\weight{}$ is a $\rho$-minimizer of $T_\weight{}(r)$ over $r\in R$ in the sense that the difference between the value of this latter quantity at its minimum and $r_\weight{}$ is at most $(\kappa_1+\kappa_1)$.
     % smaller \todo{the difference} than at $r_\weight{}$. 
-    Then, from Lemma~\ref{le:risk_bounds_iid}, with probability at least $1-\delta/2$, $r_\weight{}$ is a $(\kappa_1+\kappa_2)$-minimizer of $T_\weight{}(r)$, which the result follows. \todo{@Lucien: we may need to go through this paragraph on Sunday}
+    Then, from Lemma~\ref{le:risk_bounds_iid}, with probability at least $1-\delta/2$, $r_\weight{}$ is a $(\kappa_1+\kappa_2)$-minimizer of $T_\weight{}(r)$, which the result follows. 
+    % \todo{@Lucien: we may need to go through this paragraph on Sunday}
 \end{proof}
 
 % *****
@@ -767,7 +777,11 @@ To solve the program \eqref{eq:optimization_program_final} efficiently, we propo
 $\epsilon$, $\beta$, $\delta$ and a graph $G$ that contains $n$ vertices and $m$ edges. 
 \Ensure 
 An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$ and $\bar{b}$ for the program \eqref{eq:optimization_program_final}.
-\State Solve the following linear program (LP) efficiently\todo{@Lucien: I want to add this as a footnote or something similar "{A number of methods have been proposed to solve LPs such as the simplex method, the ellipsoid method and the interior methods. The simplex method is usually fast in practice, but not theoretically efficient. On the contrary, the ellipsoid method is usually not fast in practice, but theoretically efficient. The recent interior methods usually performance well in both practice and theory, and they are sufficient for our analysis.}"}, and obtain an $\epsilon$-approximation \todo{@Lucien: I change this to LP, so maybe here $\epsilon$ should be changed? related to $\beta$} $a_{min}$;
+\State Solve the following linear program (LP) efficiently\footnotemark,
+% \todo{@Lucien: I want to add this as a footnote or something similar "{A number of methods have been proposed to solve LPs such as the simplex method, the ellipsoid method and the interior methods. The simplex method is usually fast in practice, but not theoretically efficient. On the contrary, the ellipsoid method is usually not fast in practice, but theoretically efficient. The recent interior methods usually performance well in both practice and theory, and they are sufficient for our analysis.}"}
+and obtain an $\epsilon$-approximation 
+% \todo{@Lucien: I change this to LP, so maybe here $\epsilon$ should be changed? related to $\beta$} 
+$a_{min}$;
   \begin{equation}
     \label{eq:optimization_program_final_fix_b}
 \begin{aligned}
@@ -780,7 +794,7 @@ An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$
 \end{equation}
 \State Let $Grid:=\{a_{min}+i\cdot\epsilon(1+\beta)/n \mid  i\in \mathbb{N} \hbox{ and } i\le n(1-\tilde{a})/\epsilon(1+\beta)\}$ and $Solutions := \emptyset$. 
 \For{$a \in Grid$}
-  \State Solve the following program using some interior-point method with \todo tolerance $\epsilon$ and add the solution into $Solutions$.
+  \State Use some interior-point methods to obtain an $\epsilon$-approximation of the following program and add the solution into $Solutions$.
   \begin{equation}
     \label{eq:optimization_program_final_fix_a}
 \begin{aligned}
@@ -799,6 +813,7 @@ An $\epsilon$-approximation of optimal solution $\bar{\probdistri{}}$, $\bar{a}$
 % \todo{@Lucien: $\bar{a}$ and $\tilde{a}$ look similar? maybe change one of them? }
 \end{algorithmic}
 \end{algorithm}
+\footnotetext{A number of methods have been proposed to solve LPs such as the simplex method, the ellipsoid method and the interior methods. The simplex method is usually fast in practice, but not theoretically efficient. On the contrary, the ellipsoid method is usually not fast in practice, but theoretically efficient. The recent interior methods usually performance well in both practice and theory, and they are sufficient for our analysis.}
 
 \begin{theorem}
 \label{th:fptas}
@@ -821,8 +836,11 @@ For any optimal solution $(a^*, b^*, \probdistri{}^*)$, % \todo{@Lucien: note th
 if $a^*$ achieves minimum for the program % \todo{@Lucien: I am kind of confused here...} 
 \eqref{eq:optimization_program_final_fix_b}, we can find $a'$ in $Grid$ (actually $a_{min}$) such that 
   \begin{equation}
+  \begin{aligned}
     \label{eq:a_mini_bound}
-    (a')^{1/(1+\complexbound{})}\le (1+\epsilon)(a^*)^{1/(1+\complexbound{})}.
+    (a')^{1/(1+\complexbound{})}&\le (1+\epsilon)^{1/(1+\complexbound{})}(a^*)^{1/(1+\complexbound{})}\\
+    &\le (1+\epsilon)(a^*)^{1/(1+\complexbound{})}.
+    \end{aligned}
   \end{equation}
   Otherwise, we can also find $a'$ in $Grid$ such that $a^*\le a'<a^*+\epsilon(1+\beta)/n$ and thus
 
@@ -915,7 +933,7 @@ Besides, this scheme, which coincides with $U$-statistics that \emph{average} th
 \subsection{Equal Weighting} % (fold)
 \label{sub:equally_weighting}
 Let us discuss further the equal weighting scheme that gives every example the same weight. Denote by $\Delta(G)$ the maximum degree of $G$ (note that this is not the maximum degree of $D_G$) and let $p_{i,j}=1/m$ (recall that $m$ is the number of examples) for all $\pair{i,j}\in E$. According to program \eqref{eq:optimization_program_final},
-\todo{@Lucien: since I merged two programs, we need to modify the \ref{} here}
+% \todo{@Lucien: since I merged two programs, we need to modify the \ref{} here}
 using equal weighting scheme, the risk bounds are of the order 
 \begin{equation}
 \label{eq:equally_weighting_scheme}
@@ -924,7 +942,9 @@ using equal weighting scheme, the risk bounds are of the order
 if $\delta\in (\exp(-m/\Delta(G)),1]$. In some cases, such as bounded degree graphs and complete graphs, this scheme provides reasonable risk bounds.
 Note that $\Delta(G)$ is smaller than the maximum size of cliques in its corresponding line graph $D_G$ and $\fcoloring{}(D_G)$ is larger than the maximum size of cliques in $D_G$, these bounds above are always better than the bounds of order $O(\sqrt{\fcoloring{}(D_G)/m})$ built by Janson's decomposition. 
 
-However, as argued in Section~\ref{sub:intiution_and_examples} \todo{@Lucien: this ref}, one can construct examples to illustrate that if we use the equal weighting strategy when $\Delta(G)$ is large (e.g., if it is linear to $m$), the risk bounds \eqref{eq:equally_weighting_scheme} are very large and do not converge to $0$, while this problem can be solved by simply using a better weighting strategy. 
+However, as argued in Section~\ref{sub:intiution_and_examples},
+% \todo{@Lucien: this ref}
+one can construct examples to illustrate that if we use the equal weighting strategy when $\Delta(G)$ is large (e.g., if it is linear to $m$), the risk bounds \eqref{eq:equally_weighting_scheme} are very large and do not converge to $0$, while this problem can be solved by simply using a better weighting strategy. 
 \begin{example}
 Consider a data graph with $|E|=m \gg 1$ and $E$ consists of $m/2$ disjoint edges and $m/2$ edges sharing a common vertex, then $\Delta(G)=m/2$. Using the equal weighting scheme, the risk bounds are of order $O(1)$ that is meaningless. A much better weighting scheme of this case is to weight the examples of disjoint edges with $1$ while weight the examples of adjacent edges with $2/m$, which provides risk bounds of the order $O\left((1/m)^{1/(1+\complexbound{})} + \sqrt{1/m}\right)$\footnote{This example is only used to show the necessity of weighting, and the order cannot be improved by any approach.}.
 %\[O(\frac{2}{m+4})^{1/(1+\complexbound{})} + \sqrt{\frac{2}{m} - \frac{16}{(m+4)^2}}).\]
