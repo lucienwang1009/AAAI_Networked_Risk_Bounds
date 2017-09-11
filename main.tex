@@ -156,7 +156,7 @@ Most existing theoretical results of this problem only deal with the classical E
 but this strategy leads to unsatisfactory bounds. 
 We consider general weighted ERM and show new universal risk bounds for this problem. 
 These new bounds naturally define an optimization problem which leads to appropriate weights for networked examples. 
-This optimization problem is concave, so we devise a new polynomial-time approximation scheme to solve it. \todo{@Yuyi: need to rewrite part of the abstract at the end}
+Though this optimization problem is not convex, we devise a new polynomial-time approximation scheme to solve it. 
 \end{abstract}
 
 \section{Introduction}
@@ -757,13 +757,6 @@ However, these methods are lack of complexity analysis and may even lead to a lo
 
 To solve the program \eqref{eq:optimization_program_final} efficiently, we propose Algorithm \ref{alg:FPTAS} and show that it is a fully polynomial-time approximation scheme for \eqref{eq:optimization_program_final}. 
 
-% 证明coordinate descent是个PTAS的方法
-% \todo{@Lucien: we write this FPTAS instead of the Coordinate descent}
-% \textbf{Coordinate Descent} 
-% Note that if $a$ (or $b$) is fixed, then the objective function of \eqref{eq:optimization_program_final} is monotonic (thus convex because we can remove the exponent $1/(1+\complexbound{})$ of $a$), we can solve \eqref{eq:optimization_program_final} by coordinate descent which optimizes $a$ and $b$ successively. That is, starting with a feasible solution, at each step, we solve the primal optimization problem \eqref{eq:optimization_program_final} by fixing $a$ or $b$ at its value from the current iteration and minimizing the objective with respect to the remaining components.
-% Since each iteration is a convex optimization problem, we can solve it by some standard methods \cite{boyd2004convex}. Clearly, the new solution $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t)}$ (respectively $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t+1)}$) is better than the old one $(a^{(t)})^{1/(1+\complexbound{})} + b^{(t)}$ (respectively $(a^{(t+1)})^{1/(1+\complexbound{})} + b^{(t)}$).
-
-
 \begin{algorithm}[!htb] 
 \caption{FPTAS for weighting optimization.} 
 \label{alg:FPTAS} 
@@ -822,7 +815,7 @@ We first analyze the running time of this algorithm.
 
 Now we show that this algorithm indeed results in an $\epsilon$-approximation of this optimal solution. 
 
-  For any optimal solution $(a^*, b^*, \probdistri{}^*)$ \todo{@Lucien: note that a solution should have three parts (a,b,p)}, if $a^*$ achieves minimum for the program \eqref{eq:optimization_program_final_fix_b}, we can find $a'$ in $Grid$ (actually $a_{min}$) such that 
+  For any optimal solution $(a^*, b^*, \probdistri{}^*)$ \todo{@Lucien: note that a solution should have three parts (a,b,p)}, if $a^*$ achieves minimum for the program \todo{@Lucien: I am kind of confused here...} \eqref{eq:optimization_program_final_fix_b}, we can find $a'$ in $Grid$ (actually $a_{min}$) such that 
   \begin{equation}
     \label{eq:a_mini_bound}
     (a')^{1/(1+\complexbound{})}\le (1+\epsilon)(a^*)^{1/(1+\complexbound{})}.
