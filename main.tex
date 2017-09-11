@@ -996,7 +996,7 @@ By the Janson's decomposition, one splits all examples into several independent 
 
 In particular, Theorem~\ref{th:fractional_mcdiarmid} \citep{also see}{Theorem~$2$}{Usunier2005} provides a variation of McDiarmid's theorem using the Janson's decomposition.
 For simplicity, let $\trainingset=\set{z_i}_{i=1}^{m}$ be the training examples drawn from $\zspace^m$ and $\trainingset{}_{\mathcal{C}_j}$ be the examples included in $\mathcal{C}_j$.
-Also, let $k_j^i$ be the index of the $i$-th example of $\mathcal{C}_j$ in the training set $\trainingset{}$ and denote by $\weight{}=\set{w_i}_{i=1}^m$ the weights on $\trainingset{}$.
+Also, let $k_j^i$ be the index of the $i$-th example of $\mathcal{C}_j$ in the training set $\trainingset{}$.
 
 \begin{theorem}
    \label{th:fractional_mcdiarmid}
@@ -1635,11 +1635,8 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
 
 % subsection proof_of_lemma_3 (end)
 
-\section{Proofs Omitted in Section \ref{sec:weighted_risk_bounds}} % (fold)
+\section{Proofs Omitted in Section \ref{sec:fractional_coloring_approach}} % (fold)
 \label{sec:proofs_of_the_appendix}
-
-\subsection{Proof of Theorem \ref{th:fractional_coloring_weighted}} % (fold)
-\label{sub:proof_of_theorem_th:fractional_coloring_weighted}
 
 We write, for all $r\in R$,
 \SingleColumn
@@ -1676,6 +1673,11 @@ Let $f$ is defined by, for all training set $\trainingset{}$, $f(\trainingset{})
 \DoubleColumnEnd
 Then, using the standard symmetrization technique \citep{see}{Theorem~4}{Usunier2005}, one can bound the first item in the right hand side by $\mathfrak{R}_{\weight{}}^*(R,S)$ which completes the proof. 
 % subsection proof_of_theorem_th:fractional_coloring_weighted (end)
+
+\section{Proofs Omitted in Section \ref{sec:weighted_risk_bounds}} % (fold)
+\label{sec:proof_omitted_in_section_sec:weighted_risk_bounds}
+
+% section proof_omitted_in_section_sec:weighted_risk_bounds (end)
 
 \subsection{Proof of Theorem \ref{th:weighted_bennett_inequality}} % (fold)
 \label{sub:proof_of_theorem_th:weighted_bennett_inequality}
