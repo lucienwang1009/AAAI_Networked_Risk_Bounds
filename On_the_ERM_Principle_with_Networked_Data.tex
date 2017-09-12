@@ -1006,7 +1006,7 @@ They usually model the networked data with the line graph of $G$.
   Let $G=(V,E)$ be a data graph we consider in the main track. We define the line graph of $G$ as a graph $D_G = (D_V, D_E)$, in which $D_V = E$ and $\edge{i,j}\in D_E$ if and only if $e_i\cap e_j\neq\emptyset$ in $G$.
 \end{definition}
 This framework differs from our setting and detains less information from the data graph, as argued in Section~\ref{sub:intiutions}. 
-One can analyze this framework by the fractional colouring and the Janson's decomposition.
+One can analyze this framework by the fractional coloring and the Janson's decomposition.
 % Our graph can be easily transformed to the line graph and we denote by $D_G=(D_V, D_E)$ the line graph of the data graph $G$.
 
 \begin{definition}[fractional coloring]
@@ -1017,7 +1017,7 @@ One can analyze this framework by the fractional colouring and the Janson's deco
   \end{itemize}
 \end{definition}
 The weight $W(\mathcal{C})$ of $\mathcal{C}$ is given by $W(\mathcal{C})=\sum_{j=1}^J q_j$ and the minimum weight $\fcoloring{}(D_G)=\min_{\mathcal{C}} W(\mathcal{C})$ over the set of all fractional colorings is the \emph{fractional chromatic number} of $D_G$.
-By the Janson's decomposition, one splits all examples into several independent sets according to a fraction colouring of $D_G$ and then analyze each set using the standard method for i.i.d.\ examples.
+By the Janson's decomposition, one splits all examples into several independent sets according to a fractional coloring of $D_G$ and then analyze each set using the standard method for i.i.d.\ examples.
 
 In particular, Theorem~\ref{th:fractional_mcdiarmid} \citep{also see}{Theorem~$2$}{Usunier2005} provides a variation of McDiarmid's theorem using the Janson's decomposition.
 For simplicity, let $\trainingset=\set{z_i}_{i=1}^{m}$ be the training examples drawn from $\zspace^m$ and $\trainingset{}_{\mathcal{C}_j}$ be the examples included in $\mathcal{C}_j$.
@@ -1031,7 +1031,7 @@ Also, let $k_j^i$ be the index of the $i$-th example of $\mathcal{C}_j$ in the t
      \item there exist $c_i,\dots,c_m\in \real{}_+$ such that $\forall j,\forall S_{\mathcal{C}_j}, S_{\mathcal{C}_j}^k$ such that $\trainingset{}_{\mathcal{C}_j}$ and $\trainingset{}_{\mathcal{C}_j}^k$ differ only in the $k$-th example, $|f_j(S_{\mathcal{C}_j}) - f_j(S_{\mathcal{C}_j}^k)|\le c_{k_j^i}$.
    \end{itemize}
      Then, we have
-     \[\Pro[f(S)-\E[f(S)]\ge \epsilon] \le \exp\left(-\frac{2\epsilon^2}{\fcoloring{}(D_G)\sum_{i=1}^mc_i^2}\right).\]
+     \[\Pro[f(S)-\E[f(S)]\ge \epsilon] \le \exp\left(-\frac{2\epsilon^2}{\fcoloring{}(D_G)\sum_{i=1}^m c_i^2}\right).\]
  \end{theorem}
 
 \subsection{Weighted ERM} % (fold)
@@ -1080,7 +1080,7 @@ Moreover, by the result in \cite{DBLP:conf/icml/RalaivolaA15}, tighter risk boun
 The risk bounds of the order $O(\log(n)/n)$ may be achieved if $\theta=1$ \cite{Massart2006}, which however is very restrictive.
 We can use the example in \citet{papa2016graph} to show this.
 \begin{example}
-Let $N$ be a positive integer. For each vetex $i \in \set{1,\dots,n}$, we observe $X_i = (X_i^1, X_i^2)$ where $X_i^1$ and $X_i^2$ are two distinct elements drawn from $\set{1,\dots,N}$.
+Let $N$ be a positive integer. For each vertex $i \in \set{1,\dots,n}$, we observe $X_i = (X_i^1, X_i^2)$ where $X_i^1$ and $X_i^2$ are two distinct elements drawn from $\set{1,\dots,N}$.
 This may, for instance, correspond to the two preferred items of a user $i$ among a list of $N$ items.
 Consider now the case that two nodes are likely to be connected if they share common preference, e.g., $Y_{i,j} \sim Ber(\#(X_i\cap X_j)/2)$. One can easily check that $\Pro[|\eta(X_1,X_2)-1/2|=0]>0$, so tight risk bounds cannot be obtained for minimizers of \eqref{eq:fractional_coloring_ERM}.
 \end{example}
