@@ -1708,7 +1708,7 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~$4$}{Usuni
 
 \begin{proof}[Proof of Theorem \ref{th:weighted_bennett_inequality}] % (fold)
     We use an auxiliary random variable
-    \[\widetilde{Z}=\frac{\normo{\weight{}}}{2b}Z=\sup_{f\in\mathcal{F}}\frac{1}{2b}\sum_{i=1}^nw_i\allowbreak(f(X_i)-\E[f(X_i)]).\]
+    \[\widetilde{Z}=\frac{\normo{\weight{}}}{2b}Z=\sup_{f\in\mathcal{F}}\frac{1}{2b}\sum_{i=1}^n w_i\allowbreak(f(X_i)-\E[f(X_i)]).\]
     We denote by $f_k$ a function such that
     \[f_k = \frac{1}{2b}\sup_{f\in\mathcal F} \sum_{i\neq k}w_i(f(X_i)-\E[f(X_i)]).\]
     We introduce following auxiliary random variables for $k=1,\dots,n$,
@@ -1758,6 +1758,7 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~$4$}{Usuni
     \SingleColumnEnd
     which proves the inequality.
 \end{proof}
+
 % The following inequality is Lemma A.5 of \citep{Massart2006}.
 % \begin{lemma}[\citep{Massart2006}]
 %     \label{le:weighted_process_inequality}
@@ -1907,7 +1908,7 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~$4$}{Usuni
         \label{eq:bounded_entropy_f0}
         P(|f-\Pi_0f|)=P[|f-f_0|]\le \sigma_0^2=\sigma
     \end{equation}
-    for every $f\in\mathcal{F}$. Furthermore, since we may always assume that the extrmities of the balls used to cover $\mathcal{F}$ take their values in $[0,1]$, we also have for every integer $j$ that
+    for every $f\in\mathcal{F}$. Furthermore, since we may always assume that the extremities of the balls used to cover $\mathcal{F}$ take their values in $[0,1]$, we also have for every integer $j$ that
     \[0\le\Pi_jf\le1.\]
     Noticing that since $u\to H_\infty(\mathcal{F},u^2)$ is nonincreasing,
     \[H_1\le \sigma_1^{-2}\varphi^2(\sigma),\]
@@ -2191,7 +2192,7 @@ and get
     \E[\sup_{r\in R}|\sum_{\pair{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q] \le 2^q\E[\sup_{r\in R}|\sum_{j=1}^n\sigma_j\sum_{i:\pair{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q]
 \end{align*}
 \SingleColumnEnd
-Then repeating the same argument but for the $(X_i)_{i=1}^n$ will give the similar inequality. The desired inequality will follows putting these two inequalities togather.
+Then repeating the same argument but for the $(X_i)_{i=1}^n$ will give the similar inequality. The desired inequality will follows putting these two inequalities together.
 \end{proof}
 
 % section proofs_of_the_appendix (end)
@@ -2271,12 +2272,12 @@ By undecoupling, we have $\E[Z_\rademacher^\prime]=\E[\E_{\rademacher,\rademache
 
 \textit{Second term:} $\E[\E_\rademacher[U_\rademacher]^q].$
 
-By the Cauchy-Schwarz inequality we can observe that
+By the Cauchy-Schwartz inequality we can observe that
 \[\sup_{f,i}\sup_{\alpha:\|\alpha\|_2\le 1}\sum_{j:\pair{i,j}\in E}w_{i,j}\alpha_jf(X_i,X_j)\le \|\weight{}\|_{\max}F.\]
 Then similar to the bound of $\E[\E_\rademacher[M]^q]$, we have
 \[\E[\E_\rademacher[U_\rademacher]^q]\le 2^{q-1}(2^q\E[U_\rademacher]^q+5^qq^q\|\weight{}\|_{\max}^qF^q).\]
 
-\textit{Third term:} $\E[B^q]$. By the Cauchy-Schwarz inequality, we have $B\le \sqrt{\sum_{\pair{i,j}\in E}w_{i,j}^2}F= \|\weight{}\|_2F$ so
+\textit{Third term:} $\E[B^q]$. By the Cauchy-Schwartz inequality, we have $B\le \sqrt{\sum_{\pair{i,j}\in E}w_{i,j}^2}F= \|\weight{}\|_2F$ so
 \[\E[B^q]\le \|\weight{}\|_2^qF^q.\]
 
 Now it remains to simply put the pieces together to obtain
@@ -2295,7 +2296,7 @@ Now it remains to simply put the pieces together to obtain
 \end{align*}
 \SingleColumnEnd
 for an appropriate constant $C$. 
-In order to derive the exponential inequality, we use Markov's inequality $\Pro[X\ge t]\le t^{-q}\E[Z^q]$ and choose
+In order to derive the exponential inequality, we use Markov inequality $\Pro[X\ge t]\le t^{-q}\E[Z^q]$ and choose
 \DoubleColumn
 \begin{align*}
     q&=C\min\Big((\frac{t}{\E[U_\rademacher]})^2,\frac{t}{\E[M]},\frac{t}{F\|\weight{}\|_2},(\frac{t}{\|\weight{}\|_{\max} F})^{2/3},\\
@@ -2353,7 +2354,7 @@ where $E_<=\{(i,j): \{i,j\}\in E, i<j\}$. Let $z_\rademacher^\prime=z_\rademache
 % \end{align*}
 % \SingleColumnEnd
 Recall that $\sup_f \|f\|_\infty = F$, we have $D= 2F$.
-Since this metirc function $d$ is intractable, we need to convert it to the $\lnorm_\infty$ metric. For all $f,s$, we have
+Since this metric function $d$ is intractable, we need to convert it to the $\lnorm_\infty$ metric. For all $f,s$, we have
 \DoubleColumn
 $\lnorm{}_2(z'_\rademacher{}(f),z'_\rademacher{}(g))\le \lnorm_\infty(f,g)$.
 \DoubleColumnEnd
@@ -2371,7 +2372,7 @@ The fact that if $\forall f,s\in\mathcal F, \lnorm{}(f,s)\le \lnorm{}'(f,s)$ the
 where $K$ is a universal constant. Similarly, we can also bound $\E[M]$ by $K\|\weight{}\|_{\max}\linebreak\int_0^{2F}\sqrt{\log N_\infty(\mathcal F, \epsilon)}d\epsilon$. 
 For $U_\rademacher$, let $\alpha^*$ be the (random) vector that maximizes $U_\rademacher$ and define
 \[\{u_\rademacher(f) = \sum_{i=1}^n\rademacher_i\sum_{\pair{i,j}\in\E}w_{i,j}\alpha_j^*\linebreak f(X_i,X_j),f\in\mathcal{F}\}.\]
-Clearly, $u_\rademacher$ satisfies the Kinchine inequality with degree $1$. Also, we need to convert its metric distance and $\lnorm{}_2(u_\rademacher{}(f), u_\rademacher{}(g))\le \lnorm{}_\infty(f, g)$.
+Clearly, $u_\rademacher$ satisfies the Khintchine inequality with degree $1$. Also, we need to convert its metric distance and $\lnorm{}_2(u_\rademacher{}(f), u_\rademacher{}(g))\le \lnorm{}_\infty(f, g)$.
 % \DoubleColumn
 % \begin{align*}
 %     (\E_\rademacher&[|u_\rademacher(f)-u_\rademacher(g)|^2])^{1/2}\\
