@@ -164,8 +164,8 @@ Though this optimization problem is not convex in general, we devise a new fully
 \label{sec:introduction}
 \textit{``No man is an island, entire of itself ...''}, the beginning of a well-known poem by the 17th century English poet John Donne, might be able to explain why social networking websites are so popular. 
 These social media not only make communications convenient and enrich our lives but also bring us data, of an unimaginable amount, that is intrinsically networked. 
-Social network data nowadays is widely used in research on social science, network dynamics, and as an inevitable fate, data mining and machine learning\cite{scott2017social}. 
-Similar examples of networked data such as traffic networks \cite{min2011real}, chemical interaction networks \cite{szklarczyk2014string}, citation networks \cite{dawson2014current} abound throughout the machine learning world. 
+Social network data nowadays is widely used in research on social science, network dynamics, and as an inevitable fate, data mining and machine learning \cite{scott2017social}. 
+Similar examples of networked data such as traffic networks \cite{min2011real}, chemical interaction networks \cite{szklarczyk2014string}, citation networks \cite{dawson2014current} also abound throughout the machine learning world. 
 
 % \todo{@Lucien: it would be good if we can find more recent literature}
 
@@ -177,9 +177,9 @@ Every vertex of $G$ is an object and described by a feature vector $X\in \xspace
 % The classifier takes a pair of feature vectors $\pair{X,X'}$ as input to predict the target value $Y\in \set{0,1}$. 
 
 A widely used principle to select a proper model from a hypothesis set is \emph{Empirical Risk Minimization (ERM)}. %, which estimates the loss of every model by averaging its empirical errors on training examples and chooses the model with the minimum empirical risk. 
-\citet{papa2016graph} establish risk bounds for ERM on complete graphs, and the bounds are independent of the distribution of the data. 
+\citet{papa2016graph} establish risk bounds for ERM on complete data graphs, and the bounds are independent of the distribution of the data. 
 These bounds are of order $O(\log(n)/n)$, where $n$ is the number of vertices in the complete graph. 
-However, in practice it is very likely that one cannot collect examples for all pairs of vertices and hence $G$ is usually incomplete, thus techniques based on complete $U$-processes derived from \cite{papa2016graph} cannot be applied and the risk bounds of order $O(\log(n)/n)$ are no longer valid in this setting. 
+However, in practice it is very likely that one cannot collect examples for all pairs of vertices and then $G$ is usually incomplete, thus techniques based on complete $U$-processes in \cite{papa2016graph} cannot be applied and the risk bounds of order $O(\log(n)/n)$ are no longer valid in this setting. 
 By generalizing the moment inequality for $U$-processes to the case of incomplete graphs, we prove novel risk bounds for the incomplete graph.  
 
 Usually, every training example is equally weighted (or unweighted) in ERM, which seems much less persuasive when the examples are networked, in particular when the graph is incomplete. But, most existing theoretical results of learning from networked examples are based on the unweighted ERM \cite{Usunier2005,ralaivola2009chromatic}, and their bounds are of order $O(\sqrt{\chi^*(D_G)/m})$ where $D_G$ is the \emph{line graph} of $G$ and $\chi^*$ is the \emph{fractional chromatic number} of $D_G$ (see Section~\ref{sec:fractional_coloring_approach} in the appendix) and $m$ is the number of training examples. 
@@ -344,15 +344,8 @@ Let $E_<=\{\pair{i,j}: i<j, \pair{i,j}\in E\}$ be the ordered edge set. If Condi
   \end{tabular}
 \end{table*}
 
-% \todo{@Lucien: in fact, we did not say much about examples, right? so we changed the title of this section} 
 \section{Intuitions} % (fold)
 \label{sub:intiutions}
-% \todo{move before section 2?}
-% There have been many methods that can be used to establish risk bounds for \problemabbr{}.
-% We divide them by the learning principle (weighted or unweighted), the graph type of application (complete or incomplete) and whether considering the ``low-noise'' condition respectively, as shown in Table~\ref{ta:methods}.
-% It is fair to say that our result is better than these methods in any problem learning from networked examples, e.g., our risk bounds might not be suitable for the framework of line graph, in which every vertex denote an example and the dependency between two examples is represented by an edge connected their corresponding vertices.
-% But, in the framework we consider in this paper, we argue that our method including the weighted ERM and the ``low-noise'' condition has many advantages compared with prior works.
-% 详细点。
 
 We now have a look at previous works that are closely related to our work, as shown in Table~\ref{ta:methods}, and present the merits of our method. 
 \citet{Biau2006}, \citet{clemenccon2008ranking} and \citet{papa2016graph} deal with the case when the graph is complete, i.e., the target value of every pair of vertices is known. 
@@ -363,7 +356,6 @@ If the graph is incomplete, one can use either Janson's decomposition \cite{jans
 The main differences between these two approaches are: 
 \begin{itemize}
   \item \citet{wang2017learning} consider the data graph $G$ while Janson's decomposition uses only the line graph $D_G$. 
-   % and hence wastes some (important) information in the data graph $G$ (see the example in \ref{TODO}). 
   \item The fractional matching approach considers weighted ERM while \citet{janson2004large}, \citet{Usunier2005}, \citet{ralaivola2009chromatic} and \citet{DBLP:conf/icml/RalaivolaA15} only prove bounds for unweighted ERM.
 \end{itemize}
 
@@ -966,9 +958,9 @@ Consider a data graph with $|E|=m \gg 1$ and $E$ consists of $m/2$ disjoint edge
 \label{sec:conclusion}
 In this paper, we consider weighted ERM of the symmetric \problemabbr{} problem and establish new universal risk bounds under the ``low-noise'' condition. 
 These new bounds are tighter in the case of incomplete graphs and can be degenerate to the known tightest bound when graphs are complete. 
-Based on this result, one can train a classifier with better generalization by putting proper weights on training examples. 
-We propose an efficient algorithm to obtain the approximate optimal weighting vector and prove the algorithm is a FPTAS for the weighting optimization problem.
-Finally, we present two examples to show the advantages of our new risk bounds.
+Based on this result, one can train a classifier with a better risk bound by putting proper weights on training examples. 
+We propose an efficient algorithm to obtain the approximate optimal weighting vector and prove that the algorithm is a FPTAS for the weighting vector optimization problem. 
+Finally, we discuss two cases to show the merits of our new risk bounds.
 In particular, we show that, in terms of these risk bounds, weighting all examples equally is optimal for complete graphs but not always good for incomplete graphs. 
 
 % Section~conclusion (end)
@@ -987,7 +979,7 @@ In particular, we show that, in terms of these risk bounds, weighting all exampl
 
 \newpage\newpage
 
-\section*{appendix} % (fold)
+\section*{Appendix} % (fold)
 \appendix
 \label{sec:appendix}
 
