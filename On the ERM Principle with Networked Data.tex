@@ -12,8 +12,8 @@
 \setlength{\pdfpageheight}{11in}  %Required
 %PDF Info Is Required:
   \pdfinfo{
-/Title (2018 Formatting Instructions for Authors Using LaTeX)
-/Author (AAAI Press Staff)}
+/Title (On the ERM Principle with Networked Data)
+/Author ()}
 \setcounter{secnumdepth}{2} 
 
 \usepackage[utf8]{inputenc} % allow utf-8 input
@@ -116,7 +116,8 @@
 \newcommand{\rademacher}{\sigma}
 \newcommand{\edge}[1]{\{#1\}}
 \newcommand{\pair}[1]{(#1)}
-\newcommand{\lebesgue}{\mathbb{L}}
+\newcommand{\lnorm}{\mathbb{L}}
+\newcommand{\lnormspace}{\mathscr{L}}
 \newcommand{\bmlambda}{\bm{\lambda}}
 % a better name
 \newcommand{\problemabbr}{\textnormal{C}\textsc{lanet}}
@@ -162,7 +163,7 @@ Though this optimization problem is not convex in general, we devise a new fully
 \section{Introduction}
 \label{sec:introduction}
 \textit{``No man is an island, entire of itself ...''}, the beginning of a well-known poem by the 17th century English poet John Donne, might be able to explain why social networking websites are so popular. 
-These social media not only make communications convenient and enrich our lives, but also bring us data, of an unimaginable amount, that is intrinsically networked. 
+These social media not only make communications convenient and enrich our lives but also bring us data, of an unimaginable amount, that is intrinsically networked. 
 Social network data nowadays is widely used in research on social science, network dynamics, and as an inevitable fate, data mining and machine learning\cite{scott2017social}. 
 Similar examples of networked data such as traffic networks \cite{min2011real}, chemical interaction networks \cite{szklarczyk2014string}, citation networks \cite{dawson2014current} abound throughout the machine learning world. 
 
@@ -181,13 +182,13 @@ These bounds are of order $O(\log(n)/n)$, where $n$ is the number of vertices in
 However, in practice it is very likely that one cannot collect examples for all pairs of vertices and hence $G$ is usually incomplete, thus techniques based on complete $U$-processes derived from \cite{papa2016graph} cannot be applied and the risk bounds of order $O(\log(n)/n)$ are no longer valid in this setting. 
 By generalizing the moment inequality for $U$-processes to the case of incomplete graphs, we prove novel risk bounds for the incomplete graph.  
 
-Usually, every training example is equally weighted (or unweighted) in ERM, which seems much less persuasive when the examples are networked, in particular when the graph is incomplete. But, most existing theoretical results of learning from networked examples are based on the unweighted ERM \cite{Usunier2005,ralaivola2009chromatic}, and their bounds are of order $O(\sqrt{\chi^*(D_G)/m})$ where $D_G$ is the \emph{line graph} of $G$ and $\chi^*$ is the \emph{fractional chromatic number} of $D_G$ (see Section~A in the appendix) and $m$ is the number of training examples. 
+Usually, every training example is equally weighted (or unweighted) in ERM, which seems much less persuasive when the examples are networked, in particular when the graph is incomplete. But, most existing theoretical results of learning from networked examples are based on the unweighted ERM \cite{Usunier2005,ralaivola2009chromatic}, and their bounds are of order $O(\sqrt{\chi^*(D_G)/m})$ where $D_G$ is the \emph{line graph} of $G$ and $\chi^*$ is the \emph{fractional chromatic number} of $D_G$ (see Section~\ref{sec:fractional_coloring_approach} in the appendix) and $m$ is the number of training examples. 
 In order to improve this bound, \citet{wang2017learning} propose \emph{weighted} ERM %\emph{(weighted ERM)}, 
 which adds weights to training examples 
-according to the network, and show that the risk bound for weighted ERM can be of order $O(1/\sqrt{\nu^*(G)})$ where $\nu^*(G)$ is the \emph{fractional matching number} of $G$, so using weighted ERM networked data can be more effectively exploited than the equal weighting method, as basic graph theory tells us $\nu^*_G\ge m / \chi^*(D_G)$. 
+according to the data graph, and show that the risk bound for weighted ERM can be of order $O(1/\sqrt{\nu^*(G)})$ where $\nu^*(G)$ is the \emph{fractional matching number} of $G$, so using weighted ERM networked data can be more effectively exploited than the equal weighting method, as basic graph theory tells us $\nu^*_G\ge m / \chi^*(D_G)$. 
 However, \citet{wang2017learning} (in fact, \citet{Usunier2005} and \citet{ralaivola2009chromatic} also) assume that any two examples can be arbitrarily correlated if they share a vertex, which cannot lead to an $O(\log(n)/n)$ bound when the graph is complete. 
 
-We show that, the \emph{``low-noise'' condition}, also called the \emph{Mammen-Tsybakov noise condition}  \cite{Mammen1998Smooth}, which is commonly assumed in many typical learning problems with networked data, e.g., ranking \cite{clemenccon2008ranking} and graph reconstruction \cite{papa2016graph}, can be used to reasonably bound the dependencies of two examples that share a common vertex and then leads to \emph{tighter} risk bounds. 
+We show that the \emph{``low-noise'' condition}, also called the \emph{Mammen-Tsybakov noise condition}  \cite{Mammen1998Smooth}, which is commonly assumed in many typical learning problems with networked data, e.g., ranking \cite{clemenccon2008ranking} and graph reconstruction \cite{papa2016graph}, can be used to reasonably bound the dependencies of two examples that share a common vertex and then leads to \emph{tighter} risk bounds. 
 
 In summary, in this paper we mainly 
 \begin{itemize}
@@ -195,9 +196,9 @@ In summary, in this paper we mainly
 \begin{itemize}
 \item can be applied to learning from networked data even if the data graph is incomplete; 
 \item exploit the property of the ``low-noise'' condition, and then become tighter than previous results; 
-\item allow nonidentical weights on different examples, so it is possible to achieve better learning guarantee by choosing these weights.
+\item allow non-identical weights on different examples, so it is possible to achieve better learning guarantee by choosing these weights.
 \end{itemize}
-\item formulate a non-convex optimization problem inspired by our new risk bounds (because our risk bounds depend on the weights added to every training example, and a better weighting schefully Polynomial-time approximation schememe leads to a tighter bound), and then we also design a new efficient algorithm to obtain an approximate optimal weighting vector and show that this algorithm is a fully polynomial-time approximation scheme for this non-convex program. 
+\item formulate a non-convex optimization problem inspired by our new risk bounds (because our risk bounds depend on the weights added to every training example, and a better weighting scheme leads to a tighter bound), and then we also design a new efficient algorithm to obtain an approximate optimal weighting vector and show that this algorithm is a fully polynomial-time approximation scheme for this non-convex program. 
 \end{itemize}
 
 
@@ -301,7 +302,7 @@ Let $E_<=\{\pair{i,j}: i<j, \pair{i,j}\in E\}$ be the ordered edge set. If Condi
 
 % \begin{enumerate}
 %   \item the Janson's decomposition ignore some details dependencies of examples in our problem. 
-%   examples: a clique in line graph has different forms in our problem that also have different bounds by our results. a clique with an vertex links to some vertices in the clique, see Fig.~\ref{fig:example} can result different weights for examples in our setting.
+%   examples: a clique in line graph has different forms in our problem that also have different bounds by our results. a clique with a vertex links to some vertices in the clique, see Fig.~\ref{fig:example} can result different weights for examples in our setting.
 %   \item the Janson's decomposition cannot achieve the same order of our results even using the weighting strategy.
 %   example: the fractional chromatic number is always larger than maximum degree.
 %   \item It is even NP-hard to compute the fractional chromatic number (by solving an exponential size linear program).
@@ -343,9 +344,10 @@ Let $E_<=\{\pair{i,j}: i<j, \pair{i,j}\in E\}$ be the ordered edge set. If Condi
   \end{tabular}
 \end{table*}
 
-\todo{@Lucien: in fact, we did not say much about examples, right? so we changed the title of this section} 
+% \todo{@Lucien: in fact, we did not say much about examples, right? so we changed the title of this section} 
 \section{Intuitions} % (fold)
-\label{sub:intiution_and_examples}
+\label{sub:intiutions}
+% \todo{move before section 2?}
 % There have been many methods that can be used to establish risk bounds for \problemabbr{}.
 % We divide them by the learning principle (weighted or unweighted), the graph type of application (complete or incomplete) and whether considering the ``low-noise'' condition respectively, as shown in Table~\ref{ta:methods}.
 % It is fair to say that our result is better than these methods in any problem learning from networked examples, e.g., our risk bounds might not be suitable for the framework of line graph, in which every vertex denote an example and the dependency between two examples is represented by an edge connected their corresponding vertices.
@@ -362,10 +364,10 @@ The main differences between these two approaches are:
 \begin{itemize}
   \item \citet{wang2017learning} consider the data graph $G$ while Janson's decomposition uses only the line graph $D_G$. 
    % and hence wastes some (important) information in the data graph $G$ (see the example in \ref{TODO}). 
-  \item The fractional matching approach considers general weighted ERM while \citet{janson2004large}, \citet{Usunier2005}, \citet{ralaivola2009chromatic} and \citet{DBLP:conf/icml/RalaivolaA15} only prove bounds for unweighted ERM.
+  \item The fractional matching approach considers weighted ERM while \citet{janson2004large}, \citet{Usunier2005}, \citet{ralaivola2009chromatic} and \citet{DBLP:conf/icml/RalaivolaA15} only prove bounds for unweighted ERM.
 \end{itemize}
 
-Though \citet{wang2017learning} show improved risk bounds, as far as we know, there is no known tight risk bounds on incomplete graphs for tasks such as pairwise ranking and graph reconstruction that satisfy the ``low-noise'' condition. Under this condition, the method proposed in \cite{wang2017learning} does not work (see Section~\ref{sub:complete_graph}). 
+Though \citet{wang2017learning} show improved risk bounds, as far as we know, there is no known tight risk bound on incomplete graphs for tasks such as pairwise ranking and graph reconstruction that satisfy the ``low-noise'' condition. Under this condition, the method proposed in \cite{wang2017learning} does not work (see Section~\ref{sub:complete_graph}). 
 
 % Compared to these work, our method of combining the fractional matching approach and the ``low-noise'' condition has advantages that make it more suitable for solving \problemabbr{}. 
 
@@ -379,7 +381,7 @@ Before we show new risk bounds and new weighting methods, we present the followi
 Compared to Janson's decomposition which is based on line graphs, our method utilizes the additional dependency information in the data graph $G$. 
 For example, the complete line graph with three vertices (i.e., triangle) corresponds to two different data graphs, as illuminated in Figure~\ref{fig:weighting_scheme_complete_graph}. 
 Hence, line graph based methods ignore some important information in the data graph. 
-This negligence makes it unable to improve bounds, no matter whether considering weighted ERM or not (see Section~A.1 in the appendix). 
+This negligence makes it unable to improve bounds, no matter whether considering weighted ERM or not (see Section~\ref{sub:weighted_erm} in the appendix). 
 In Section~\ref{sub:equally_weighting}, we show that our bounds are tighter than that of line graph based methods. 
 
 \paragraph{Asymptotic Risk}
@@ -389,7 +391,8 @@ Otherwise, if we treat every example equally, then these dependent examples may 
 \paragraph{Uniform Bounds} 
 \citet{DBLP:conf/icml/RalaivolaA15} prove an entropy-base concentration inequality for networked data using Janson's decomposition, but the 
 assumption there is usually too restrictive to be satisfied %in the case of complete graphs 
-(see Section~A.2 in appendix \todo{@Lucien: use \ref{}, check whole paper for this in case there is something wrong}). 
+(see Section~\ref{sub:low_noise_condition} in appendix). 
+% \todo{@Lucien: use \ref{}, check whole paper for this in case there is something wrong}
 To circumvent this problem, our method uses 
 the ``low-noise'' condition (also used in \cite{papa2016graph}) to establish uniform bounds, 
 in absence of any restrictive condition imposed on the data distribution. 
@@ -412,7 +415,7 @@ in absence of any restrictive condition imposed on the data distribution.
 \label{sec:risk_bounds}
 % give an introduction.
 In this section, we use covering numbers as the complexity measurement of hypothesis sets to prove that tighter universal risk bounds are always attained by the minimizers of the weighted empirical risk \eqref{eq:graph_reconstruction_weighted_erm}.
-% In this section, we show that the risk bounds established by \citep{wang2017learning} can be improved without any additional assumptions on the data distribution and the results obtained by \citep{papa2016graph} can be generalized into the case of incomplete graphs. 
+% In this section, we show that the risk bounds established by \citep{wang2017learning} can be improved without any additional assumptions on the data distribution and the results obtained by \citep{papa2016graph} can be generalized to the case of incomplete graphs. 
 
 \subsection{Covering Numbers} % (fold)
 \label{sub:covering number}
@@ -424,19 +427,19 @@ A similar but looser result using VC-dimension \cite{vapnik1971uniform} can be o
 
 \begin{definition}[covering numbers]
 % \todo{\cite{wang2017learning}}
-Let $(\mathcal{F}, \lebesgue{}_p)$ be a metric space with $\lebesgue{}_p$-pseudometric. We define the covering number $N(\mathcal{F},\lebesgue{}_p,\epsilon)$ be the minimal $l\in\mathbb{N}$ such that there exist $l$ disks in $\mathcal{F}$ with radius $\epsilon$ covering $\mathcal{F}$. If the context is clear, we simply denote $N(\mathcal{F},\lebesgue{}_p, \epsilon)$ by $N_p(\mathcal{F},\epsilon)$.
+Let $(\mathcal{F}, \lnorm{}_p)$ be a metric space with $\lnorm{}_p$-pseudometric. We define the covering number $N(\mathcal{F},\lnorm{}_p,\epsilon)$ be the minimal $l\in\mathbb{N}$ such that there exist $l$ disks in $\mathcal{F}$ with radius $\epsilon$ covering $\mathcal{F}$. If the context is clear, we simply denote $N(\mathcal{F},\lnorm{}_p, \epsilon)$ by $N_p(\mathcal{F},\epsilon)$.
 
 % Let $\mathcal{F}$ be a metric space and $\epsilon>0$. We define the covering number $N(\mathcal{F}, \epsilon)$ to be the minimal $k\in\mathbb{N}$ such that there exists $k$ disks in $\mathcal{F}$ with radius $\epsilon$ covering $\mathcal{F}$. When $\mathcal{F}$ is compact, this number is finite.
 
-% A set $\mathcal{C}\subset \real{}^m$ is called an \emph{$\lebesgue{}_p$ cover} of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon>0$ if for all $f\in\mathcal{F}$, there exists $\mathbf{c}_f\in \mathcal{C}$ such that
+% A set $\mathcal{C}\subset \real{}^m$ is called an \emph{$\lnorm{}_p$ cover} of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon>0$ if for all $f\in\mathcal{F}$, there exists $\mathbf{c}_f\in \mathcal{C}$ such that
 % $\|(f(x_1),\dots,f(x_m))-\mathbf{c}_f\|_p\le \epsilon.$
 % The \emph{empirical covering number} $N_p(\mathcal{F},\epsilon;x_1,\dots,x_m)$ is the size of a smallest 
 % %$\mathcal{C}$ which is an 
-% $\lebesgue{}_p$ cover of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon$.
+% $\lnorm{}_p$ cover of $\mathcal{F}$ on $x_1,\dots,x_m$ at scale $\epsilon$.
 % We define the \emph{covering number} $N_p(\mathcal{F},\epsilon,m):=\sup_{x_1,\dots,x_m}N_p(\mathcal{F},\epsilon;x_1,\dots,x_m)$ and simply denote $N_p(\mathcal{F},\epsilon,m)$ by $N_p(\mathcal{F},\epsilon)$, if the context is clear.
 \end{definition}
 
-In this paper, we focus on the $\lebesgue_\infty$ covering number $N_\infty(\mathcal{F},\epsilon)$ and suppose that it satisfies the following assumption.
+In this paper, we focus on the $\lnorm_\infty$ covering number $N_\infty(\mathcal{F},\epsilon)$ and suppose that it satisfies the following assumption.
 
 \begin{assumption}\label{ass:covering_number} 
 There exists a nonnegative number $\complexbound < 1$ and a constant $K$ such that $\log N_\infty(\mathcal{F},\epsilon) \le K\epsilon^{-\complexbound}$ for all $\epsilon\in (0,1]$. 
@@ -524,7 +527,7 @@ where
 \[T_\weight{}(r)=\Lambda(r)+\frac{2}{\normo{\weight{}}}\sum_{i=1}^n\sum_{j:\pair{i,j}\in E}w_{i,j}h_r(X_i)\]
 is a weighted average of i.i.d.\ random variables with $h_r(X_i)=\E[q_r(X_i,X_j,Y_{i,j})\mid X_i]-\Lambda(r)$,
 \[U_\weight{}(r)=\frac{1}{\normo{\weight{}}}\sum_{\pair{i,j}\in E} w_{i,j}(\hat{h}_r(X_i,X_j)\]
-is a weighted \emph{degenerated} (i.e., the symmetric kernel $\hat{h}_r(x_1,x_2)$ such that $\E[\hat{h}_r(x_1, X_2)\mid X_2]=0$ for all $x_1\in\xspace{}$) $U$-statistic 
+is a weighted \emph{degenerated} (i.e., the symmetric kernel $\hat{h}_r(x_1,x_2)$ such that $\E[\hat{h}_r(X_1, X_2)\mid X_1=x_1]=0$ for all $x_1\in\xspace{}$) $U$-statistic 
 % \todo{@Lucien: if possible, explain what are degenerated U-statistics} of order $2$ with symmetric kernel 
 $\hat{h}_r(X_i,X_j)=\E[q_r(X_i,X_j,Y_{i,j})\mid X_i,X_j]-\Lambda(r)-h_r(X_i)-h_r(X_j)$ 
 and
@@ -563,13 +566,14 @@ In the following, we bound the three terms $T_\weight{}, U_\weight{}$ and $\wide
 
 % *** give some intuition
 To prove Lemma~\ref{le:uniform_approximation}, we show that $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by Rademacher chaos using classical symmetrization and randomization tricks combined with the decoupling method. We handle these Rademacher chaos by generalizing the moment inequality for $U$-statistics in \cite{clemenccon2008ranking}. 
-Specifically, we utilize the moment inequalities from \cite{Boucheron2005} to convert them into a sum of simpler processes, which can be bounded by the metric entropy inequality for Khinchine-type processes \citep{see}{Proposition 2.6}{Dembo1994} and Assumption~\ref{ass:covering_number}. The detailed proofs can be found in Section~B in the Appendix.
+Specifically, we utilize the moment inequalities from \cite{Boucheron2005} to convert them into a sum of simpler processes, which can be bounded by the metric entropy inequality for Khinchine-type processes \citep{see}{Proposition 2.6}{Dembo1994} and Assumption~\ref{ass:covering_number}. The detailed proofs can be found in Section~\ref{sec:a_moment_inequality_for_weighted_u_processes} in the appendix.
 
 Lemma~\ref{le:uniform_approximation} shows that the contribution of the degenerated parts $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ to the excess risk can be bounded. 
 This implies that minimizing $\Lambda_\weight{}(r)$ is approximately equivalent to minimizing $T_\weight{}(r)$ and thus $r_\weight{}$ is a $\rho$-minimizer of $T_\weight{}(r)$ in the sense that $T_\weight{}(r_\weight{})\le \rho+\inf_{r\in R}T_\weight{}(r)$.
-In order to analyze $T_\weight{}(r)$, which can be treated as a weighted empirical risk on i.i.d.\ examples, we generalize the results in \cite{Massart2006} (see Section~A in the Appendix). 
+In order to analyze $T_\weight{}(r)$, which can be treated as a weighted empirical risk on i.i.d.\ examples, we generalize the results in \cite{Massart2006} (see Section~\ref{sec:weighted_risk_bounds} in the appendix). 
 Based on this result, tight bounds for the excess risk with respect to $T_\weight{}(r)$
 can be obtained if the variance of the excess risk is controlled by its expected value.
+% , i.e., the ``low-noise'' condition.
 By Lemma~\ref{le:variant_control}, $T_\weight{}(r)$ fulfills this condition, which leads to Lemma~\ref{le:risk_bounds_iid}.
 
 \begin{lemma}[condition leads to ``low-noise'', {\cite[Lemma 2]{papa2016graph}}]
@@ -594,7 +598,7 @@ By Lemma~\ref{le:variant_control}, $T_\weight{}(r)$ fulfills this condition, whi
 With Lemma \ref{le:uniform_approximation} Lemma \ref{le:risk_bounds_iid}, now we are ready to prove Theorem \ref{th:main_theorem}.
 
 \begin{proof}[Proof of Theorem~\ref{th:main_theorem}]
-    Let us consider the Hoeffding decomposition \eqref{eq:graph_reconstruction_hoeffding_decomposition} of $\Lambda_\weight{}(r)$ that is minimized over $r\in R$. The idea of this proof is that the degenerate parts $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by the moment inequality for weighted $U$-processes. Therefore, $r_\weight{}$ is an approximate minimizer of $T_\weight{}(r)$, which can be handled by Lemma~\ref{le:risk_bounds_iid}.
+    Let us consider the Hoeffding decomposition \eqref{eq:graph_reconstruction_hoeffding_decomposition} of $\Lambda_\weight{}(r)$ that is minimized over $r\in R$. The idea of this proof is that the degenerate parts $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by Lemma~\ref{le:uniform_approximation}. Therefore, $r_\weight{}$ is an approximate minimizer of $T_\weight{}(r)$, which can be handled by Lemma~\ref{le:risk_bounds_iid}.
 
     Let $A$ be the event that
 %     \todo{@Lucien: I don't understand this sentence, in particular "on which" (on the event)}
@@ -630,7 +634,7 @@ With Lemma \ref{le:uniform_approximation} Lemma \ref{le:risk_bounds_iid}, now we
     Then $\Pro[B]\ge 1-\delta/4$.
 
     By \eqref{eq:graph_reconstruction_hoeffding_decomposition}, it is clear that, if both $A$ and $B$ happen,
-    $r_\weight{}$ is a $\rho$-minimizer of $T_\weight{}(r)$ over $r\in R$ in the sense that the difference between the value of this latter quantity at its minimum and $r_\weight{}$ is at most $(\kappa_1+\kappa_1)$.
+    $r_\weight{}$ is a $\rho$-minimizer of $T_\weight{}(r)$ over $r\in R$ in the sense that the difference between the value of this latter quantity at its minimum and $r_\weight{}$ is at most $(\kappa_1+\kappa_2)$.
     % smaller \todo{the difference} than at $r_\weight{}$. 
     Then, from Lemma~\ref{le:risk_bounds_iid}, with probability at least $1-\delta/2$, $r_\weight{}$ is a $(\kappa_1+\kappa_2)$-minimizer of $T_\weight{}(r)$, which the result follows. 
     % \todo{@Lucien: we may need to go through this paragraph on Sunday}
@@ -661,7 +665,7 @@ Although this optimization problem is not convex unless $\beta=0$, which usually
 \begin{definition}[FPTAS]
   An algorithm $\mathcal{A}$ is a FPTAS for a minimization problem $\Pi$, if for any input $\mathcal{I}$ of $\Pi$ and $\epsilon>0$, $\mathcal{A}$ finds a solution $s$ in time polynomial in both the size of $\mathcal{I}$ and $1/\epsilon$ that satisfies
   \[f_\Pi(s)\le (1+\epsilon) \cdot f_\Pi(s^*),\]
-  where $f_\Pi$ is the (positive) objective function of $\Pi$ and $s^*$ is an optimal solution of $\mathcal{I}$.
+  where $f_\Pi$ is the (positive) objective function of $\Pi$ and $s^*$ is an optimal solution for $\mathcal{I}$.
 \end{definition}
 
 \subsection{Optimization Problem} % (fold)
@@ -754,7 +758,7 @@ By introducing two auxiliary variables $a$ and $b$, solving the original program
 \end{equation}
 \DoubleColumnEnd
 Note that the constraints are all convex. 
-If $\complexbound{}=0$, e.g., the hypothesis set is finite, then the objective function becomes linear and thus \eqref{eq:optimization_program_final} is a convex optimization problem that can be solved by standard convex optimization methods (see e.g., \cite{boyd2004convex}) such as interior-point methods. 
+If $\complexbound{}=0$, e.g., the hypothesis set is finite, then the objective function becomes linear and thus \eqref{eq:optimization_program_final} is a convex optimization problem that can be solved by some convex optimization method (see e.g., \cite{boyd2004convex}) such as interior-point method. 
 
 If $\complexbound{}>0$, the objective function is not convex any more. In fact, the program \eqref{eq:optimization_program_final} becomes a concave problem that may be optimized globally by some complex algorithms \cite{benson1995concave,hoffman1981method} that often need tremendous computation. 
 Instead, one may only need to approximate it using some efficient methods, e.g., Concave-Convex Procedure \cite{Yuille2001The} and Coordinate Descent \cite{wright2015coordinate}. 
@@ -808,7 +812,7 @@ $a_{min}$;
 \end{algorithmic}
 \end{algorithm}
 \footnotetext{For example, some interior-point method.}
-% \footnotetext{A number of methods have been proposed to solve LPs such as the simplex method, the ellipsoid method and the interior methods. The simplex method is usually fast in practice, but not theoretically efficient. On the contrary, the ellipsoid method is usually not fast in practice, but theoretically efficient. The recent interior methods usually performance well in both practice and theory, and they are sufficient for our analysis \cite{boyd2004convex}.}
+% \footnotetext{A number of methods have been proposed to solve LPs such as the simplex method, the ellipsoid method and the interior methods. The simplex method is usually fast in practice, but not theoretically efficient. On the contrary, the ellipsoid method is usually not fast in practice, but theoretically efficient. The recent interior methods usually perform well in both practice and theory, and they are sufficient for our analysis \cite{boyd2004convex}.}
 
 \begin{theorem}
 \label{th:fptas}
@@ -822,14 +826,16 @@ We first analyze the running time of this algorithm.
   In Algorithm \ref{alg:FPTAS}, we first divide the problem into at most
   $\frac{1-1/n}{\epsilon(1+\beta)/n}=\frac{n-1}{\epsilon(1+\complexbound{})}$
 %   \[\frac{1-1/n}{\epsilon(1+\beta)/n}=\frac{n-1}{\epsilon(1+\complexbound{})}\]
-  convex programs, each of which produces an $\epsilon$-approximate solution by some interior-point methods. 
-  Since interior-point methods are FPTAS for convex problems \cite{boyd2004convex}, solving each of these programs needs polynomial time in the problem size $m+n$ and $1/\epsilon$. 
+  convex programs, each of which produces an $\epsilon$-approximate solution by some interior-point method. 
+  Since interior-point method is FPTAS for convex problems \cite{boyd2004convex}, solving each of these programs needs polynomial time in the problem size $m+n$ and $1/\epsilon$. 
   Thus, the complexity of Algorithm \ref{alg:FPTAS} is also polynomial in $m+n$ and $1/\epsilon$.
 
 Now we show that this algorithm indeed results in an $\epsilon$-approximation of this optimal solution. 
 
-For any optimal solution $(a^*, b^*, \probdistri{}^*)$, % \todo{@Lucien: note that a solution should have three parts (a,b,p)}, 
-if $a^*$ achieves minimum for the program % \todo{@Lucien: I am kind of confused here...} 
+For any optimal solution $(a^*, b^*, \probdistri{}^*)$, 
+% \todo{@Lucien: note that a solution should have three parts (a,b,p)}, 
+if $a^*$ achieves minimum for the program 
+% \todo{@Lucien: I am kind of confused here...} 
 \eqref{eq:optimization_program_final_fix_b}, we can find $a'$ in $Grid$ (actually $a_{min}$) such that 
   \begin{equation}
   \begin{aligned}
@@ -855,7 +861,7 @@ if $a^*$ achieves minimum for the program % \todo{@Lucien: I am kind of confused
   % \todo{@Lucien: and $1/n \le \tilde{a}$? }
   We assume that the optimal solution for the program \eqref{eq:optimization_program_final_fix_a} is $b=b'$ when we fix $a=a'$.
   Because $(a^*,b^*)$ is feasible and $a'>a^*$, $(a', b^*)$ is always a feasible solution for the program \eqref{eq:optimization_program_final_fix_a}, which leads to $b'\le b^*$.
-  Besides, interior-point methods can produces an $\epsilon$-approximate solution $b''$ such that
+  Besides, interior-point method can produce an $\epsilon$-approximate solution $b''$ such that
   \begin{equation}
     \label{eq:b_bound}
     b''\le (1+\epsilon)b'\le (1+\epsilon)b^*.
@@ -880,13 +886,13 @@ if $a^*$ achieves minimum for the program % \todo{@Lucien: I am kind of confused
 \section{Discussion} % (fold)
 \label{sec:discussion}
 In this section, we first show that, according to our bounds, equal weighting is indeed the best weighting scheme for complete graphs. 
-Then, we discuss the performance of this equal weighting scheme when the graph is incomplete. % and show that it could provide a reasonable bounds. 
+Then, we discuss the performance of this equal weighting scheme when the graph is incomplete. % and show that it could provide reasonable bounds. 
 
 \subsection{Complete Graphs} % (fold)
 \label{sub:complete_graph}
 When graph $G$ is complete, weighting all examples equally gives the best risk bound, as all the terms $\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}$, $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ achieve minimum. 
 Compared to the results in \cite{wang2017learning}, our theory puts additional constrains on $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ which encourages weighting examples fairly in this case, as illustrated in Figure~\ref{fig:weighting_scheme_complete_graph}. 
-Besides, this scheme, which coincides with $U$-statistics that \emph{average} the basic estimator applied to all sub-samples, produces the smallest variance \cite{hoeffding1948class}. 
+Besides, this scheme, which coincides with $U$-statistics that \emph{average} the basic estimator applied to all sub-samples, produces the smallest variance among all unbiased estimators \cite{hoeffding1948class}. 
 
 \begin{figure}[h]
   \centering
@@ -938,11 +944,11 @@ using equal weighting scheme, the risk bounds are of the order
 if $\delta\in (\exp(-m/\Delta(G)),1]$. In some cases, such as bounded degree graphs and complete graphs, this scheme provides reasonable risk bounds.
 Note that $\Delta(G)$ is smaller than the maximum size of cliques in its corresponding line graph $D_G$ and $\fcoloring{}(D_G)$ is larger than the maximum size of cliques in $D_G$, these bounds above are always better than the bounds of order $O(\sqrt{\fcoloring{}(D_G)/m})$ built by Janson's decomposition. 
 
-However, as argued in Section~\ref{sub:intiution_and_examples},
+However, as argued in Section~\ref{sub:intiutions},
 % \todo{@Lucien: this ref}
 one can construct examples to illustrate that if we use the equal weighting strategy when $\Delta(G)$ is large (e.g., if it is linear to $m$), the risk bounds \eqref{eq:equally_weighting_scheme} are very large and do not converge to $0$, while this problem can be solved by simply using a better weighting strategy. 
 \begin{example}
-Consider a data graph with $|E|=m \gg 1$ and $E$ consists of $m/2$ disjoint edges and $m/2$ edges sharing a common vertex, then $\Delta(G)=m/2$. Using the equal weighting scheme, the risk bounds are of order $O(1)$ that is meaningless. A much better weighting scheme of this case is to weight the examples of disjoint edges with $1$ while weight the examples of adjacent edges with $2/m$, which provides risk bounds of the order $O\left((1/m)^{1/(1+\complexbound{})} + \sqrt{1/m}\right)$. %\footnote{This example is only used to show the necessity of weighting, and the order cannot be improved by any approach.}.
+Consider a data graph with $|E|=m \gg 1$ and $E$ consists of $m/2$ disjoint edges and $m/2$ edges sharing a common vertex, then $\Delta(G)=m/2$. Using the equal weighting scheme, the risk bounds are of order $O(1)$ that is meaningless. A much better weighting scheme of this case is to weight the examples of disjoint edges with $2/(m+2)$ while weight the examples of adjacent edges with $4/m(m+2)$, which provides risk bounds of the order $O\left((1/m)^{1/(1+\complexbound{})} + \sqrt{1/m}\right)$. %\footnote{This example is only used to show the necessity of weighting, and the order cannot be improved by any approach.}.
 %\[O(\frac{2}{m+4})^{1/(1+\complexbound{})} + \sqrt{\frac{2}{m} - \frac{16}{(m+4)^2}}).\]
 \end{example}
 
@@ -958,11 +964,11 @@ Consider a data graph with $|E|=m \gg 1$ and $E$ consists of $m/2$ disjoint edge
 
 \section{Conclusion} % (fold)
 \label{sec:conclusion}
-In this paper, we consider weighted ERM of the symmetric \problemabbr{} problem and establish tight universal risk bounds under the ``low-noise'' condition. 
-There new bounds are tighter in the case of incomplete graphs and can be degenerate to the known tightest bound when graphs are complete. 
+In this paper, we consider weighted ERM of the symmetric \problemabbr{} problem and establish new universal risk bounds under the ``low-noise'' condition. 
+These new bounds are tighter in the case of incomplete graphs and can be degenerate to the known tightest bound when graphs are complete. 
 Based on this result, one can train a classifier with better generalization by putting proper weights on training examples. 
 We propose an efficient algorithm to obtain the approximate optimal weighting vector and prove the algorithm is a FPTAS for the weighting optimization problem.
-Finally, we present two special situations to show the advantages of our new risk bounds.
+Finally, we present two examples to show the advantages of our new risk bounds.
 In particular, we show that, in terms of these risk bounds, weighting all examples equally is optimal for complete graphs but not always good for incomplete graphs. 
 
 % Section~conclusion (end)
@@ -981,7 +987,7 @@ In particular, we show that, in terms of these risk bounds, weighting all exampl
 
 \newpage\newpage
 
-\section*{Appendix} % (fold)
+\section*{appendix} % (fold)
 \appendix
 \label{sec:appendix}
 
@@ -993,20 +999,20 @@ Section \ref{sec:a_moment_inequality_for_weighted_u_processes} presents the clas
 Then, some useful inequalities including the moment inequality are proved for weighted Rademacher chaos.
 We mainly use these inequalities to bound $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$.
 Section \ref{sec:technical_proofs} provides technical proofs omitted from the main track and the appendix.
-For the sake of completeness, Section \ref{sub:metric_entropy_inequality} presents the Khinchine inequality and the metric entropy inequality for Rademacher chaos.
+For the sake of completeness, we present the Khinchine inequality and the metric entropy inequality for Rademacher chaos in Section \ref{sub:metric_entropy_inequality}.
 
 \section{Janson's Decomposition} % (fold)
 \label{sec:fractional_coloring_approach}
-% \todo{@Lucien: I want to keep Appendix as short as possible. Is it possible to shorten or remove some subsections from the appendix??}
+% \todo{@Lucien: I want to keep appendix as short as possible. Is it possible to shorten or remove some subsections from the appendix??}
 
-There are literatures that uses Janson's decomposition derived from \cite{janson2004large} to study the problem learning from networked examples \cite{Usunier2005,Biau2006,ralaivola2009chromatic,DBLP:conf/icml/RalaivolaA15}.
+There are literatures that use Janson's decomposition derived from \cite{janson2004large} to study the problem learning from networked examples \cite{Usunier2005,Biau2006,ralaivola2009chromatic,DBLP:conf/icml/RalaivolaA15}.
 They usually model the networked data with the line graph of $G$.
 \begin{definition}[line graph]
   \label{de:line graph}
   Let $G=(V,E)$ be a data graph we consider in the main track. We define the line graph of $G$ as a graph $D_G = (D_V, D_E)$, in which $D_V = E$ and $\edge{i,j}\in D_E$ if and only if $e_i\cap e_j\neq\emptyset$ in $G$.
 \end{definition}
-This framework differs from our setting and detains less information from the data graph, as argued in Section~1.1. 
-One can annalyze this framework by the fractional coloring and the Janson's decomposition.
+This framework differs from our setting and detains less information from the data graph, as argued in Section~\ref{sub:intiutions}. 
+One can analyze this framework by the fractional colouring and the Janson's decomposition.
 % Our graph can be easily transformed to the line graph and we denote by $D_G=(D_V, D_E)$ the line graph of the data graph $G$.
 
 \begin{definition}[fractional coloring]
@@ -1017,7 +1023,7 @@ One can annalyze this framework by the fractional coloring and the Janson's deco
   \end{itemize}
 \end{definition}
 The weight $W(\mathcal{C})$ of $\mathcal{C}$ is given by $W(\mathcal{C})=\sum_{j=1}^J q_j$ and the minimum weight $\fcoloring{}(D_G)=\min_{\mathcal{C}} W(\mathcal{C})$ over the set of all fractional colorings is the \emph{fractional chromatic number} of $D_G$.
-By the Janson's decomposition, one splits all examples into several independent sets according to a fraction coloring of $D_G$ and then analyze each set using the standard method for i.i.d.\ examples.
+By the Janson's decomposition, one splits all examples into several independent sets according to a fraction colouring of $D_G$ and then analyze each set using the standard method for i.i.d.\ examples.
 
 In particular, Theorem~\ref{th:fractional_mcdiarmid} \citep{also see}{Theorem~$2$}{Usunier2005} provides a variation of McDiarmid's theorem using the Janson's decomposition.
 For simplicity, let $\trainingset=\set{z_i}_{i=1}^{m}$ be the training examples drawn from $\zspace^m$ and $\trainingset{}_{\mathcal{C}_j}$ be the examples included in $\mathcal{C}_j$.
@@ -1054,7 +1060,7 @@ In this setting, although the weights $\weight{}$ are no limit to the fractional
 \subsection{``Low-noise'' Condition} % (fold)
 \label{sub:low_noise_condition}
 
-Considering the complete graph with equal weighting scheme, by the Janson's decomposition, the empirical risk $\empiricalrisk{m}(L)$ can be represented as an average of sums of i.i.d.\ r.v.'s
+If we considering the complete graph with equal weighting scheme, by the Janson's decomposition, the empirical risk $\empiricalrisk{m}(L)$ can be represented as an average of sums of i.i.d.\ r.v.'s
 \SingleColumn
 \begin{equation}
   \label{eq:fractional_coloring_ERM}
@@ -1072,7 +1078,7 @@ Considering the complete graph with equal weighting scheme, by the Janson's deco
 \DoubleColumnEnd
 where the sum is taken over all permutations of $\mathcal{G}_m$, the symmetric group of order $m$, and $\lfloor u \rfloor$ denotes the integer part of any $u\in \real{}$.
 From \cite{Biau2006}, the bounds for excess risk of \eqref{eq:fractional_coloring_ERM} are of the order $O(1/\sqrt{n})$.
-Moreover, by the result in \cite{DBLP:conf/icml/RalaivolaA15}, tighter risk bounds may be obtained under the following ``low-noise'' condition \cite{tsybakov2004optimal,Massart2006}.
+Moreover, by the result in \cite{DBLP:conf/icml/RalaivolaA15}, tighter risk bounds may be obtained under the following assumption which can lead to ``low-noise'' condition \cite{tsybakov2004optimal,Massart2006}.
 \begin{assumption}
   There exists $C>0$ and $\theta\in [0,1]$ such that for all $\epsilon>0$,
   \[\Pro\left[|\eta(X_1,X_2)-\frac{1}{2}|\le \epsilon\right]\le C\epsilon^{\theta/(1-\theta)}.\]
@@ -1081,7 +1087,7 @@ The risk bounds of the order $O(\log(n)/n)$ may be achieved if $\theta=1$ \cite{
 We can use the example in \citet{papa2016graph} to show this.
 \begin{example}
 Let $N$ be a positive integer. For each vetex $i \in \set{1,\dots,n}$, we observe $X_i = (X_i^1, X_i^2)$ where $X_i^1$ and $X_i^2$ are two distinct elements drawn from $\set{1,\dots,N}$.
-This may, for instance correspond to the two preferred items of a user $i$ among a list of $N$ items.
+This may, for instance, correspond to the two preferred items of a user $i$ among a list of $N$ items.
 Consider now the case that two nodes are likely to be connected if they share common preference, e.g., $Y_{i,j} \sim Ber(\#(X_i\cap X_j)/2)$. One can easily check that $\Pro[|\eta(X_1,X_2)-1/2|=0]>0$, so tight risk bounds cannot be obtained for minimizers of \eqref{eq:fractional_coloring_ERM}.
 \end{example}
 
@@ -1120,7 +1126,7 @@ Then, by Theorem \ref{th:weighted_bennett_inequality}, we can generalize the res
 
 % subsection i_i_d_ (end)
 
-Suppose that one observes independent variable $\xi_1,\dots,\xi_n$ taking their values in some measurable space $\mathcal Z$ with commom distribution $P$. 
+Suppose that one observes independent variable $\xi_1,\dots,\xi_n$ taking their values in some measurable space $\mathcal Z$ with common distribution $P$. 
 For every $i$, the variable $\xi_i=(X_i,Y_i)$ is a copy of a pair of random variables $(X,Y)$ where $X$ take its values in measurable space $\xspace$. 
 Think of $\mathcal{R}$ as being the set of all measurable functions from $\xspace$ to $\{0,1\}$. 
 Then we consider some \emph{loss} function
@@ -1232,7 +1238,7 @@ Next, we present the maximal inequality involved in covering number for weighted
 In this section, we first show the classical symmetrization and randomization tricks for the degenerated weighted $U$-statistics $U_\weight{}(r)$ and the degenerated part $\widetilde{U}_\weight{}(r)$.
 Then we establish general exponential inequalities for weighted Rademacher chaos.
 This result is generalized from \cite{clemenccon2008ranking} based on moment inequalities obtained for empirical processes and Rademacher chaos in \cite{Boucheron2005}.
-With this moment inequality, we prove the inequality for weighted Rademacher chaos, which involves the $\lebesgue{}_\infty$ covering number of the hypothesis set.
+With this moment inequality, we prove the inequality for weighted Rademacher chaos, which involves the $\lnorm{}_\infty$ covering number of the hypothesis set.
 
 \begin{lemma}[decoupling and undecoupling]
     \label{le:weighted_u_statistics_decoupling}
@@ -1384,11 +1390,11 @@ Lemma \ref{le:weighted_u_statistics_decoupling} and \ref{le:weighted_u_statistic
     where $\|\weight{}\|_{\max}=\max_i \sqrt{\sum_{j:\pair{i,j}\in E} w_{i,j}^2}$.
 \end{theorem}
 
-If the hypothesis set $\mathcal{F}$ is a subset of $\lebesgue{}_\infty(\xspace^2)$ (upper bounds on the uniform covering number with $\lebesgue{}_\infty$ metric can be calculated \cite{cucker2007learning}), we show $\E[Z_\rademacher{}]$, $\E[U_\rademacher{}]$ and $\E[M]$ can be bounded by $N_\infty(\mathcal{F},\epsilon)$ since all these Rademacher random variables satisfy the Khinchine inequality (see Section~\ref{sub:metric_entropy_inequality}). Following the metric entropy inequality for Khinchine-type processes (see Section~\ref{sub:metric_entropy_inequality}), it is easy to get the following Corollary.
+If the hypothesis set $\mathcal{F}$ is a subset of $\lnormspace{}_\infty(\xspace^2)$ (upper bounds on the uniform covering number with $\lnorm{}_\infty$ metric can be calculated \cite{cucker2007learning}), we show $\E[Z_\rademacher{}]$, $\E[U_\rademacher{}]$ and $\E[M]$ can be bounded by $N_\infty(\mathcal{F},\epsilon)$ since all these Rademacher random variables satisfy the Khinchine inequality (see Section~\ref{sub:metric_entropy_inequality}). Following the metric entropy inequality for Khinchine-type processes (see Section~\ref{sub:metric_entropy_inequality}), it is easy to get the following Corollary.
 
 \begin{corollary}
     \label{cor:covering_number_inequality}
-    With the same setting of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}, if $\mathcal{F}\subset \lebesgue{}_\infty(\xspace{}^2)$, we have for any $\delta<1/e$,
+    With the same setting of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}, if $\mathcal{F}\subset \lnormspace{}_\infty(\xspace{}^2)$, we have for any $\delta<1/e$,
     \[\Pro[Z\le \kappa]\ge 1-\delta\]
     where 
     \SingleColumn
@@ -1545,8 +1551,8 @@ If the hypothesis set $\mathcal{F}$ is a subset of $\lebesgue{}_\infty(\xspace^2
 \label{sub:proofs_omitted_in_section_sec:risk_bounds}
 
 % subsection proofs_omitted_in_section_sec:risk_bounds (end)
-\begin{proof}[Proof of Lemma~1] % (fold)
-Since $R\subset\lebesgue{}_\infty(\xspace{}^2)$ (Assumption~$1$), by Corollary~\ref{cor:covering_number_inequality}, the weighted degenerated $U$-process $\sup_{r\in R}|U_\weight{}(r)|$ can be bounded by the $\lebesgue{}_\infty$ covering number of $R$, that is, for any $\delta\in (0,1/e)$, we have
+\begin{proof}[Proof of Lemma~\ref{le:uniform_approximation}] % (fold)
+Since $R\subset\lnormspace{}_\infty(\xspace{}^2)$ (Assumption~\ref{ass:covering_number}), by Corollary~\ref{cor:covering_number_inequality}, the weighted degenerated $U$-process $\sup_{r\in R}|U_\weight{}(r)|$ can be bounded by the $\lnorm{}_\infty$ covering number of $R$, that is, for any $\delta\in (0,1/e)$, we have
 \[\Pro[\sup_{r\in R}|U_\weight{}(r)|\le \kappa]\ge 1-\delta\]
 where 
 \SingleColumn
@@ -1563,15 +1569,15 @@ where
 \end{align*}
 \DoubleColumnEnd
 with a universal constant $C_1<\infty$. 
-Then the first inequality for $\sup_{r\in R}|U_\weight{}(r)|$ follows the fact that $R$ satisfies Assumption~$1$.
+Then the first inequality for $\sup_{r\in R}|U_\weight{}(r)|$ follows the fact that $R$ satisfies Assumption~\ref{ass:covering_number}.
 Similarly, by Lemma~\ref{le:weighted_decoupling_undecoupling} and Lemma~\ref{le:weighted_randomization}, we can convert the moment of $\sup_{r\in R}|\widetilde{U}_\weight{}(r)|$ to the moment of Rademacher chaos
 \[4^q\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}\sigma_i\sigma_j^\prime w_{i,j}\tilde{h}_r(X_i, X_j^\prime,\tilde{Y}_{i,j})|^q]\] 
-which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}. More specifically, using \eqref{eq:inequality_rademacher_chaos_1} and \eqref{eq:inequality_rademacher_chaos_2} combined with the arguments in Corollary~$1$ and Assumption~$1$ will gives the second inequality for $\sup_{r\in R}|\widetilde{U}_\weight{}(r)|$.
+which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}. More specifically, using \eqref{eq:inequality_rademacher_chaos_1} and \eqref{eq:inequality_rademacher_chaos_2} combined with the arguments in Corollary~\ref{cor:covering_number_inequality} and Assumption~\ref{ass:covering_number} will gives the second inequality for $\sup_{r\in R}|\widetilde{U}_\weight{}(r)|$.
 \end{proof}
 
 % subsection proof_of_lemma_ (end)
 
-\begin{proof}[Proof of Lemma~2] % (fold)
+\begin{proof}[Proof of Lemma~\ref{le:variant_control}] % (fold)
     For any function $r\in\mathcal{R}$, observe first that
     \DoubleColumn
     \begin{align*}
@@ -1606,7 +1612,7 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
     \DoubleColumnEnd
 \end{proof}
 
-\begin{proof}[Proof of Lemma~3] % (fold)
+\begin{proof}[Proof of Lemma~\ref{le:risk_bounds_iid}] % (fold)
     First, we introduce some notations of weighted ERM of the i.i.d.\ case. 
     We denote $\{\bar{w}_i=\sum_{j:\pair{i,j}\in E}w_{i,j}: i=1,\dots,n\}$ the weights on vertices and introduce the ``loss function''
     \[\gamma(r, X)=2h_r(X)+\Lambda{}(r)\]
@@ -1624,7 +1630,7 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
     \end{equation}
     From the definition of ``loss function'' $\gamma$, we have the excess risk of $r$ is
     \[\relossf(r,r^*)=\Lambda(r)-\Lambda(r^*)=\Lambda(r).\]
-    According to Lemma~$1$, as $\Lambda^2(r)\le \Lambda(r)$, we have for every $r\in R$,
+    According to Lemma~\ref{le:uniform_approximation}, as $\Lambda^2(r)\le \Lambda(r)$, we have for every $r\in R$,
     \begin{align*}
         d(r,r^*)\le \frac{\sqrt{\normo{\verticeweight{}}}}{\|\verticeweight\|_2}\sqrt{5\relossf(r,r^*)}
     \end{align*}
@@ -1656,7 +1662,7 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
     \SingleColumnEnd
     where $C$ is a universal constant and $\epsilon_*$ is the unique positive solution of the equation
     \[\sqrt{\normo{\verticeweight{}}}\epsilon_*^2=\phi(\psi(\epsilon_*)).\]
-    When $ R$ satisfies Assumption~$1$, there exists a universal constant $C^\prime$ such that
+    When $ R$ satisfies Assumption~\ref{ass:covering_number}, there exists a universal constant $C^\prime$ such that
     \[\epsilon_*^2\le C^\prime K^{1/(1+\complexbound{})}(\frac{1}{(1-\complexbound{})^2\normo{\verticeweight{}}})^{1/(1+\complexbound{})}\]
     which completes the proof.
 \end{proof}
@@ -1699,7 +1705,7 @@ Let $f$ is defined by, for all training set $\trainingset{}$, $f(\trainingset{})
   &\qquad+ \sqrt{\fcoloring(D_G)\log(1/\delta)}\frac{\|\weight{}\|_2}{\normo{\weight{}}}
 \end{align*}
 \DoubleColumnEnd
-Then, using the standard symmetrization technique \citep{see}{Theorem~4}{Usunier2005}, one can bound the first item in the right hand side by $\mathfrak{R}_{\weight{}}^*(R,S)$ which completes the proof. 
+Then, using the standard symmetrization technique \citep{see}{Theorem~$4$}{Usunier2005}, one can bound the first item in the right hand side by $\mathfrak{R}_{\weight{}}^*(R,S)$ which completes the proof. 
 \end{proof}
 
 \subsection{Proofs Omitted in Section \ref{sec:weighted_risk_bounds}} % (fold)
@@ -2215,7 +2221,7 @@ In particular, for any $q\ge 2$,
 \end{align*}
 where $B$ is defined below
 \[B=\sup_f\sup_{\alpha,\alpha^\prime:\|\alpha\|_2,\|\alpha^\prime\|_2\le 1}|\sum_{\pair{i,j}\in E}w_{i,j}\alpha_i\alpha_j^\prime f(X_i,X_j)|.\]
-The second inequality above follows by Theorem~14 of \cite{Boucheron2005}.
+The second inequality above follows by Theorem~$14$ of \cite{Boucheron2005}.
 
 Using the inequality $(a+b+c)^q\le 3^{(q-1)}(a^q+b^q+c^q)$ valid for $q\ge 2,a,b,c>0$, we have
 \[\E_\rademacher[Z_\rademacher^q]\le 3^{q-1}(\E_\rademacher[Z_\rademacher]^q+3^qq^{q/2}\E_\rademacher[U_\rademacher]^q+4^qq^qB^q).\]
@@ -2223,7 +2229,7 @@ It remains to derive suitable upper bounds for the expectation of the three term
 
 \textit{First term:} $\E[\E_\rademacher[Z_\rademacher]^q]$. Using the symmetrization trick, we have
 \[\E[\E_\rademacher[Z_\rademacher]^q]\le 4^q\E[\E_\rademacher[Z_\rademacher^\prime]^q]\]
-which $Z_\rademacher^\prime = \sup_f|\sum_{\pair{i,j}\in E}\rademacher_i\rademacher_j^\prime f(X_i,X_j)|$. Note that $\E_\rademacher$ now denotes expectation taken with respect to both the $\rademacher$ and the $\rademacher^\prime$. For simplicity, we denote by $A=\E_{\rademacher}[Z_\rademacher^\prime]$. In order to apply Corollary~3 of \cite{Boucheron2005}, define, for $k=1,\dots,n$, the random variables
+which $Z_\rademacher^\prime = \sup_f|\sum_{\pair{i,j}\in E}\rademacher_i\rademacher_j^\prime f(X_i,X_j)|$. Note that $\E_\rademacher$ now denotes expectation taken with respect to both the $\rademacher$ and the $\rademacher^\prime$. For simplicity, we denote by $A=\E_{\rademacher}[Z_\rademacher^\prime]$. In order to apply Corollary~$3$ of \cite{Boucheron2005}, define, for $k=1,\dots,n$, the random variables
 \[A_k = \E_{\rademacher}[\sup_f |\sum_{\pair{i,j}\in E,i,j\neq k}w_{i,j}\rademacher_i\rademacher_j^\prime f(X_i,X_j)|].\]
 It is easy to see that $A_k\le A$.
 
@@ -2246,13 +2252,13 @@ and
 \end{align*}
 Therefore,
 \[\sum_{k=1}^n(A-A_k)^2\le 4A\E_\rademacher M.\]
-Then by Corollary~3 of \cite{Boucheron2005}, we obtain
+Then by Corollary~$3$ of \cite{Boucheron2005}, we obtain
 \begin{equation}
     \label{eq:inequality_rademacher_chaos_1}
     \E[\E_\rademacher[Z_\rademacher^\prime]^q]\le 2^{q-1}(2^q(E[Z_\rademacher^\prime])^q+5^qq^q\E[\E_\rademacher[M]^q])
 \end{equation}
 
-To bound $\E[\E_\rademacher[M]^q]$, observe that $\E_\rademacher[M]$ is a conditional Rademacher average, for which Theorem~13 of \cite{Boucheron2005} could be applied. Since $\max_k\sup_{f,i}w_{i,k}f(X_i,X_k)\le \|\weight{}\|_\infty F$, we have
+To bound $\E[\E_\rademacher[M]^q]$, observe that $\E_\rademacher[M]$ is a conditional Rademacher average, for which Theorem~$13$ of \cite{Boucheron2005} could be applied. Since $\max_k\sup_{f,i}w_{i,k}f(X_i,X_k)\le \|\weight{}\|_\infty F$, we have
 \begin{equation}
     \label{eq:inequality_rademacher_chaos_2}
     \E[\E_\rademacher[M]^q]\le 2^{q-1}(2^q\E[M]^q+5^qq^q\|\weight{}\|_\infty^qF^q).
@@ -2312,7 +2318,7 @@ for an appropriate constant $C$.
 \end{proof}
 
 \begin{proof}[Proof of Corollary~\ref{cor:covering_number_inequality}] % (fold)
-    From Theorem~3, it is easy to know
+    From Theorem~$3$, it is easy to know
     \DoubleColumn
     \begin{equation}
         \begin{aligned}
@@ -2337,65 +2343,60 @@ An important character of these Rademacher processes in \eqref{eq:moment_inequal
 where $E_<=\{(i,j): \{i,j\}\in E, i<j\}$. Let $z_\rademacher^\prime=z_\rademacher/\|\weight{}\|_2$, following Theorem \ref{th:kinchine_type_ineqaulity}, we can easily have that $z_\rademacher^\prime$ satisfies \eqref{eq:kinchine_type_inequality_process} with degree $2$. Thus from Theorem \ref{th:rademacher_process_chaining}, we have
 \begin{equation}
     \label{eq:weighted_rademacher_process_prove_1}
-    \E_\rademacher[\sup_{f,g}|z^\prime_\rademacher(f)-z^\prime_\rademacher(s)|]\le K\int_0^D\log N(\mathcal F,\lebesgue{}_2,\epsilon)d\epsilon.
+    \E_\rademacher[\sup_{f,g}|z^\prime_\rademacher(f)-z^\prime_\rademacher(s)|]\le K\int_0^D\log N(\mathcal F,\lnorm{}_2,\epsilon)d\epsilon.
 \end{equation}
-where 
-\DoubleColumn
-\begin{align*}
-    \lebesgue{}_2(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
-    &=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)\\
-    &\qquad-g(X_i,X_j))|^2])^{1/2}.
-\end{align*}
-\DoubleColumnEnd
-\SingleColumn
-\begin{align*}
-    \lebesgue{}_2(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
-    &=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}.
-\end{align*}
-\SingleColumnEnd
+% where 
+% \DoubleColumn
+% \begin{align*}
+%     \lnorm{}_2(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
+%     &=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)\\
+%     &\qquad-g(X_i,X_j))|^2])^{1/2}.
+% \end{align*}
+% \DoubleColumnEnd
+% \SingleColumn
+% \begin{align*}
+%     \lnorm{}_2(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
+%     &=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}.
+% \end{align*}
+% \SingleColumnEnd
 Recall that $\sup_f \|f\|_\infty = F$, we have $D= 2F$.
-Since this metirc function $d$ is intractable, we need to convert it to the $\lebesgue_\infty$ metric. For all $f,s$, we have
+Since this metirc function $d$ is intractable, we need to convert it to the $\lnorm_\infty$ metric. For all $f,s$, we have
 \DoubleColumn
-\begin{align*}
-    \lebesgue{}_2(f,g)&=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)\\
-    &\qquad-g(X_i,X_j))|^2])^{1/2}\\
-    &\le \lebesgue_\infty(f,g)
-\end{align*}
+$\lnorm{}_2(z'_\rademacher{}(f),z'_\rademacher{}(g))\le \lnorm_\infty(f,g)$.
 \DoubleColumnEnd
 \SingleColumn
 \begin{align*}
-    \lebesgue{}_2(f,g)&=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}\\
-    &\le \lebesgue_\infty(f,g)
+    \lnorm{}_2(f,g)&\le \lnorm_\infty(f,g)
 \end{align*}
 \SingleColumnEnd
-The fact that if $\forall f,s\in\mathcal F, \lebesgue{}(f,s)\le \lebesgue{}'(f,s)$ then $N(\mathcal F,\lebesgue{},\epsilon)\le N(\mathcal F, \lebesgue{}',\epsilon)$ combined with \eqref{eq:weighted_rademacher_process_prove_1} will give
+The fact that if $\forall f,s\in\mathcal F, \lnorm{}(f,s)\le \lnorm{}'(f,s)$ then $N(\mathcal F,\lnorm{},\epsilon)\le N(\mathcal F, \lnorm{}',\epsilon)$ combined with \eqref{eq:weighted_rademacher_process_prove_1} will give
 \begin{align*}
     \E[Z_\rademacher]&= 2\E[\E_\rademacher[\sup_f|z_\rademacher(f)|]]\\
-    &\le 2K\|\weight{}\|_2\int_0^{2F}\log N(\mathcal F,\lebesgue{}_2,\epsilon)d\epsilon\\
+    &\le 2K\|\weight{}\|_2\int_0^{2F}\log N(\mathcal F,\lnorm{}_2,\epsilon)d\epsilon\\
     &\le 2K\|\weight{}\|_2\int_0^{2F}\log N_\infty(\mathcal F, \epsilon)d\epsilon
 \end{align*}
 where $K$ is a universal constant. Similarly, we can also bound $\E[M]$ by $K\|\weight{}\|_{\max}\linebreak\int_0^{2F}\sqrt{\log N_\infty(\mathcal F, \epsilon)}d\epsilon$. 
 For $U_\rademacher$, let $\alpha^*$ be the (random) vector that maximizes $U_\rademacher$ and define
 \[\{u_\rademacher(f) = \sum_{i=1}^n\rademacher_i\sum_{\pair{i,j}\in\E}w_{i,j}\alpha_j^*\linebreak f(X_i,X_j),f\in\mathcal{F}\}.\]
-Clearly, $u_\rademacher$ satisfies the Kinchine inequality with degree $1$. Also, we need to convert its metric distance, 
-\DoubleColumn
-\begin{align*}
-    (\E_\rademacher&[|u_\rademacher(f)-u_\rademacher(g)|^2])^{1/2}\\
-    &=(\E_\rademacher[|\sum_{\pair{i,j}\in\E}w_{i,j}\rademacher_i\alpha_j^*(f(X_i,X_j)\\
-    &\qquad-g(X_i,X_j))|^2])^{1/2}\\
-    % &\le \sqrt{\sum_{\pair{i,j}\in\E}(w_{i,j}\alpha_j^*)^2}\sup_{X_i,X_j\in\mathcal X^2}|f(X_i,X_j)\\
-    % &\qquad-g(X_i,X_j)|\\
-    &\le \|\weight{}\|_2\lebesgue_\infty(f,g)
-\end{align*}
-\DoubleColumnEnd 
-\SingleColumn
-\begin{align*}
-    (\E_\rademacher[|u_\rademacher(f)-u_\rademacher(g)|^2])^{1/2}&=(\E_\rademacher[|\sum_{\pair{i,j}\in\E}w_{i,j}\rademacher_i\alpha_j^*(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}\\
-    % &\le \sqrt{\sum_{\pair{i,j}\in\E}(w_{i,j}\alpha_j^*)^2}\sup_{X_i,X_j\in\mathcal X^2}|f(X_i,X_j)\\
-    % &\qquad-g(X_i,X_j)|\\
-    &\le \|\weight{}\|_2\lebesgue_\infty(f,g)
-\end{align*}
-\SingleColumnEnd
+Clearly, $u_\rademacher$ satisfies the Kinchine inequality with degree $1$. Also, we need to convert its metric distance and $\lnorm{}_2(u_\rademacher{}(f), u_\rademacher{}(g))\le \lnorm{}_\infty(f, g)$.
+% \DoubleColumn
+% \begin{align*}
+%     (\E_\rademacher&[|u_\rademacher(f)-u_\rademacher(g)|^2])^{1/2}\\
+%     &=(\E_\rademacher[|\sum_{\pair{i,j}\in\E}w_{i,j}\rademacher_i\alpha_j^*(f(X_i,X_j)\\
+%     &\qquad-g(X_i,X_j))|^2])^{1/2}\\
+%     % &\le \sqrt{\sum_{\pair{i,j}\in\E}(w_{i,j}\alpha_j^*)^2}\sup_{X_i,X_j\in\mathcal X^2}|f(X_i,X_j)\\
+%     % &\qquad-g(X_i,X_j)|\\
+%     &\le \|\weight{}\|_2\lnorm_\infty(f,g)
+% \end{align*}
+% \DoubleColumnEnd 
+% \SingleColumn
+% \begin{align*}
+%     (\E_\rademacher[|u_\rademacher(f)-u_\rademacher(g)|^2])^{1/2}&=(\E_\rademacher[|\sum_{\pair{i,j}\in\E}w_{i,j}\rademacher_i\alpha_j^*(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}\\
+%     % &\le \sqrt{\sum_{\pair{i,j}\in\E}(w_{i,j}\alpha_j^*)^2}\sup_{X_i,X_j\in\mathcal X^2}|f(X_i,X_j)\\
+%     % &\qquad-g(X_i,X_j)|\\
+%     &\le \|\weight{}\|_2\lnorm_\infty(f,g)
+% \end{align*}
+% \SingleColumnEnd
 Thus, $\E[U_\rademacher]\le K\|\weight{}\|_2\int_0^{2F}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon$.
 
 Pluging all these part into \eqref{eq:moment_inequality_of_weighted_u_statistics} will complete the corollary.
