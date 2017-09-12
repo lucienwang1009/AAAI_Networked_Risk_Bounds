@@ -202,6 +202,69 @@ In summary, in this paper we mainly
 \end{itemize}
 
 
+\begin{table*}[!htbp]
+  \caption{\label{ta:methods}Summary of methods for \problemabbr{}.}
+  \centering
+  \begin{tabular}{M{2.7cm} M{2cm} M{4cm} M{3.7cm}}
+    \toprule
+    \textbf{Principles} & \textbf{Graph type} & \textbf{With ``low-noise'' condition} & \textbf{Without ``low-noise'' condition}\\
+    \midrule
+    \multirow{4}{*}{\parbox[t]{4cm}{\textbf{Unweighted ERM \\(equally weighted)}}} & 
+    \textbf{Complete graphs} & \parbox[t]{4cm}{\citec{clemenccon2008ranking}{Ann.\ Stat.},\\ \citec{papa2016graph}{NIPS}} & \citec{Biau2006}{Statistics and Decisions}\\
+    \cmidrule{2-4}
+    & \textbf{General graphs} & \citec{DBLP:conf/icml/RalaivolaA15}{ICML} & \parbox[t]{4cm}{\citec{Usunier2005}{NIPS},\\ \citec{ralaivola2009chromatic}{AISTATS}}\\
+    \cmidrule{1-4}
+    \textbf{Weighted ERM} & \textbf{General graphs} & \cellcolor{Gray}\emph{This paper}  & \citec{wang2017learning}{ALT}\\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+\section{Intuitions} % (fold)
+\label{sub:intiutions}
+
+We now have a look at previous works that are closely related to our work, as shown in Table~\ref{ta:methods}, and present the merits of our method. 
+\citet{Biau2006}, \citet{clemenccon2008ranking} and \citet{papa2016graph} deal with the case when the graph is complete, i.e., the target value of every pair of vertices is known. 
+In this case, \citet{clemenccon2008ranking} formulate the ``low-noise'' condition for the ranking problem and demonstrate that this condition can lead to tighter risk bounds by the moment inequality for $U$-processes.
+\citet{papa2016graph} further consider the graph reconstruction problem introduced by \citet{Biau2006} and show this problem always satisfies the ``low-noise'' condition. 
+
+If the graph is incomplete, one can use either Janson's decomposition \cite{janson2004large,Usunier2005,ralaivola2009chromatic,DBLP:conf/icml/RalaivolaA15} or the fractional matching approach by \citet{wang2017learning} to derive risk bounds. 
+The main differences between these two approaches are: 
+\begin{itemize}
+  \item \citet{wang2017learning} consider the data graph $G$ while Janson's decomposition uses only the line graph $D_G$. 
+  \item The fractional matching approach considers weighted ERM while \citet{janson2004large}, \citet{Usunier2005}, \citet{ralaivola2009chromatic} and \citet{DBLP:conf/icml/RalaivolaA15} only prove bounds for unweighted ERM.
+\end{itemize}
+
+Though \citet{wang2017learning} show improved risk bounds, as far as we know, there is no known tight risk bound on incomplete graphs for tasks such as pairwise ranking and graph reconstruction that satisfy the ``low-noise'' condition. Under this condition, the method proposed in \cite{wang2017learning} does not work (see Section~\ref{sub:complete_graph}). 
+
+% Compared to these work, our method of combining the fractional matching approach and the ``low-noise'' condition has advantages that make it more suitable for solving \problemabbr{}. 
+
+% \textbf{Expressiveness} 
+% We argue that instead of putting the same weight on training examples \citep{usunier2006generalization,ralaivola2009chromatic}, weighted ERM can be used to express important learning principles of interest, such as the unweighted ERM and integral-matching based method which trains the model from the maximum independent set of the training data.
+% Besides, our method can be applied to both complete and incomplete graph thus recover the result of  \citep{clemenccon2008ranking,papa2016graph}. 
+
+Before we show new risk bounds and new weighting methods, we present the following three aspects to convey some intuitions. 
+
+\paragraph{Line Graphs} 
+Compared to Janson's decomposition which is based on line graphs, our method utilizes the additional dependency information in the data graph $G$. 
+For example, the complete line graph with three vertices (i.e., triangle) corresponds to two different data graphs, as illuminated in Figure~\ref{fig:weighting_scheme_complete_graph}. 
+Hence, line graph based methods ignore some important information in the data graph. 
+This negligence makes it unable to improve bounds, no matter whether considering weighted ERM or not (see Section~\ref{sub:weighted_erm} in the appendix). 
+In Section~\ref{sub:equally_weighting}, we show that our bounds are tighter than that of line graph based methods. 
+
+\paragraph{Asymptotic Risk}
+As mentioned by \citet{wang2017learning}, if several examples share a vertex, then we are likely to put less weight on them because the influence of this vertex to the empirical risk should be bounded. 
+Otherwise, if we treat every example equally, then these dependent examples may dominate the training process and lead to the risk bounds that do not converge to $0$ (see the example in Section~\ref{sub:equally_weighting}).
+
+\paragraph{Uniform Bounds} 
+\citet{DBLP:conf/icml/RalaivolaA15} prove an entropy-base concentration inequality for networked data using Janson's decomposition, but the 
+assumption there is usually too restrictive to be satisfied %in the case of complete graphs 
+(see Section~\ref{sub:low_noise_condition} in appendix). 
+% \todo{@Lucien: use \ref{}, check whole paper for this in case there is something wrong}
+To circumvent this problem, our method uses 
+the ``low-noise'' condition (also used in \cite{papa2016graph}) to establish uniform bounds, 
+in absence of any restrictive condition imposed on the data distribution. 
+
+
 \section{Preliminaries} % (fold)
 \label{sec:preliminaries}
 
@@ -327,67 +390,6 @@ Let $E_<=\{\pair{i,j}: i<j, \pair{i,j}\in E\}$ be the ordered edge set. If Condi
 % \caption{Example for the factional coloring approach.}
 % \end{figure}
 
-\begin{table*}[!htbp]
-  \caption{\label{ta:methods}Summary of methods for \problemabbr{}.}
-  \centering
-  \begin{tabular}{M{2.7cm} M{2cm} M{4cm} M{3.7cm}}
-    \toprule
-    \textbf{Principles} & \textbf{Graph type} & \textbf{With ``low-noise'' condition} & \textbf{Without ``low-noise'' condition}\\
-    \midrule
-    \multirow{4}{*}{\parbox[t]{4cm}{\textbf{Unweighted ERM \\(equally weighted)}}} & 
-    \textbf{Complete graphs} & \parbox[t]{4cm}{\citec{clemenccon2008ranking}{Ann.\ Stat.},\\ \citec{papa2016graph}{NIPS}} & \citec{Biau2006}{Statistics and Decisions}\\
-    \cmidrule{2-4}
-    & \textbf{General graphs} & \citec{DBLP:conf/icml/RalaivolaA15}{ICML} & \parbox[t]{4cm}{\citec{Usunier2005}{NIPS},\\ \citec{ralaivola2009chromatic}{AISTATS}}\\
-    \cmidrule{1-4}
-    \textbf{Weighted ERM} & \textbf{General graphs} & \cellcolor{Gray}\emph{This paper}  & \citec{wang2017learning}{ALT}\\
-    \bottomrule
-  \end{tabular}
-\end{table*}
-
-\section{Intuitions} % (fold)
-\label{sub:intiutions}
-
-We now have a look at previous works that are closely related to our work, as shown in Table~\ref{ta:methods}, and present the merits of our method. 
-\citet{Biau2006}, \citet{clemenccon2008ranking} and \citet{papa2016graph} deal with the case when the graph is complete, i.e., the target value of every pair of vertices is known. 
-In this case, \citet{clemenccon2008ranking} formulate the ``low-noise'' condition for the ranking problem and demonstrate that this condition can lead to tighter risk bounds by the moment inequality for $U$-processes.
-\citet{papa2016graph} further consider the graph reconstruction problem introduced by \citet{Biau2006} and show this problem always satisfies the ``low-noise'' condition. 
-
-If the graph is incomplete, one can use either Janson's decomposition \cite{janson2004large,Usunier2005,ralaivola2009chromatic,DBLP:conf/icml/RalaivolaA15} or the fractional matching approach by \citet{wang2017learning} to derive risk bounds. 
-The main differences between these two approaches are: 
-\begin{itemize}
-  \item \citet{wang2017learning} consider the data graph $G$ while Janson's decomposition uses only the line graph $D_G$. 
-  \item The fractional matching approach considers weighted ERM while \citet{janson2004large}, \citet{Usunier2005}, \citet{ralaivola2009chromatic} and \citet{DBLP:conf/icml/RalaivolaA15} only prove bounds for unweighted ERM.
-\end{itemize}
-
-Though \citet{wang2017learning} show improved risk bounds, as far as we know, there is no known tight risk bound on incomplete graphs for tasks such as pairwise ranking and graph reconstruction that satisfy the ``low-noise'' condition. Under this condition, the method proposed in \cite{wang2017learning} does not work (see Section~\ref{sub:complete_graph}). 
-
-% Compared to these work, our method of combining the fractional matching approach and the ``low-noise'' condition has advantages that make it more suitable for solving \problemabbr{}. 
-
-% \textbf{Expressiveness} 
-% We argue that instead of putting the same weight on training examples \citep{usunier2006generalization,ralaivola2009chromatic}, weighted ERM can be used to express important learning principles of interest, such as the unweighted ERM and integral-matching based method which trains the model from the maximum independent set of the training data.
-% Besides, our method can be applied to both complete and incomplete graph thus recover the result of  \citep{clemenccon2008ranking,papa2016graph}. 
-
-Before we show new risk bounds and new weighting methods, we present the following three aspects to convey some intuitions. 
-
-\paragraph{Line Graphs} 
-Compared to Janson's decomposition which is based on line graphs, our method utilizes the additional dependency information in the data graph $G$. 
-For example, the complete line graph with three vertices (i.e., triangle) corresponds to two different data graphs, as illuminated in Figure~\ref{fig:weighting_scheme_complete_graph}. 
-Hence, line graph based methods ignore some important information in the data graph. 
-This negligence makes it unable to improve bounds, no matter whether considering weighted ERM or not (see Section~\ref{sub:weighted_erm} in the appendix). 
-In Section~\ref{sub:equally_weighting}, we show that our bounds are tighter than that of line graph based methods. 
-
-\paragraph{Asymptotic Risk}
-As mentioned by \citet{wang2017learning}, if several examples share a vertex, then we are likely to put less weight on them because the influence of this vertex to the empirical risk should be bounded. 
-Otherwise, if we treat every example equally, then these dependent examples may dominate the training process and lead to the risk bounds that do not converge to $0$ (see the example in Section~\ref{sub:equally_weighting}).
-
-\paragraph{Uniform Bounds} 
-\citet{DBLP:conf/icml/RalaivolaA15} prove an entropy-base concentration inequality for networked data using Janson's decomposition, but the 
-assumption there is usually too restrictive to be satisfied %in the case of complete graphs 
-(see Section~\ref{sub:low_noise_condition} in appendix). 
-% \todo{@Lucien: use \ref{}, check whole paper for this in case there is something wrong}
-To circumvent this problem, our method uses 
-the ``low-noise'' condition (also used in \cite{papa2016graph}) to establish uniform bounds, 
-in absence of any restrictive condition imposed on the data distribution. 
 
 % \paragraph{Other related work}
 % The study of refined risk bounds for learning problems under ``low-noise'' condition starts from
