@@ -264,7 +264,6 @@ To circumvent this problem, our method uses
 the ``low-noise'' condition (also used in \cite{papa2016graph}) to establish uniform bounds, 
 in absence of any restrictive condition imposed on the data distribution. 
 
-
 \section{Preliminaries} % (fold)
 \label{sec:preliminaries}
 
@@ -1176,7 +1175,7 @@ The upper bound for the relative expected loss of any empirical risk minimizer o
 
 \begin{theorem}[risk bound for weighted ERM]
     \label{th:weighted_erm_risk_bounds}
-    Let $\gamma$ be a loss function such $r^*$ minimizes $\Pro[\gamma(r,\cdot)]$ when $r$ varies in $\mathcal{R}$. Let $\phi$ and $\psi$ belong to the class of functions $D$ defined above and let $R$ be a subset of $\mathcal R$ satisfying the sparability Assumption \ref{con:separability_condition}. Assume that, on the one hand,
+    Let $\gamma$ be a loss function such $r^*$ minimizes $\Pro[\gamma(r,\cdot)]$ when $r$ varies in $\mathcal{R}$. Let $\phi$ and $\psi$ belong to the class of functions $D$ defined above and let $R$ be a subset of $\mathcal R$ satisfying the separability Assumption \ref{con:separability_condition}. Assume that, on the one hand,
     \begin{equation}
         \label{eq:weighted_erm_risk_bound_con1}
         d(r^*,r)\le \frac{\sqrt{\normo{\weight{}}}}{\|\weight{}\|_2}\psi(\sqrt{\relossf(r^*,r)}), \forall r\in \mathcal R,
