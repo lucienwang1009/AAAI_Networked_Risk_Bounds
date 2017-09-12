@@ -473,13 +473,14 @@ Now we are ready to show the tighter risk bounds for weighted empirical risk by 
     where $\|\weight{}\|_{\max}=\max_i \sqrt{\sum_{j:\pair{i,j}\in E} w_{i,j}^2}$ and $K'=\max(K,\sqrt{K},K^{1/(1+\complexbound{})})$.
 \end{theorem}
 
-
-From Theorem~\ref{th:main_theorem}, for all
-$\delta\in\Big(\exp\big(-\min(\|\weight{}\|_2/\|\weight{}\|_\infty,\linebreak\|\weight{}\|_2^2/\|\weight{}\|_\max^2)\big),1\Big],$ the risk bounds are of the order
+According to Theorem~\ref{th:main_theorem}, if the parameter 
+% $\delta\in\Bigg(\exp\Big(-\min(\|\weight{}\|_2/\|\weight{}\|_\infty,\|\weight{}\|_2^2/\|\weight{}\|_\max^2)\Big),1\Bigg],$ 
+$\delta$ is greater than the value $\exp\left(-\min(\|\weight{}\|_2/\|\weight{}\|_\infty,\|\weight{}\|_2^2/\|\weight{}\|_\max^2)\right),$ 
+then the risk bounds above are of the order
 $O\left((1/\normo{\weight{}})^{1/(1+\complexbound)}+\|\weight{}\|_2/\normo{\weight{}}\right).$ 
 In this case, our bounds are tighter than $O(1/\sqrt{\normo{\weight{}}})$ as $\|\weight\|_2/\normo{\weight}\le 1/\sqrt{\normo{\weight}}$ (recall that $\weight{}$ must be a fractional matching and $0<\complexbound{}<1$).
 If $G$ is complete and every example is equally weighted, 
-the bounds of the order $O((1/n)^{1/(1+\complexbound)})$ achieves the same results in \cite{papa2016graph} with the same condition on $\delta$ but different complexity measurements of the hypothesis set.
+the bounds of the order $O((1/n)^{1/(1+\complexbound)})$ achieve the same results as in \cite{papa2016graph}\footnote{They consider the same range of $\delta$, and the only difference is the complexity measurement of hypothesis sets.}.
 
 \begin{remark*}
 Theorem~\ref{th:main_theorem} provides universal risk bounds no matter what the distribution of the data is. The factor of $2$ in front of the approximation error $\inf_{r\in R}\risk(r)-\bayeserror$ has no special meaning and can be replaced by any constant larger than $1$ with a cost of increasing the constant $C$. 
