@@ -456,8 +456,8 @@ Now we are ready to show the tighter risk bounds for weighted empirical risk by 
         \begin{aligned}
             \label{eq:main_result}
             \risk(r_\weight{}&)-\bayeserror \le 2(\inf_{r\in R}\risk(r)-\bayeserror) + \frac{K'C\log(1/\delta)}{(1-\complexbound)^{2/(\complexbound+1)}\normo{\weight{}}}\\
-            &\Bigg(\normo{\weight{}}^{\complexbound/(1+\complexbound)}+\max\Big(\|\weight{}\|_2,\|\weight{}\|_{\max}(\log(1/\delta))^{1/2},\\
-            &\qquad\qquad\qquad\qquad\qquad\|\weight{}\|_\infty(\log(1/\delta))\Big)\Bigg)
+            &\bigg(\normo{\weight{}}^{\complexbound/(1+\complexbound)}+\max\Big(\|\weight{}\|_2,\|\weight{}\|_{\max}(\log(1/\delta))^{1/2},\\
+            &\qquad\qquad\qquad\qquad\qquad\|\weight{}\|_\infty(\log(1/\delta))\Big)\bigg)
         \end{aligned}
     \end{equation}
     \DoubleColumnEnd
@@ -465,8 +465,8 @@ Now we are ready to show the tighter risk bounds for weighted empirical risk by 
     \begin{equation}
         \begin{aligned}
             \label{eq:main_result}
-            \risk(r_\weight{})-\bayeserror &\le 2(\inf_{r\in R}\risk(r)-\bayeserror) + \frac{K'C\log(1/\delta)}{(1-\complexbound)^{2/(\complexbound+1)}\normo{\weight{}}}\Bigg(\normo{\weight{}}^{\complexbound/(1+\complexbound)}\\
-            &\qquad\qquad+\max\Big(\|\weight{}\|_2,\|\weight{}\|_{\max}(\log(1/\delta))^{1/2},\|\weight{}\|_\infty(\log(1/\delta))\Big)\Bigg)
+            \risk(r_\weight{})-\bayeserror &\le 2(\inf_{r\in R}\risk(r)-\bayeserror) + \frac{K'C\log(1/\delta)}{(1-\complexbound)^{2/(\complexbound+1)}\normo{\weight{}}}\bigg(\normo{\weight{}}^{\complexbound/(1+\complexbound)}\\
+            &\qquad\qquad+\max\Big(\|\weight{}\|_2,\|\weight{}\|_{\max}(\log(1/\delta))^{1/2},\|\weight{}\|_\infty(\log(1/\delta))\Big)\bigg)
         \end{aligned}
     \end{equation}
     \SingleColumnEnd
@@ -475,7 +475,7 @@ Now we are ready to show the tighter risk bounds for weighted empirical risk by 
 
 
 From Theorem~\ref{th:main_theorem}, for all
-$\delta\in\Bigg(\exp\Big(-\min(\|\weight{}\|_2/\|\weight{}\|_\infty,\|\weight{}\|_2^2/\|\weight{}\|_\max^2)\Big),1\Bigg],$ the risk bounds are of the order
+$\delta\in\Big(\exp\big(-\min(\|\weight{}\|_2/\|\weight{}\|_\infty,\linebreak\|\weight{}\|_2^2/\|\weight{}\|_\max^2)\big),1\Big],$ the risk bounds are of the order
 $O\left((1/\normo{\weight{}})^{1/(1+\complexbound)}+\|\weight{}\|_2/\normo{\weight{}}\right).$ 
 In this case, our bounds are tighter than $O(1/\sqrt{\normo{\weight{}}})$ as $\|\weight\|_2/\normo{\weight}\le 1/\sqrt{\normo{\weight}}$ (recall that $\weight{}$ must be a fractional matching and $0<\complexbound{}<1$).
 If $G$ is complete and every example is equally weighted, 
@@ -546,12 +546,12 @@ In the following, we bound the three terms $T_\weight{}, U_\weight{}$ and $\wide
     \DoubleColumnEnd
     and
     \SingleColumn
-    \[\sup_{r\in R}|\widetilde{U}_\weight{}(r)|\le \frac{\max(K,\sqrt{K})C_2}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)\]
+    \[\sup_{r\in R}|\widetilde{U}_\weight{}(r)|\le \frac{\max(K,\sqrt{K})C_2}{1-\complexbound{}}\bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\bigg)\]
     \SingleColumnEnd
     \DoubleColumn
     \begin{align*}
-        \sup_{r\in R}&|\widetilde{U}_\weight{}(r)|\le \frac{\max(K,\sqrt{K})C_2}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}\\
-        &+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)
+        \sup_{r\in R}&|\widetilde{U}_\weight{}(r)|\le \frac{\max(K,\sqrt{K})C_2}{1-\complexbound{}}\bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}\\
+        &+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\bigg)
     \end{align*}
     \DoubleColumnEnd
     where $C_1,C_2 < +\infty$ are constants.
@@ -614,13 +614,13 @@ With Lemma \ref{le:uniform_approximation} Lemma \ref{le:risk_bounds_iid}, now we
     where
     \DoubleColumn
     \begin{align*}
-    \kappa_2&=\frac{C_2}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\\
-    &\qquad\qquad\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)
+    \kappa_2&=\frac{C_2}{1-\complexbound{}}\bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\\
+    &\qquad\qquad\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\bigg)
     \end{align*}
     \DoubleColumnEnd
     \SingleColumn
     \begin{align*}
-    \kappa_2&=\frac{C_2}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)
+    \kappa_2&=\frac{C_2}{1-\complexbound{}}\bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\bigg)
     \end{align*}
     \SingleColumnEnd
     for an appropriate constant $C_2$.
@@ -669,9 +669,9 @@ According to Theorem~\ref{th:main_theorem}, given a graph $G$, $\complexbound\in
 \begin{equation}
     \label{eq:optimization_program}
 \begin{aligned}
-    \min_{\weight{}} \quad&\frac{1}{\normo{\weight{}}}\Bigg(\normo{\weight{}}^{\complexbound/(1+\complexbound)}+\max\Big(\|\weight{}\|_2,\\
+    \min_{\weight{}} \quad&\frac{1}{\normo{\weight{}}}\bigg(\normo{\weight{}}^{\complexbound/(1+\complexbound)}+\max\Big(\|\weight{}\|_2,\\
     &\qquad\|\weight{}\|_{\max}(\log(1/\delta))^{1/2},
-    \|\weight{}\|_\infty(\log(1/\delta))\Big)\Bigg)\\
+    \|\weight{}\|_\infty(\log(1/\delta))\Big)\bigg)\\
     \mbox{s.t.} \quad& \forall \pair{i,j}\in E, w_{i,j}\ge 0 \quad \mbox{and} \quad  \forall i, \sum_{j:\pair{i,j}\in E} w_{i,j}\le 1
 \end{aligned}
 \end{equation}
@@ -680,7 +680,7 @@ According to Theorem~\ref{th:main_theorem}, given a graph $G$, $\complexbound\in
 \begin{equation}
     \label{eq:optimization_program}
 \begin{aligned}
-    \min_{\weight{}} & \quad\frac{1}{\normo{\weight{}}}\Bigg(\normo{\weight{}}^{\complexbound{}/(1+\complexbound{})}+\max\Big(\|\weight{}\|_2,\|\weight{}\|_{\max}(\log(1/\delta))^{1/2},\|\weight{}\|_\infty(\log(1/\delta))\Big)\Bigg)\\
+    \min_{\weight{}} & \quad\frac{1}{\normo{\weight{}}}\bigg(\normo{\weight{}}^{\complexbound{}/(1+\complexbound{})}+\max\Big(\|\weight{}\|_2,\|\weight{}\|_{\max}(\log(1/\delta))^{1/2},\|\weight{}\|_\infty(\log(1/\delta))\Big)\bigg)\\
     \mbox{s.t.} \quad& \forall \pair{i,j}\in E, w_{i,j}\ge 0 \quad \mbox{and} \quad  \forall i, \sum_{j:\pair{i,j}\in E} w_{i,j}\le 1
 \end{aligned}
 \end{equation}
@@ -817,7 +817,7 @@ We first analyze the running time of this algorithm.
 
   Note that $1/n\le a\le 1$ if the graph is not empty. % in the program \eqref{eq:optimization_program_final}. 
   In Algorithm \ref{alg:FPTAS}, we first divide the problem into at most
-  $\frac{1-1/n}{\epsilon(1+\beta)/n}=\frac{n-1}{\epsilon(1+\complexbound{})}$
+  \[\frac{1-1/n}{\epsilon(1+\beta)/n}=\frac{n-1}{\epsilon(1+\complexbound{})}\]
 %   \[\frac{1-1/n}{\epsilon(1+\beta)/n}=\frac{n-1}{\epsilon(1+\complexbound{})}\]
   convex programs, each of which produces an $\epsilon$-approximate solution by some interior-point method. 
   Since interior-point method is FPTAS for convex problems \cite{boyd2004convex}, solving each of these programs needs polynomial time in the problem size $m+n$ and $1/\epsilon$. 
@@ -932,7 +932,7 @@ Let us discuss further the equal weighting scheme that gives every example the s
 using equal weighting scheme, the risk bounds are of the order 
 \begin{equation}
 \label{eq:equally_weighting_scheme}
-    O((\frac{\Delta(G)}{m})^{1/(1+\complexbound{})} + \frac{1}{\sqrt{m}}),
+    O\left((\frac{\Delta(G)}{m})^{1/(1+\complexbound{})} + \frac{1}{\sqrt{m}}\right),
 \end{equation}
 if $\delta\in (\exp(-m/\Delta(G)),1]$. In some cases, such as bounded degree graphs and complete graphs, this scheme provides reasonable risk bounds.
 Note that $\Delta(G)$ is smaller than the maximum size of cliques in its corresponding line graph $D_G$ and $\fcoloring{}(D_G)$ is larger than the maximum size of cliques in $D_G$, these bounds above are always better than the bounds of the order $O(\sqrt{\fcoloring{}(D_G)/m})$ built by Janson's decomposition. 
@@ -1360,14 +1360,14 @@ Lemma \ref{le:weighted_u_statistics_decoupling} and \ref{le:weighted_u_statistic
     \DoubleColumn
     \begin{align*}
         \Pro[Z&\ge C\E[Z_\rademacher]+t]\\
-        &\le \exp\Bigg(-\frac{1}{C}\min\Big((\frac{t}{\E[U_\rademacher]})^2,\frac{t}{\E[M]+F\|\weight{}\|_2},\\
-        &\qquad(\frac{t}{\|\weight{}\|_{\max}F})^{2/3},\sqrt{\frac{t}{\|\weight{}\|_\infty F}}\Big)\Bigg)
+        &\le \exp\bigg(-\frac{1}{C}\min\Big((\frac{t}{\E[U_\rademacher]})^2,\frac{t}{\E[M]+F\|\weight{}\|_2},\\
+        &\qquad(\frac{t}{\|\weight{}\|_{\max}F})^{2/3},\sqrt{\frac{t}{\|\weight{}\|_\infty F}}\Big)\bigg)
     \end{align*}
     \DoubleColumnEnd
     \SingleColumn
     \begin{align*}
         \Pro[Z&\ge C\E[Z_\rademacher]+t]\\
-        &\le \exp\Bigg(-\frac{1}{C}\min\Big((\frac{t}{\E[U_\rademacher]})^2,\frac{t}{\E[M]+F\|\weight{}\|_2},(\frac{t}{\|\weight{}\|_{\max}F})^{2/3},\sqrt{\frac{t}{\|\weight{}\|_\infty F}}\Big)\Bigg)
+        &\le \exp\bigg(-\frac{1}{C}\min\Big((\frac{t}{\E[U_\rademacher]})^2,\frac{t}{\E[M]+F\|\weight{}\|_2},(\frac{t}{\|\weight{}\|_{\max}F})^{2/3},\sqrt{\frac{t}{\|\weight{}\|_\infty F}}\Big)\bigg)
     \end{align*}
     \SingleColumnEnd
     % there exists a universal constant $C>0$ such that for all $n$ and $q\ge 2$,
@@ -1392,15 +1392,15 @@ If the hypothesis set $\mathcal{F}$ is a subset of $\lnormspace{}_\infty(\xspace
     where 
     \SingleColumn
     \begin{align*}
-        \kappa\le&C\Bigg(\|\weight{}\|_2\int_0^{2F}\log N_\infty(\mathcal F, \epsilon)d\epsilon+\max\Big(\|\weight{}\|_2\log(1/\delta)\int_0^{2F}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon,\\
-        &\qquad\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max}, (\log(1/\delta))^2\|\weight{}\|_\infty\Big)\Bigg).
+        \kappa\le&C\bigg(\|\weight{}\|_2\int_0^{2F}\log N_\infty(\mathcal F, \epsilon)d\epsilon+\max\Big(\|\weight{}\|_2\log(1/\delta)\int_0^{2F}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon,\\
+        &\qquad\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max}, (\log(1/\delta))^2\|\weight{}\|_\infty\Big)\bigg).
     \end{align*}
     \SingleColumnEnd
     \DoubleColumn
     \begin{align*}
-        \kappa\le&C\Bigg(\|\weight{}\|_2\int_0^{2F}\log N_\infty(\mathcal F, \epsilon)d\epsilon\\
+        \kappa\le&C\bigg(\|\weight{}\|_2\int_0^{2F}\log N_\infty(\mathcal F, \epsilon)d\epsilon\\
         &+\max\Big(\|\weight{}\|_2\log(1/\delta)\int_0^{2F}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon,\\
-        &\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max}, (\log(1/\delta))^2\|\weight{}\|_\infty\Big)\Bigg).
+        &\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max}, (\log(1/\delta))^2\|\weight{}\|_\infty\Big)\bigg).
     \end{align*}
     \DoubleColumnEnd
     with a universal constant $C$.
@@ -1550,15 +1550,15 @@ Since $R\subset\lnormspace{}_\infty(\xspace{}^2)$ (Assumption~\ref{ass:covering_
 where 
 \SingleColumn
 \begin{align*}
-    \kappa\le&\frac{C_1}{\normo{\weight}}\Bigg(\|\weight{}\|_2\int_0^{1}\log N_\infty(\mathcal F, \epsilon)d\epsilon+\max\Big(\|\weight{}\|_2\log(1/\delta)\int_0^{1}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon,\\
-    &\qquad\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max}, (\log(1/\delta))^2\|\weight{}\|_\infty\Big)\Bigg).
+    \kappa\le&\frac{C_1}{\normo{\weight}}\bigg(\|\weight{}\|_2\int_0^{1}\log N_\infty(\mathcal F, \epsilon)d\epsilon+\max\Big(\|\weight{}\|_2\log(1/\delta)\int_0^{1}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon,\\
+    &\qquad\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max}, (\log(1/\delta))^2\|\weight{}\|_\infty\Big)\bigg).
 \end{align*}
 \SingleColumnEnd
 \DoubleColumn
 \begin{align*}
-    \kappa\le&\frac{C_1}{\normo{\weight}}\Bigg(\|\weight{}\|_2\int_0^{1}\log N_\infty(R, \epsilon)d\epsilon\\
+    \kappa\le&\frac{C_1}{\normo{\weight}}\bigg(\|\weight{}\|_2\int_0^{1}\log N_\infty(R, \epsilon)d\epsilon\\
     &+\max\Big(\|\weight{}\|_2\log(1/\delta)\int_0^{1}\sqrt{\log N_\infty(R,\epsilon)}d\epsilon,\\
-    &\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max},(\log(1/\delta))^2\|\weight{}\|_\infty\Big)\Bigg).
+    &\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max},(\log(1/\delta))^2\|\weight{}\|_\infty\Big)\bigg).
 \end{align*}
 \DoubleColumnEnd
 with a universal constant $C_1<\infty$. 
