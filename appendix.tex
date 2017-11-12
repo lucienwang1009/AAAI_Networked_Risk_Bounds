@@ -1,25 +1,31 @@
-\documentclass{article}
-
-% if you need to pass options to natbib, use, e.g.:
-% \PassOptionsToPackage{numbers, compress}{natbib}
-% before loading nips_2017
-%
-% to avoid loading the natbib package, add option nonatbib:
-\usepackage[nonatbib]{nips_2017}
-
-% \usepackage{nips_2017}
-
-% to compile a camera-ready version, add the [final] option, e.g.:
-% \usepackage[final]{nips_2017}
+\def\year{2018}\relax
+%File: formatting-instruction.tex
+\documentclass[letterpaper]{article} %DO NOT CHANGE THIS
+\usepackage{aaai18}  %Required
+\usepackage{times}  %Required
+\usepackage{helvet}  %Required
+\usepackage{courier}  %Required
+\usepackage{url}  %Required
+\usepackage{graphicx}  %Required
+\frenchspacing  %Required
+\setlength{\pdfpagewidth}{8.5in}  %Required
+\setlength{\pdfpageheight}{11in}  %Required
+%PDF Info Is Required:
+  \pdfinfo{
+/Title (On the ERM Principle with Networked Data)
+/Author ()}
+\setcounter{secnumdepth}{2} 
 
 \usepackage[utf8]{inputenc} % allow utf-8 input
-\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
-\usepackage{hyperref}       % hyperlinks
-\usepackage{url}            % simple URL typesetting
 \usepackage{booktabs}       % professional-quality tables
 \usepackage{amsfonts}       % blackboard math symbols
-\usepackage{nicefrac}       % compact symbols for 1/2, etc.
 \usepackage{microtype}      % microtypography
+\usepackage{algorithm}
+% \usepackage{algorithmic}
+\usepackage[noend]{algpseudocode}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}} % Use Input in the format of Algorithm
+\renewcommand{\algorithmicensure}{\textbf{Output:}} % Use Output in the format of Algorithm
+% \usepackage{natbib}
 
 % For using \ifthenelse
 \usepackage{ifthen}
@@ -37,7 +43,7 @@
 \long\def\LongVersion#1\LongVersionEnd{}
 }
 
-\def\GenerateSingleColumn{}
+\def\GenerateDoubleColumn{}
 \ifthenelse{\isundefined{\GenerateSingleColumn}}
 {
 \def\DoubleColumn{}
@@ -57,9 +63,10 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amsfonts}
+\usepackage{url}
 \usepackage{graphicx}
-\usepackage{epstopdf}
 \usepackage{color,colortbl}
+\usepackage{epstopdf}
 \definecolor{Gray}{gray}{0.7}
 \usepackage{dsfont}
 \usepackage{breqn}
@@ -73,7 +80,7 @@
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
 \patchcmd{\thebibliography}{\section*{\refname}}{}{}{}
-% \allowdisplaybreaks
+\allowdisplaybreaks
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -109,46 +116,57 @@
 \newcommand{\rademacher}{\sigma}
 \newcommand{\edge}[1]{\{#1\}}
 \newcommand{\pair}[1]{(#1)}
-\newcommand{\lebesgue}{\mathbb{L}}
+\newcommand{\lnorm}{\mathbb{L}}
+\newcommand{\lnormspace}{\mathscr{L}}
 \newcommand{\bmlambda}{\bm{\lambda}}
 % a better name
-\newcommand{\problemabbr}{\textnormal{C}\textsc{tnd}}
+\newcommand{\problemabbr}{\textnormal{C}\textsc{lanet}}
 % Symmetric relational classification
 \newcommand{\normo}[1]{\|#1\|_1}
 \newcommand{\fcoloring}{\chi^*}
 \newcommand{\complexbound}{\beta}
-\newcommand{\citec}[2]{\citeauthor{#1}\ (#2 \citeyear{#1})}
 \newcommand{\set}[1]{\{#1\}}
-\newcommand{\trainingset}{S}
+\newcommand{\trainingset}{\mathbb{S}}
 \newcommand{\rademachercomplexity}{\mathfrak{R}}
 
-\title{On the ERM Principle with Networked Data\\Appendix}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\todo}[1]{\red{\textsc{todo:} #1}}
+
+
+% For aaai citation
+\newcommand{\citet}[1]{\citeauthor{#1}\ (\citeyear{#1})}
+\newcommand{\citett}[2]{\citeauthor{#2}\ (\citeyear{#2}, #1)}
+\newcommand{\citep}[3]{(#1\ \citeauthor{#3}\ \citeyear{#3},\ #2)}
+\newcommand{\citec}[2]{\citeauthor{#1}\ (#2 \citeyear{#1})}
 
 \begin{document}
-\maketitle
 
-% \section*{appendix} % (fold)
+\section*{Appendix} % (fold)
 \appendix
 \label{sec:appendix}
 
-This appendix is organized as follows. Section \ref{sec:fractional_coloring_approach} provides new risk bounds for weighted ERM following the Janson's decomposition and show that it cannot improve prior results.
-Section \ref{sub:weighted_risk_bounds} establishes the tight risk bounds for weighted ERM on i.i.d. examples under the "low-noise" condition and proves upper bounds involved in covering number for weighted empirical processes. 
+This appendix is organized as follows. Section \ref{sec:fractional_coloring_approach} 
+% \todo{@Lucien: \ref{ } does not show, please check carefully for every place}
+provides new risk bounds for weighted ERM following the Janson's decomposition and show that it cannot improve prior results. 
+Section \ref{sec:weighted_risk_bounds} establishes universal risk bounds for weighted ERM on i.i.d. examples under the "low-noise" condition and proves upper bounds involved in covering number for weighted empirical processes. 
 Section \ref{sec:a_moment_inequality_for_weighted_u_processes} presents the classical symmetrization and randomization tricks and decoupling inequality for degenerated weighted $U$-processes and the degenerated part $\widetilde{U}_\weight{}(r)$.
 Then, some useful inequalities including the moment inequality are proved for weighted Rademacher chaos.
-Section \ref{sec:technical_proofs} and \ref{sec:proofs_of_the_appendix} provide technical proofs for the main track and the appendix.
-Section \ref{sub:metric_entropy_inequality} introduces the Khinchine inequality and gives the metric entropy inequality for Rademacher chaos.
+We mainly use these inequalities to bound $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$.
+Section \ref{sec:technical_proofs} provides technical proofs omitted from the main track and the appendix.
+For the sake of completeness, we present the Khinchine inequality and the metric entropy inequality for Rademacher chaos in Section \ref{sub:metric_entropy_inequality}.
 
-\section{Janson's decomposition} % (fold)
+\section{Janson's Decomposition} % (fold)
 \label{sec:fractional_coloring_approach}
+% \todo{@Lucien: I want to keep appendix as short as possible. Is it possible to shorten or remove some subsections from the appendix??}
 
-There are some literature that uses Janson's decomposition derived from \cite{janson2004large} to study the problem learning from networked examples \citep{Usunier2005,Biau2006,ralaivola2009chromatic,DBLP:conf/icml/RalaivolaA15}.
+There are literatures that use Janson's decomposition derived from \cite{janson2004large} to study the problem learning from networked examples \cite{Usunier2005,Biau2006,ralaivola2009chromatic,DBLP:conf/icml/RalaivolaA15}.
 They usually model the networked data with the line graph of $G$.
 \begin{definition}[line graph]
   \label{de:line graph}
   Let $G=(V,E)$ be a data graph we consider in the main track. We define the line graph of $G$ as a graph $D_G = (D_V, D_E)$, in which $D_V = E$ and $\edge{i,j}\in D_E$ if and only if $e_i\cap e_j\neq\emptyset$ in $G$.
 \end{definition}
-This framework differs from our setting and detains less information from the data graph, as argued in Section~1.1. 
-One can annalyze this framework by the fractional coloring and the Janson's decomposition.
+This framework differs from our setting and detains less information from the data graph, as argued in Section~\ref{sub:intiutions}. 
+One can analyze this framework by the fractional coloring and the Janson's decomposition.
 % Our graph can be easily transformed to the line graph and we denote by $D_G=(D_V, D_E)$ the line graph of the data graph $G$.
 
 \begin{definition}[fractional coloring]
@@ -159,21 +177,21 @@ One can annalyze this framework by the fractional coloring and the Janson's deco
   \end{itemize}
 \end{definition}
 The weight $W(\mathcal{C})$ of $\mathcal{C}$ is given by $W(\mathcal{C})=\sum_{j=1}^J q_j$ and the minimum weight $\fcoloring{}(D_G)=\min_{\mathcal{C}} W(\mathcal{C})$ over the set of all fractional colorings is the \emph{fractional chromatic number} of $D_G$.
-By the Janson's decomposition, one splits all examples into several independent sets according to a fraction coloring of $D_G$ and then analyze each set using the standard method for i.i.d.\ examples.
+By the Janson's decomposition, one splits all examples into several independent sets according to a fractional coloring of $D_G$ and then analyze each set using the standard method for i.i.d.\ examples.
 
-In particular, Theorem~\ref{th:fractional_mcdiarmid} \citep[see][Theorem~$2$]{Usunier2005} provides a variation of McDiarmid's theorem using the Janson's decomposition.
-For simplicity, let $\trainingset=\set{z_i}_{i=1}^{m}$ be the training examples drawn from $\zspace^m$ and $S_{\mathcal{C}_j}$ be the examples included in $\mathcal{C}_j$.
-Also, let $k_j^i$ be the index of the $i$-th example of $\mathcal{C}_j$ in the training set $S$ and denote by $\weight{}=\set{w_i}_{i=1}^m$ the weights on $S$.
+In particular, Theorem~\ref{th:fractional_mcdiarmid} \citep{also see}{Theorem~$2$}{Usunier2005} provides a variation of McDiarmid's theorem using the Janson's decomposition.
+For simplicity, let $\trainingset=\set{z_i}_{i=1}^{m}$ be the training examples drawn from $\zspace^m$ and $\trainingset{}_{\mathcal{C}_j}$ be the examples included in $\mathcal{C}_j$.
+Also, let $k_j^i$ be the index of the $i$-th example of $\mathcal{C}_j$ in the training set $\trainingset{}$.
 
 \begin{theorem}
    \label{th:fractional_mcdiarmid}
    Using the notations defined above, let $\mathcal{C} = \set{(\mathcal{C}_j, q_j)}_{j=1}^J$ be a fractional coloring of $D_G$. Let $f:\zspace^m \to \real{}$ such that
    \begin{itemize}
      \item there exist $J$ functions $\zspace^{|\mathcal{C}_j|} \to \real{}$ which satisfy $\forall S\in \zspace^m$, $f(S)=\sum_{j=1}^J q_j f_j(S_{\mathcal{C}_j})$.
-     \item there exist $c_i,\dots,c_m\in \real{}_+$ such that $\forall j,\forall S_{\mathcal{C}_j}, S_{\mathcal{C}_j}^k$ such that $S_{\mathcal{C}_j}$ and $S_{\mathcal{C}_j}^k$ differ only in the $k$-th example, $|f_j(S_{\mathcal{C}_j}) - f_j(S_{\mathcal{C}_j}^k)|\le c_{k_j^i}$.
+     \item there exist $c_i,\dots,c_m\in \real{}_+$ such that $\forall j,\forall S_{\mathcal{C}_j}, S_{\mathcal{C}_j}^k$ such that $\trainingset{}_{\mathcal{C}_j}$ and $\trainingset{}_{\mathcal{C}_j}^k$ differ only in the $k$-th example, $|f_j(S_{\mathcal{C}_j}) - f_j(S_{\mathcal{C}_j}^k)|\le c_{k_j^i}$.
    \end{itemize}
      Then, we have
-     \[\Pro[f(S)-\E[f(S)]\ge \epsilon] \le \exp\left(-\frac{2\epsilon^2}{\fcoloring{}(D_G)\sum_{i=1}^mc_i^2}\right).\]
+     \[\Pro[f(S)-\E[f(S)]\ge \epsilon] \le \exp\left(-\frac{2\epsilon^2}{\fcoloring{}(D_G)\sum_{i=1}^m c_i^2}\right).\]
  \end{theorem}
 
 \subsection{Weighted ERM} % (fold)
@@ -193,35 +211,48 @@ Using the above theorem, we show that the risk bounds for weighted ERM derived f
 
 In this setting, although the weights $\weight{}$ are no limit to the fractional matching, the risk bounds cannot improve the results of \cite{Usunier2005}, which is of the order $\sqrt{\fcoloring{}(D_G)/m}$, as $\|\weight\|_2/\normo{\weight{}}\le 1/\sqrt{m}$.
 
-\subsection{``Low-noise'' condition} % (fold)
+\subsection{``Low-noise'' Condition} % (fold)
 \label{sub:low_noise_condition}
 
-Considering the complete graph with equal weighting scheme, by the Janson's decomposition, the empirical risk $\empiricalrisk{m}(L)$ can be represented as an average of sums of i.i.d.\ r.v.'s
+If we considering the complete graph with equal weighting scheme, by the Janson's decomposition, the empirical risk $\empiricalrisk{m}(L)$ can be represented as an average of sums of i.i.d.\ r.v.'s
+\SingleColumn
 \begin{equation}
   \label{eq:fractional_coloring_ERM}
   \frac{1}{m!}\sum_{\bm{\pi}\in\mathcal{G}_n}\frac{1}{\lfloor m/2\rfloor}\sum_{i=1}^{\lfloor m/2 \rfloor} \ell(r, (X_{\pi(i)}, X_{\pi(i)+\lfloor m/2\rfloor}, Y_{\pi(i), \pi(i)+\lfloor m/2\rfloor}))
 \end{equation}
+\SingleColumnEnd
+\DoubleColumn
+\begin{equation}
+\begin{aligned}
+  \label{eq:fractional_coloring_ERM}
+  \frac{1}{m!}\sum_{\bm{\pi}\in\mathcal{G}_n}\frac{1}{\lfloor m/2\rfloor}\sum_{i=1}^{\lfloor m/2 \rfloor} \ell(r, (X_{\pi(i)}, X_{\pi(i)+\lfloor m/2\rfloor}, \\
+  Y_{\pi(i), \pi(i)+\lfloor m/2\rfloor}))
+  \end{aligned}
+\end{equation}
+\DoubleColumnEnd
 where the sum is taken over all permutations of $\mathcal{G}_m$, the symmetric group of order $m$, and $\lfloor u \rfloor$ denotes the integer part of any $u\in \real{}$.
 From \cite{Biau2006}, the bounds for excess risk of \eqref{eq:fractional_coloring_ERM} are of the order $O(1/\sqrt{n})$.
-Moreover, by the result in \cite{DBLP:conf/icml/RalaivolaA15}, tighter risk bounds may be obtained under the following ``low-noise'' condition \citep[see][]{tsybakov2004optimal,Massart2006}.
+Moreover, by the result in \cite{DBLP:conf/icml/RalaivolaA15}, tighter risk bounds may be obtained under the following assumption which can lead to ``low-noise'' condition \cite{tsybakov2004optimal,Massart2006}.
 \begin{assumption}
   There exists $C>0$ and $\theta\in [0,1]$ such that for all $\epsilon>0$,
   \[\Pro\left[|\eta(X_1,X_2)-\frac{1}{2}|\le \epsilon\right]\le C\epsilon^{\theta/(1-\theta)}.\]
 \end{assumption}
-The risk bounds of the order $O(\log(n)/n)$ may be achieved if $\theta=1$ \citep[\textit{cf.}][]{Massart2006}, which however is very restrictive.
-We can use the example in \cite{papa2016graph} to show this.
-Let $N$ be a positive integer. For each vetex $i \in \set{1,\dots,n}$, we observe $X_i = (X_i^1, X_i^2)$ where $X_i^1$ and $X_i^2$ are two distinct elements drawn from $\set{1,\dots,N}$.
-This may, for instance correspond to the two preferred items of a user $i$ among a list of $N$ items.
+The risk bounds of the order $O(\log(n)/n)$ may be achieved if $\theta=1$ \cite{Massart2006}, which however is very restrictive.
+We can use the example in \citet{papa2016graph} to show this.
+\begin{example}
+Let $N$ be a positive integer. For each vertex $i \in \set{1,\dots,n}$, we observe $X_i = (X_i^1, X_i^2)$ where $X_i^1$ and $X_i^2$ are two distinct elements drawn from $\set{1,\dots,N}$.
+This may, for instance, correspond to the two preferred items of a user $i$ among a list of $N$ items.
 Consider now the case that two nodes are likely to be connected if they share common preference, e.g., $Y_{i,j} \sim Ber(\#(X_i\cap X_j)/2)$. One can easily check that $\Pro[|\eta(X_1,X_2)-1/2|=0]>0$, so tight risk bounds cannot be obtained for minimizers of \eqref{eq:fractional_coloring_ERM}.
+\end{example}
 
-\section{Tight bounds for weighted ERM on i.i.d.\ examples} % (fold)
-\label{sub:weighted_risk_bounds}
+\section{Universal Risk Bounds for Weighted ERM on i.i.d.\ Examples} % (fold)
+\label{sec:weighted_risk_bounds}
 
 In section 3, the excess risk is split into two types of processes: the weighted empirical process of i.i.d.\ examples and two degenerated processes.
 In this section, we prove general risk bounds for the weighted empirical process of i.i.d.\ examples. 
 The main idea is similar to \cite{Massart2006} that tighter bounds for the excess risk can be obtained if the variance of the excess risk is controlled by its expected value.
 
-\subsection{Bennett concentration inequality} % (fold)
+\subsection{Bennett Concentration Inequality} % (fold)
 \label{subsub:bennett_type_inequality}
 
 % subsection bennett_type_inequality (end)
@@ -244,12 +275,12 @@ First, we prove a concentration inequality for the supremum of weighted empirica
 It is a variant of Theorem 2.3 of \cite{Bousquet2002a} by just applying Theorem 2.1 of \cite{Bousquet2002a} with the weighted empirical process.
 Then, by Theorem \ref{th:weighted_bennett_inequality}, we can generalize the results of \cite{Massart2006} to weighted ERM. We start by describing the probabilistic framework adapts to our problem.
 
-\subsection{General upper bounds} % (fold)
+\subsection{General Upper Bounds} % (fold)
 \label{sub:i_i_d_}
 
 % subsection i_i_d_ (end)
 
-Suppose that one observes independent variable $\xi_1,\dots,\xi_n$ taking their values in some measurable space $\mathcal Z$ with commom distribution $P$. 
+Suppose that one observes independent variable $\xi_1,\dots,\xi_n$ taking their values in some measurable space $\mathcal Z$ with common distribution $P$. 
 For every $i$, the variable $\xi_i=(X_i,Y_i)$ is a copy of a pair of random variables $(X,Y)$ where $X$ take its values in measurable space $\xspace$. 
 Think of $\mathcal{R}$ as being the set of all measurable functions from $\xspace$ to $\{0,1\}$. 
 Then we consider some \emph{loss} function
@@ -305,7 +336,7 @@ The upper bound for the relative expected loss of any empirical risk minimizer o
 
 \begin{theorem}[risk bound for weighted ERM]
     \label{th:weighted_erm_risk_bounds}
-    Let $\gamma$ be a loss function such $r^*$ minimizes $\Pro[\gamma(r,\cdot)]$ when $r$ varies in $\mathcal{R}$. Let $\phi$ and $\psi$ belong to the class of functions $D$ defined above and let $R$ be a subset of $\mathcal R$ satisfying the sparability Assumption \ref{con:separability_condition}. Assume that, on the one hand,
+    Let $\gamma$ be a loss function such $r^*$ minimizes $\Pro[\gamma(r,\cdot)]$ when $r$ varies in $\mathcal{R}$. Let $\phi$ and $\psi$ belong to the class of functions $D$ defined above and let $R$ be a subset of $\mathcal R$ satisfying the separability Assumption \ref{con:separability_condition}. Assume that, on the one hand,
     \begin{equation}
         \label{eq:weighted_erm_risk_bound_con1}
         d(r^*,r)\le \frac{\sqrt{\normo{\weight{}}}}{\|\weight{}\|_2}\psi(\sqrt{\relossf(r^*,r)}), \forall r\in \mathcal R,
@@ -329,7 +360,7 @@ The upper bound for the relative expected loss of any empirical risk minimizer o
 
 % something discuss the theorem above.
 
-\subsection{Maximal inequality for weighted empirical processes} % (fold)
+\subsection{Maximal Inequality for Weighted Empirical Processes} % (fold)
 \label{sub:maximal_inequality_for_weighted_processes}
 
 % subsection maximal_inequality_for_weighted_processes (end)
@@ -361,7 +392,7 @@ Next, we present the maximal inequality involved in covering number for weighted
 In this section, we first show the classical symmetrization and randomization tricks for the degenerated weighted $U$-statistics $U_\weight{}(r)$ and the degenerated part $\widetilde{U}_\weight{}(r)$.
 Then we establish general exponential inequalities for weighted Rademacher chaos.
 This result is generalized from \cite{clemenccon2008ranking} based on moment inequalities obtained for empirical processes and Rademacher chaos in \cite{Boucheron2005}.
-With this moment inequality, we prove the inequality for weighted Rademacher chaos, which involves the $\lebesgue{}_\infty$ covering number of the hypothesis set.
+With this moment inequality, we prove the inequality for weighted Rademacher chaos, which involves the $\lnorm{}_\infty$ covering number of the hypothesis set.
 
 \begin{lemma}[decoupling and undecoupling]
     \label{le:weighted_u_statistics_decoupling}
@@ -490,14 +521,14 @@ Lemma \ref{le:weighted_u_statistics_decoupling} and \ref{le:weighted_u_statistic
     \DoubleColumn
     \begin{align*}
         \Pro[Z&\ge C\E[Z_\rademacher]+t]\\
-        &\le \exp\Bigg(-\frac{1}{C}\min\Big((\frac{t}{\E[U_\rademacher]})^2,\frac{t}{\E[M]+F\|\weight{}\|_2},\\
-        &\qquad(\frac{t}{\|\weight{}\|_{\max}F})^{2/3},\sqrt{\frac{t}{\|\weight{}\|_\infty F}}\Big)\Bigg)
+        &\le \exp\bigg(-\frac{1}{C}\min\Big((\frac{t}{\E[U_\rademacher]})^2,\frac{t}{\E[M]+F\|\weight{}\|_2},\\
+        &\qquad(\frac{t}{\|\weight{}\|_{\max}F})^{2/3},\sqrt{\frac{t}{\|\weight{}\|_\infty F}}\Big)\bigg)
     \end{align*}
     \DoubleColumnEnd
     \SingleColumn
     \begin{align*}
         \Pro[Z&\ge C\E[Z_\rademacher]+t]\\
-        &\le \exp\Bigg(-\frac{1}{C}\min\Big((\frac{t}{\E[U_\rademacher]})^2,\frac{t}{\E[M]+F\|\weight{}\|_2},(\frac{t}{\|\weight{}\|_{\max}F})^{2/3},\sqrt{\frac{t}{\|\weight{}\|_\infty F}}\Big)\Bigg)
+        &\le \exp\bigg(-\frac{1}{C}\min\Big((\frac{t}{\E[U_\rademacher]})^2,\frac{t}{\E[M]+F\|\weight{}\|_2},(\frac{t}{\|\weight{}\|_{\max}F})^{2/3},\sqrt{\frac{t}{\|\weight{}\|_\infty F}}\Big)\bigg)
     \end{align*}
     \SingleColumnEnd
     % there exists a universal constant $C>0$ such that for all $n$ and $q\ge 2$,
@@ -513,17 +544,26 @@ Lemma \ref{le:weighted_u_statistics_decoupling} and \ref{le:weighted_u_statistic
     where $\|\weight{}\|_{\max}=\max_i \sqrt{\sum_{j:\pair{i,j}\in E} w_{i,j}^2}$.
 \end{theorem}
 
-If the hypothesis set $\mathcal{F}$ is a subset of $\lebesgue{}_\infty(\xspace^2)$ (upper bounds on the uniform covering number with $\lebesgue{}_\infty$ metric can be calculated, see \cite{cucker2007learning}), we show $\E[Z_\rademacher{}]$, $\E[U_\rademacher{}]$ and $\E[M]$ can be bounded by $N_\infty(\mathcal{F},\epsilon)$ since all these Rademacher random variables satisfy the Khinchine inequality (see Section~\ref{sub:metric_entropy_inequality}). Following the metric entropy inequality for Khinchine-type processes (see Section~\ref{sub:metric_entropy_inequality}), it is easy to get the following Corollary.
+If the hypothesis set $\mathcal{F}$ is a subset of $\lnormspace{}_\infty(\xspace^2)$ (upper bounds on the uniform covering number with $\lnorm{}_\infty$ metric can be calculated \cite{cucker2007learning}), we show $\E[Z_\rademacher{}]$, $\E[U_\rademacher{}]$ and $\E[M]$ can be bounded by $N_\infty(\mathcal{F},\epsilon)$ since all these Rademacher random variables satisfy the Khinchine inequality (see Section~\ref{sub:metric_entropy_inequality}). Following the metric entropy inequality for Khinchine-type processes (see Section~\ref{sub:metric_entropy_inequality}), it is easy to get the following Corollary.
 
 \begin{corollary}
     \label{cor:covering_number_inequality}
-    With the same setting of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}, if $\mathcal{F}\subset \lebesgue{}_\infty(\xspace{}^2)$, we have for any $\delta<1/e$,
+    With the same setting of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}, if $\mathcal{F}\subset \lnormspace{}_\infty(\xspace{}^2)$, we have for any $\delta<1/e$,
     \[\Pro[Z\le \kappa]\ge 1-\delta\]
     where 
+    \SingleColumn
     \begin{align*}
-        \kappa\le&C\Bigg(\|\weight{}\|_2\int_0^{2F}\log N_\infty(\mathcal F, \epsilon)d\epsilon+\max\Big(\|\weight{}\|_2\log(1/\delta)\int_0^{2F}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon,\\
-        &\qquad\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max}, (\log(1/\delta))^2\|\weight{}\|_\infty\Big)\Bigg).
+        \kappa\le&C\bigg(\|\weight{}\|_2\int_0^{2F}\log N_\infty(\mathcal F, \epsilon)d\epsilon+\max\Big(\|\weight{}\|_2\log(1/\delta)\int_0^{2F}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon,\\
+        &\qquad\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max}, (\log(1/\delta))^2\|\weight{}\|_\infty\Big)\bigg).
     \end{align*}
+    \SingleColumnEnd
+    \DoubleColumn
+    \begin{align*}
+        \kappa\le&C\bigg(\|\weight{}\|_2\int_0^{2F}\log N_\infty(\mathcal F, \epsilon)d\epsilon\\
+        &+\max\Big(\|\weight{}\|_2\log(1/\delta)\int_0^{2F}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon,\\
+        &\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max}, (\log(1/\delta))^2\|\weight{}\|_\infty\Big)\bigg).
+    \end{align*}
+    \DoubleColumnEnd
     with a universal constant $C$.
 \end{corollary}
 
@@ -657,29 +697,41 @@ If the hypothesis set $\mathcal{F}$ is a subset of $\lebesgue{}_\infty(\xspace^2
 
 % section lagrangian_dual_problem (end)
 
-\section{Proofs of the main track} % (fold)
+% \todo{@Lucien: using "proofs omitted in Section \ref{}"}
+\section{Technical Proofs} % (fold)
 \label{sec:technical_proofs}
 
-\subsection{Proof of Lemma~1} % (fold)
-\label{sub:proof_of_lemma_}
+\subsection{Proofs Omitted in Section~\ref{sec:risk_bounds}} % (fold)
+\label{sub:proofs_omitted_in_section_sec:risk_bounds}
 
-Since $R\subset\lebesgue{}_\infty(\xspace{}^2)$ (Assumption~$1$), by Corollary~\ref{cor:covering_number_inequality}, the weighted degenerated $U$-process $\sup_{r\in R}|U_\weight{}(r)|$ can be bounded by the $\lebesgue{}_\infty$ covering number of $R$, that is, for any $\delta\in (0,1/e)$, we have
+% subsection proofs_omitted_in_section_sec:risk_bounds (end)
+\begin{proof}[Proof of Lemma~\ref{le:uniform_approximation}] % (fold)
+Since $R\subset\lnormspace{}_\infty(\xspace{}^2)$ (Assumption~\ref{ass:covering_number}), by Corollary~\ref{cor:covering_number_inequality}, the weighted degenerated $U$-process $\sup_{r\in R}|U_\weight{}(r)|$ can be bounded by the $\lnorm{}_\infty$ covering number of $R$, that is, for any $\delta\in (0,1/e)$, we have
 \[\Pro[\sup_{r\in R}|U_\weight{}(r)|\le \kappa]\ge 1-\delta\]
 where 
+\SingleColumn
 \begin{align*}
-    \kappa\le&\frac{C_1}{\normo{\weight}}\Bigg(\|\weight{}\|_2\int_0^{1}\log N_\infty(\mathcal F, \epsilon)d\epsilon+\max\Big(\|\weight{}\|_2\log(1/\delta)\int_0^{1}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon,\\
-    &\qquad\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max}, (\log(1/\delta))^2\|\weight{}\|_\infty\Big)\Bigg).
+    \kappa\le&\frac{C_1}{\normo{\weight}}\bigg(\|\weight{}\|_2\int_0^{1}\log N_\infty(\mathcal F, \epsilon)d\epsilon+\max\Big(\|\weight{}\|_2\log(1/\delta)\int_0^{1}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon,\\
+    &\qquad\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max}, (\log(1/\delta))^2\|\weight{}\|_\infty\Big)\bigg).
 \end{align*}
+\SingleColumnEnd
+\DoubleColumn
+\begin{align*}
+    \kappa\le&\frac{C_1}{\normo{\weight}}\bigg(\|\weight{}\|_2\int_0^{1}\log N_\infty(R, \epsilon)d\epsilon\\
+    &+\max\Big(\|\weight{}\|_2\log(1/\delta)\int_0^{1}\sqrt{\log N_\infty(R,\epsilon)}d\epsilon,\\
+    &\qquad(\log(1/\delta))^{3/2}\|\weight{}\|_{\max},(\log(1/\delta))^2\|\weight{}\|_\infty\Big)\bigg).
+\end{align*}
+\DoubleColumnEnd
 with a universal constant $C_1<\infty$. 
-Then the first inequality for $\sup_{r\in R}|U_\weight{}(r)|$ follows the fact that $R$ satisfies Assumption~$1$.
+Then the first inequality for $\sup_{r\in R}|U_\weight{}(r)|$ follows the fact that $R$ satisfies Assumption~\ref{ass:covering_number}.
 Similarly, by Lemma~\ref{le:weighted_decoupling_undecoupling} and Lemma~\ref{le:weighted_randomization}, we can convert the moment of $\sup_{r\in R}|\widetilde{U}_\weight{}(r)|$ to the moment of Rademacher chaos
 \[4^q\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}\sigma_i\sigma_j^\prime w_{i,j}\tilde{h}_r(X_i, X_j^\prime,\tilde{Y}_{i,j})|^q]\] 
-which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}. More specifically, using \eqref{eq:inequality_rademacher_chaos_1} and \eqref{eq:inequality_rademacher_chaos_2} combined with the arguments in Corollary~$1$ and Assumption~$1$ will gives the second inequality for $\sup_{r\in R}|\widetilde{U}_\weight{}(r)|$.
+which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}. More specifically, using \eqref{eq:inequality_rademacher_chaos_1} and \eqref{eq:inequality_rademacher_chaos_2} combined with the arguments in Corollary~\ref{cor:covering_number_inequality} and Assumption~\ref{ass:covering_number} will gives the second inequality for $\sup_{r\in R}|\widetilde{U}_\weight{}(r)|$.
+\end{proof}
 
 % subsection proof_of_lemma_ (end)
 
-\subsection{Proof of Lemma~2} % (fold)
-\label{sub:proofs_of_main_track}
+\begin{proof}[Proof of Lemma~\ref{le:variant_control}] % (fold)
     For any function $r\in\mathcal{R}$, observe first that
     \DoubleColumn
     \begin{align*}
@@ -697,14 +749,24 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
     Then observing that
     \[|1-2\eta(X_1,X_2)|^2\le |1-2\eta(X_1,X_2)|\]
     almost sure, and combining with Jensen inequality, we have
+    \SingleColumn
     \begin{align*}
         \Var[\E[q_r(X_1,X_2,Y_{1,2})\mid X_1]] & \le \E[(\E[q_r(X_1,X_2,Y_{1,2})\mid X_1])^2]\\
         &\le \E[|1-2\eta(X_1,X_2)|\indicator{}_{r(X_1,X_2)\neq r^*(X_1,X_2)}]\\
         &= \Lambda(r).
     \end{align*}
+    \SingleColumnEnd
+    \DoubleColumn
+    \begin{align*}
+        \Var&[\E[q_r(X_1,X_2,Y_{1,2})\mid X_1]] \\
+        & \le \E[(\E[q_r(X_1,X_2,Y_{1,2})\mid X_1])^2]\\
+        &\le \E[|1-2\eta(X_1,X_2)|\indicator{}_{r(X_1,X_2)\neq r^*(X_1,X_2)}]\\
+        &= \Lambda(r).
+    \end{align*}
+    \DoubleColumnEnd
+\end{proof}
 
-\subsection{Proof of Lemma~3} % (fold)
-\label{sub:proof_of_lemma_3}
+\begin{proof}[Proof of Lemma~\ref{le:risk_bounds_iid}] % (fold)
     First, we introduce some notations of weighted ERM of the i.i.d.\ case. 
     We denote $\{\bar{w}_i=\sum_{j:\pair{i,j}\in E}w_{i,j}: i=1,\dots,n\}$ the weights on vertices and introduce the ``loss function''
     \[\gamma(r, X)=2h_r(X)+\Lambda{}(r)\]
@@ -722,7 +784,7 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
     \end{equation}
     From the definition of ``loss function'' $\gamma$, we have the excess risk of $r$ is
     \[\relossf(r,r^*)=\Lambda(r)-\Lambda(r^*)=\Lambda(r).\]
-    According to Lemma~$1$, as $\Lambda^2(r)\le \Lambda(r)$, we have for every $r\in R$,
+    According to Lemma~\ref{le:uniform_approximation}, as $\Lambda^2(r)\le \Lambda(r)$, we have for every $r\in R$,
     \begin{align*}
         d(r,r^*)\le \frac{\sqrt{\normo{\verticeweight{}}}}{\|\verticeweight\|_2}\sqrt{5\relossf(r,r^*)}
     \end{align*}
@@ -754,78 +816,60 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
     \SingleColumnEnd
     where $C$ is a universal constant and $\epsilon_*$ is the unique positive solution of the equation
     \[\sqrt{\normo{\verticeweight{}}}\epsilon_*^2=\phi(\psi(\epsilon_*)).\]
-    When $ R$ satisfies Assumption~$1$, there exists a universal constant $C^\prime$ such that
+    When $ R$ satisfies Assumption~\ref{ass:covering_number}, there exists a universal constant $C^\prime$ such that
     \[\epsilon_*^2\le C^\prime K^{1/(1+\complexbound{})}(\frac{1}{(1-\complexbound{})^2\normo{\verticeweight{}}})^{1/(1+\complexbound{})}\]
     which completes the proof.
+\end{proof}
 
 % subsection proof_of_lemma_3 (end)
 
-\subsection{Proof of Theorem~1} % (fold)
-\label{sub:proof_of_theorem}
-    Let us consider the Hoeffding decomposition (5) of $\Lambda_\weight{}(r)$ that is minimized over $r\in R$. The idea of this proof is that the degenerate part $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by the moment inequality for weighted $U$-processes. Therefore, $r_\weight{}$ is an approximate minimizer of $T_\weight{}(r)$, which can be handled by Lemma~$3$.
-
-    Let $A$ be the event on which
-    \[\sup_{r\in R}|U_\weight{}(r)|\le \kappa_A,\]
-    where
-    \DoubleColumn
-    \begin{align*}
-    \kappa_A&=\frac{C_A}{1-\complexbound{}}\max\Big(\frac{\|\weight{}\|_2\log(1/\delta)}{\normo{\weight{}}},\\
-    &\qquad\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}}, \frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)
-    \end{align*}
-    \DoubleColumnEnd
-    \SingleColumn
-    \begin{align*}
-    \kappa_A&=\frac{C_A}{1-\complexbound{}}\max\Big(\frac{\|\weight{}\|_2\log(1/\delta)}{\normo{\weight{}}},\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}}, \frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)
-    \end{align*}
-    \SingleColumnEnd
-    for an appropriate constant $C_A$. Then by Lemma~$1$, $\Pro[A]\ge 1-\delta/4$. Similarly, let $B$ be the event on which
-    \[\sup_{r\in R}|\widetilde{U}_\weight{}(r)|\le \kappa_B.\]
-    where
-    \DoubleColumn
-    \begin{align*}
-    \kappa_B&=\frac{C_B}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\\
-    &\qquad\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)
-    \end{align*}
-    \DoubleColumnEnd
-    \SingleColumn
-    \begin{align*}
-    \kappa_B&=\frac{C_B}{1-\complexbound{}}\Bigg(\frac{\|\weight{}\|_2}{\normo{\weight{}}}+\max\Big(\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}},\frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\Bigg)
-    \end{align*}
-    \SingleColumnEnd
-    for an appropriate constant $C_B$.
-    Then $\Pro[B]\ge 1-\delta/4$.
-
-    By (5), it is clear that, on $A\cap B$, $r_\weight{}$ is a $\rho$-minimizer of $T_\weight{}(r)$ over $r\in R$ in the sense that the value of this latter quantity at its minimum is at most $(\kappa_A+\kappa_B)$ smaller than at $r_\weight{}$. 
-    Then, from Lemma~$3$, with probability at least $1-\delta/2$, $r_\weight{}$ is a $(\kappa_A+\kappa_B)$-minimizer of $T_\weight{}(r)$, which the result follows.
-
-\section{Proofs in the appendix} % (fold)
-\label{sec:proofs_of_the_appendix}
-
-\subsection{Proof of Theorem \ref{th:fractional_coloring_weighted}} % (fold)
-\label{sub:proof_of_theorem_th:fractional_coloring_weighted}
-
+\subsection{Proof Omitted in Section \ref{sec:fractional_coloring_approach}} % (fold)
+\label{sub:proofs_omitted_in_section_a}
+\begin{proof}[Proof of Theorem~\ref{th:fractional_coloring_weighted}]
 We write, for all $r\in R$,
+\SingleColumn
 \begin{equation}
   \label{eq:fractional_coloring_decomposition}
-\begin{aligned}
-  \risk{}(r)-\empiricalrisk{\weight{}}(r)&\le \sup_{r\in R}\left[\E[\ell(r,z)] - \frac{1}{\normo{\weight{}}}\sum_{i=1}^m w_i\ell(r,z_i)]\right]\\
-  &\le \sum_{j=1}^J p_j\left[ \sup_{r\in R}\sum_{i\in\mathcal{C}_j} \frac{w_{k_j^i}}{\normo{\weight{}}} (\E[\ell(r,z)] - \ell(r,z_{k_j^i}))\right].
-\end{aligned}
+    \begin{aligned}
+    \risk{}(r)-\empiricalrisk{\weight{}}(r)&\le \sup_{r\in R}\left[\E[\ell(r,z)] - \frac{1}{\normo{\weight{}}}\sum_{i=1}^m w_i\ell(r,z_i)]\right]\\
+    &\le \sum_{j=1}^J p_j\left[ \sup_{r\in R}\sum_{i\in\mathcal{C}_j} \frac{w_{k_j^i}}{\normo{\weight{}}} (\E[\ell(r,z)] - \ell(r,z_{k_j^i}))\right].
+    \end{aligned}
 \end{equation}
+\SingleColumnEnd
+\DoubleColumn
+\begin{equation}
+  \label{eq:fractional_coloring_decomposition}
+    \begin{aligned}
+    \risk{}(r)-\empiricalrisk{\weight{}}(r)&\le \sup_{r\in R}\left[\E[\ell(r,z)] - \frac{1}{\normo{\weight{}}}\sum_{i=1}^m w_i\ell(r,z_i)]\right]\\
+    &\le \sum_{j=1}^J p_j\left[ \sup_{r\in R}\sum_{i\in\mathcal{C}_j} \frac{w_{k_j^i}}{\normo{\weight{}}} (\E[\ell(r,z)] - \ell(r,z_{k_j^i}))\right].
+    \end{aligned}
+\end{equation}
+\DoubleColumnEnd
 Now, consider, for each $j$,
 \[f_j(S_{\mathcal{C}_j}) = \sup_{r\in R}\sum_{i\in\mathcal{C}_j} \frac{w_{k_j^i}}{\normo{\weight{}}} (\E[\ell(r,z)] - \ell(r,z_{k_j^i})).\]
-Let $f$ is defined by, for all training set $S$, $f(S)=\sum_{j=1}^Jp_jf_j(S_{\mathcal{C}_j})$, then $f$ satisfies the conditions of Theorem~\ref{th:fractional_mcdiarmid} with, for any $i\in \set{1,\dots,m}$, $\beta_i\le w_i/\normo{\weight{}}$. Therefore, we can claim that, with probability at least $1-\delta$,
+Let $f$ is defined by, for all training set $\trainingset{}$, $f(\trainingset{})=\sum_{j=1}^Jp_jf_j(S_{\mathcal{C}_j})$, then $f$ satisfies the conditions of Theorem~\ref{th:fractional_mcdiarmid} with, for any $i\in \set{1,\dots,m}$, $\beta_i\le w_i/\normo{\weight{}}$. Therefore, we can claim that, with probability at least $1-\delta$,
+\SingleColumn
 \begin{align*}
   \risk{}(r) - \empiricalrisk{\weight{}}(r)&\le \E\left[\sup_{r\in R}\left[\E[\ell(r,z)] - \frac{1}{\normo{\weight{}}}\sum_{i=1}^m w_i\ell(r,z_i)]\right]\right] + \sqrt{\fcoloring(D_G)\log(1/\delta)}\frac{\|\weight{}\|_2}{\normo{\weight{}}}
 \end{align*}
-Then, using the standard symmetrization technique \citep[see][Theorem~4]{Usunier2005}, one can bound the first item in the right hand side by $\mathfrak{R}_{\weight{}}^*(R,S)$ which completes the proof. 
-% subsection proof_of_theorem_th:fractional_coloring_weighted (end)
+\SingleColumnEnd
+\DoubleColumn
+\begin{align*}
+  \risk{}(r) - \empiricalrisk{\weight{}}(r)&\le \E\left[\sup_{r\in R}\left[\E[\ell(r,z)] - \frac{1}{\normo{\weight{}}}\sum_{i=1}^m w_i\ell(r,z_i)]\right]\right]\\
+  &\qquad+ \sqrt{\fcoloring(D_G)\log(1/\delta)}\frac{\|\weight{}\|_2}{\normo{\weight{}}}
+\end{align*}
+\DoubleColumnEnd
+Then, using the standard symmetrization technique \citep{see}{Theorem~$4$}{Usunier2005}, one can bound the first item in the right hand side by $\mathfrak{R}_{\weight{}}^*(R,S)$ which completes the proof. 
+\end{proof}
 
-\subsection{Proof of Theorem \ref{th:weighted_bennett_inequality}} % (fold)
-\label{sub:proof_of_theorem_th:weighted_bennett_inequality}
+\subsection{Proofs Omitted in Section \ref{sec:weighted_risk_bounds}} % (fold)
+\label{sec:proof_omitted_in_section_sec:weighted_risk_bounds}
 
-    We use a auxiliary random variable
-    \[\widetilde{Z}=\frac{\normo{\weight{}}}{2b}Z=\sup_{f\in\mathcal{F}}\frac{1}{2b}\sum_{i=1}^nw_i\allowbreak(f(X_i)-\E[f(X_i)]).\]
+% section proof_omitted_in_section_sec:weighted_risk_bounds (end)
+
+\begin{proof}[Proof of Theorem \ref{th:weighted_bennett_inequality}] % (fold)
+    We use an auxiliary random variable
+    \[\widetilde{Z}=\frac{\normo{\weight{}}}{2b}Z=\sup_{f\in\mathcal{F}}\frac{1}{2b}\sum_{i=1}^n w_i\allowbreak(f(X_i)-\E[f(X_i)]).\]
     We denote by $f_k$ a function such that
     \[f_k = \frac{1}{2b}\sup_{f\in\mathcal F} \sum_{i\neq k}w_i(f(X_i)-\E[f(X_i)]).\]
     We introduce following auxiliary random variables for $k=1,\dots,n$,
@@ -874,6 +918,8 @@ Then, using the standard symmetrization technique \citep[see][Theorem~4]{Usunier
     \end{align*}
     \SingleColumnEnd
     which proves the inequality.
+\end{proof}
+
 % The following inequality is Lemma A.5 of \citep{Massart2006}.
 % \begin{lemma}[\citep{Massart2006}]
 %     \label{le:weighted_process_inequality}
@@ -883,9 +929,7 @@ Then, using the standard symmetrization technique \citep[see][Theorem~4]{Usunier
 %     \[\E[\sup_{t\in S}\frac{Z(u)-Z(t)}{a^2(t)+x^2}]\le 4x^{-2}\varphi(x).\]
 % \end{lemma}
 
-\subsection{Proof of Theorem \ref{th:weighted_erm_risk_bounds}} % (fold)
-\label{sub:proof_of_theorem_th:weighted_erm_risk_bounds}
-
+\begin{proof}[Proof of Theorem \ref{th:weighted_erm_risk_bounds}] % (fold)
     Since $R$ satisfies Condition \ref{con:separability_condition}, we notice that, by dominated convergence, for every $r\in R$, considering the sequence $\{r_k\}$ provided by Condition \ref{con:separability_condition}, one has $\Pro[\gamma(\cdot,r_k)]$ that tends to $\Pro[\gamma(\cdot, r)]$ as $k$ tends to infinity. Denote the bias term of loss $\relossf(r^*,R)=\inf_{r\in R}\relossf(r^*,r)$. Hence, $\relossf(r^*,R)=\relossf(r^*,R^\prime)$, which implies that there exists some point $\pi(r^*)$ (which may depend on $\epsilon_*$) such that $\pi(r^*)\in R^\prime$ and
     \begin{equation}
         \label{eq:asymptotic_function_inequality}
@@ -1007,10 +1051,9 @@ Then, using the standard symmetrization technique \citep[see][Theorem~4]{Usunier
         \end{align*}
     \DoubleColumnEnd
     We get the required probability bound \eqref{th:weighted_erm_risk_bounds} by setting $K=K^\prime+3$.
+\end{proof}
 
-\subsection{Proof of Lemma \ref{le:maximal_entropy_inequality}} % (fold)
-\label{sub:proof_of_lemma_le:maximal_entropy_inequality}
-
+\begin{proof}[Proof of Lemma \ref{le:maximal_entropy_inequality}] % (fold)
     We first perform the control of $\E[\sup_{f\in\mathcal{F}}v_\weight(f-f_0)]$. For simplicity, we denote $H_\infty(\mathcal{F}, \epsilon)=\log N_\infty(\mathcal{F},\epsilon)$. For any integer $j$, we set $\sigma_j=\sigma2^{-j}$ and $H_j=H_\infty(\mathcal{F},\sigma_j^2)$. By definition of $H_j=H_\infty(\mathcal{F},\sigma_j^2)$, for any integer $j\ge 1$, we can define a mapping $\Pi_j$ from $\mathcal{F}$ to some finite collection of functions such that
     \begin{equation}
         \label{eq:bounded_entropy_mapping}
@@ -1026,7 +1069,7 @@ Then, using the standard symmetrization technique \citep[see][Theorem~4]{Usunier
         \label{eq:bounded_entropy_f0}
         P(|f-\Pi_0f|)=P[|f-f_0|]\le \sigma_0^2=\sigma
     \end{equation}
-    for every $f\in\mathcal{F}$. Furthermore, since we may always assume that the extrmities of the balls used to cover $\mathcal{F}$ take their values in $[0,1]$, we also have for every integer $j$ that
+    for every $f\in\mathcal{F}$. Furthermore, since we may always assume that the extremities of the balls used to cover $\mathcal{F}$ take their values in $[0,1]$, we also have for every integer $j$ that
     \[0\le\Pi_jf\le1.\]
     Noticing that since $u\to H_\infty(\mathcal{F},u^2)$ is nonincreasing,
     \[H_1\le \sigma_1^{-2}\varphi^2(\sigma),\]
@@ -1068,7 +1111,7 @@ Then, using the standard symmetrization technique \citep[see][Theorem~4]{Usunier
     \[P[|\Pi_jf-\Pi_{j+1}f|]\le \sigma_j^2+\sigma_{j+1}^2=5\sigma_{j+1}^2\]
     and, therefore, since $|\Pi_jf-\Pi_{j+1}f|\le 1$,
     \[P[|\Pi_jf-\Pi_{j+1}f|^2]\le 5\sigma_{j+1}^2.\]
-    Moreover, \eqref{eq:bounded_entropy_mapping} ensures that the number of functions of the form $\Pi_jf-\Pi_{j+1}f$ when varies in $\mathcal{F}$ is not larger than $\exp(H_j+H_{j+1})\le \exp(2H_{j+1})$, Hence, we derive from the maximal inequality for random vectors \citep[see][Lemma A.1]{Massart2006} and the by-product of the proof of Bernstein's inequality for the weighted sum of networked random variables \citep[see][Lemma 16]{ramon2015learning} that
+    Moreover, \eqref{eq:bounded_entropy_mapping} ensures that the number of functions of the form $\Pi_jf-\Pi_{j+1}f$ when varies in $\mathcal{F}$ is not larger than $\exp(H_j+H_{j+1})\le \exp(2H_{j+1})$, Hence, we derive from the maximal inequality for random vectors \citep{see}{Lemma A.1}{Massart2006} and the by-product of the proof of Bernstein's inequality for the weighted sum of networked random variables \citep{see}{Lemma 16}{wang2017learning} that
     \DoubleColumn
     \begin{align*}
         \sqrt{\normo{\weight{}}}&\E[\sup_{f\in\mathcal{F}}[v_\weight(\Pi_jf)-v_\weight(\Pi_{j+1}f)]]\\
@@ -1107,10 +1150,13 @@ Then, using the standard symmetrization technique \citep[see][Theorem~4]{Usunier
     \[\sqrt{\normo{\weight{}}}\E[\sup_{f\in\mathcal{F}}-v_\weight(f)]\le 6\sum_{j=1}^{J+1}\sigma_j\sqrt{H_j},\]
     and the result follows. The control of $\E[\sup_{f\in\mathcal{F}}v_\weight(f-f_0)]$ can be performed analogously.
     % , changing lower into upper approximations in the dyadic approximation scheme described above.
+\end{proof}
 
-\subsection{Proof of Lemma \ref{le:weighted_decoupling_undecoupling}} % (fold)
-\label{sub:proof_of_lemma_le:weighted_decoupling_undecoupling}
+\subsection{Proofs Omitted in Section \ref{sec:a_moment_inequality_for_weighted_u_processes}} % (fold)
+\label{sec:proofs_omitted_in_section_sec:a_moment_inequality_for_weighted_u_processes}
 
+% section proofs_omitted_in_section_sec:a_moment_inequality_for_weighted_u_processes (end)
+\begin{proof}[Proof of Lemma \ref{le:weighted_decoupling_undecoupling}] % (fold)
     This Lemma is derived from Lemma \ref{le:weighted_u_statistics_decoupling}, thus we can follow the similar arguments that can be found in \cite{de2012decoupling}.
 
     For any random variable $X$, we denote by $\mathcal L(X)$ its distribution. We denote by $\Sigma$ (respectively $\Sigma^\prime$) the sigma-filed generated by $\{X_1,\dots,X_n\}$ (respectively $\{X_1^\prime,\dots,X_n^\prime\}$). Let $(Y_{i,j}^\prime)_{(i,j)\in E}$ be Bernoulli random variables such that $\Pro[Y_{i,j}'=1\mid \Sigma, \Sigma^\prime]=\eta(X_i^\prime, X_j^\prime)$. Let $(\sigma_i)_{i=1}^n$ be independent Rademacher variables and define:
@@ -1222,7 +1268,7 @@ Then, using the standard symmetrization technique \citep[see][Theorem~4]{Usunier
         &(\text{According to }\eqref{eq:weighted_u_statistics_decoupling_fact2})\\
         &= \frac{1}{2}\E[\sup_{r\in R} |4\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q] \\
         &\qquad+ \frac{1}{2}\E[\sup_{r\in R} |2\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
-        &\le \E[\sup_{r\in R} |4\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
+        % &\le \E[\sup_{r\in R} |4\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
         &= 4^q\E[\sup_{r\in R} |\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]
     \end{align*}
     \DoubleColumnEnd
@@ -1245,10 +1291,9 @@ Then, using the standard symmetrization technique \citep[see][Theorem~4]{Usunier
     \end{align*}
     \SingleColumnEnd
     which \eqref{eq:weighted_u_statistic_coupling} follows.
+\end{proof}
 
-\subsection{Proof of Lemma \ref{le:weighted_randomization}} % (fold)
-\label{sub:proof_of_lemma_le:weighted_randomization}
-
+\begin{proof}[Proof of Lemma \ref{le:weighted_randomization}] % (fold)
     Re-using the notations used in the proof of Lemma \ref{le:weighted_u_statistics_decoupling}, we further introduce $(X_i^{\prime\prime})_{i=1}^n$, a copy of $(X_i^\prime)_{i=1}^n$, independent from $\Sigma$, $\Sigma^\prime$, and denote by $\Sigma^{\prime\prime}$ its sigma-field. Let $(\tilde{Y}_{i,j}^{\prime\prime})_{(i,j)\in E}$ Bernoulli random variables such that $\Pro[\tilde{Y}_{i,j}^{\prime\prime}=1\mid \Sigma,\Sigma^\prime,\Sigma^{\prime\prime}]=\eta(X_i,X_j^{\prime\prime})$. We now use classic randomization techniques and introduce our "ghost" sample:
     \DoubleColumn
 \begin{align*}
@@ -1308,12 +1353,11 @@ and get
     \E[\sup_{r\in R}|\sum_{\pair{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q] \le 2^q\E[\sup_{r\in R}|\sum_{j=1}^n\sigma_j\sum_{i:\pair{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q]
 \end{align*}
 \SingleColumnEnd
-Then repeating the same argument but for the $(X_i)_{i=1}^n$ will give the similar inequality. The desired inequality will follows putting these two inequalities togather.
+Then repeating the same argument but for the $(X_i)_{i=1}^n$ will give the similar inequality. The desired inequality will follows putting these two inequalities together.
+\end{proof}
 
 % section proofs_of_the_appendix (end)
-\subsection{Proof of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}} % (fold)
-\label{sub:proof_of_theorem_}
-
+\begin{proof}[Proof of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}] % (fold)
 By the decoupling, undecoupling and randomization techniques (see Lemma~\ref{le:weighted_u_statistics_decoupling}, Lemma~\ref{le:weighted_u_statistics_randomization}), the symmetry and the degeneration of $f$ and the symmetry of $(w_{i,j})_{\pair{i,j}\in E}$, we have
 \begin{align*}
     \E[\sup_f&|\sum_{\pair{i,j}\in E}w_{i,j} f(X_i,X_j)|^q]\\
@@ -1332,7 +1376,7 @@ In particular, for any $q\ge 2$,
 \end{align*}
 where $B$ is defined below
 \[B=\sup_f\sup_{\alpha,\alpha^\prime:\|\alpha\|_2,\|\alpha^\prime\|_2\le 1}|\sum_{\pair{i,j}\in E}w_{i,j}\alpha_i\alpha_j^\prime f(X_i,X_j)|.\]
-The second inequality above follows by Theorem~14 of \cite{Boucheron2005}.
+The second inequality above follows by Theorem~$14$ of \cite{Boucheron2005}.
 
 Using the inequality $(a+b+c)^q\le 3^{(q-1)}(a^q+b^q+c^q)$ valid for $q\ge 2,a,b,c>0$, we have
 \[\E_\rademacher[Z_\rademacher^q]\le 3^{q-1}(\E_\rademacher[Z_\rademacher]^q+3^qq^{q/2}\E_\rademacher[U_\rademacher]^q+4^qq^qB^q).\]
@@ -1340,7 +1384,7 @@ It remains to derive suitable upper bounds for the expectation of the three term
 
 \textit{First term:} $\E[\E_\rademacher[Z_\rademacher]^q]$. Using the symmetrization trick, we have
 \[\E[\E_\rademacher[Z_\rademacher]^q]\le 4^q\E[\E_\rademacher[Z_\rademacher^\prime]^q]\]
-which $Z_\rademacher^\prime = \sup_f|\sum_{\pair{i,j}\in E}\rademacher_i\rademacher_j^\prime f(X_i,X_j)|$. Note that $\E_\rademacher$ now denotes expectation taken with respect to both the $\rademacher$ and the $\rademacher^\prime$. For simplicity, we denote by $A=\E_{\rademacher}[Z_\rademacher^\prime]$. In order to apply Corollary~3 of \cite{Boucheron2005}, define, for $k=1,\dots,n$, the random variables
+which $Z_\rademacher^\prime = \sup_f|\sum_{\pair{i,j}\in E}\rademacher_i\rademacher_j^\prime f(X_i,X_j)|$. Note that $\E_\rademacher$ now denotes expectation taken with respect to both the $\rademacher$ and the $\rademacher^\prime$. For simplicity, we denote by $A=\E_{\rademacher}[Z_\rademacher^\prime]$. In order to apply Corollary~$3$ of \cite{Boucheron2005}, define, for $k=1,\dots,n$, the random variables
 \[A_k = \E_{\rademacher}[\sup_f |\sum_{\pair{i,j}\in E,i,j\neq k}w_{i,j}\rademacher_i\rademacher_j^\prime f(X_i,X_j)|].\]
 It is easy to see that $A_k\le A$.
 
@@ -1363,13 +1407,13 @@ and
 \end{align*}
 Therefore,
 \[\sum_{k=1}^n(A-A_k)^2\le 4A\E_\rademacher M.\]
-Then by Corollary~3 of \cite{Boucheron2005}, we obtain
+Then by Corollary~$3$ of \cite{Boucheron2005}, we obtain
 \begin{equation}
     \label{eq:inequality_rademacher_chaos_1}
     \E[\E_\rademacher[Z_\rademacher^\prime]^q]\le 2^{q-1}(2^q(E[Z_\rademacher^\prime])^q+5^qq^q\E[\E_\rademacher[M]^q])
 \end{equation}
 
-To bound $\E[\E_\rademacher[M]^q]$, observe that $\E_\rademacher[M]$ is a conditional Rademacher average, for which Theorem~13 of \cite{Boucheron2005} could be applied. Since $\max_k\sup_{f,i}w_{i,k}f(X_i,X_k)\le \|\weight{}\|_\infty F$, we have
+To bound $\E[\E_\rademacher[M]^q]$, observe that $\E_\rademacher[M]$ is a conditional Rademacher average, for which Theorem~$13$ of \cite{Boucheron2005} could be applied. Since $\max_k\sup_{f,i}w_{i,k}f(X_i,X_k)\le \|\weight{}\|_\infty F$, we have
 \begin{equation}
     \label{eq:inequality_rademacher_chaos_2}
     \E[\E_\rademacher[M]^q]\le 2^{q-1}(2^q\E[M]^q+5^qq^q\|\weight{}\|_\infty^qF^q).
@@ -1389,12 +1433,12 @@ By undecoupling, we have $\E[Z_\rademacher^\prime]=\E[\E_{\rademacher,\rademache
 
 \textit{Second term:} $\E[\E_\rademacher[U_\rademacher]^q].$
 
-By the Cauchy-Schwarz inequality we can observe that
+By the Cauchy-Schwartz inequality we can observe that
 \[\sup_{f,i}\sup_{\alpha:\|\alpha\|_2\le 1}\sum_{j:\pair{i,j}\in E}w_{i,j}\alpha_jf(X_i,X_j)\le \|\weight{}\|_{\max}F.\]
 Then similar to the bound of $\E[\E_\rademacher[M]^q]$, we have
 \[\E[\E_\rademacher[U_\rademacher]^q]\le 2^{q-1}(2^q\E[U_\rademacher]^q+5^qq^q\|\weight{}\|_{\max}^qF^q).\]
 
-\textit{Third term:} $\E[B^q]$. By the Cauchy-Schwarz inequality, we have $B\le \sqrt{\sum_{\pair{i,j}\in E}w_{i,j}^2}F= \|\weight{}\|_2F$ so
+\textit{Third term:} $\E[B^q]$. By the Cauchy-Schwartz inequality, we have $B\le \sqrt{\sum_{\pair{i,j}\in E}w_{i,j}^2}F= \|\weight{}\|_2F$ so
 \[\E[B^q]\le \|\weight{}\|_2^qF^q.\]
 
 Now it remains to simply put the pieces together to obtain
@@ -1413,7 +1457,7 @@ Now it remains to simply put the pieces together to obtain
 \end{align*}
 \SingleColumnEnd
 for an appropriate constant $C$. 
-In order to derive the exponential inequality, we use Markov's inequality $\Pro[X\ge t]\le t^{-q}\E[Z^q]$ and choose
+In order to derive the exponential inequality, we use Markov inequality $\Pro[X\ge t]\le t^{-q}\E[Z^q]$ and choose
 \DoubleColumn
 \begin{align*}
     q&=C\min\Big((\frac{t}{\E[U_\rademacher]})^2,\frac{t}{\E[M]},\frac{t}{F\|\weight{}\|_2},(\frac{t}{\|\weight{}\|_{\max} F})^{2/3},\\
@@ -1426,58 +1470,10 @@ In order to derive the exponential inequality, we use Markov's inequality $\Pro[
 \end{align*}
 \SingleColumnEnd
 for an appropriate constant $C$.
+\end{proof}
 
-% subsection proofs_of_main_track (end)
-
-% \begin{proof}[Proof of Theorem 2]
-%     Since the solution $(a^*,b^*,\probdistri{}^*)$ and the vector $\bmlambda^*$ satisfy the KKT condition of program (10), according to \eqref{eq:lagrangian_function}, we have
-%     \[\partial L/\partial a = \frac{1}{1+r}a^{*-r/(1+r)}-\sum_{i=1}^n\lambda_i^{(3)*}n_i - \lambda^{(8)*} = 0\]
-%     then
-%     \[\frac{1}{1+r}a^{*-r/(1+r)}=\sum_{i=1}^n\lambda_i^{(3)*}n_i - \lambda^{(8)*}.\]
-%     Let us consider a new program called (P) that we add a constrain $a\le a^*-\epsilon$ to (10). The KKT condition of (P) is the same as (10) expect from the contains of $a$. We write the lagrangian function of (P) as
-%     \begin{equation}
-%         \label{eq:lagrangian_function}
-%         L^\prime(a,b,\probdistri{},\bmlambda)=L(a,b,\probdistri{},\bmlambda)+\lambda^{(10)}(a-a^*+\epsilon),
-%     \end{equation}
-%     then
-%     \begin{align*}
-%         &\partial L^\prime/\partial a = \frac{1}{1+r}(a^*-\epsilon)^{-r/(1+r)}-\sum_{i=1}^n\lambda_i^{(3)*}n_i - \lambda^{(8)*}\\
-%         &\qquad - (\frac{1}{1+r}(a^*-\epsilon)^{-r/(1+r)} - \frac{1}{1+r}a^{*-r/(1+r)}) = 0
-%     \end{align*}
-%     and
-%     \[\frac{1}{1+r}((a^*-\epsilon)^{-r/(1+r)} - a^{*-r/(1+r)})(a^*-\epsilon-a^*+\epsilon)=0.\]
-%     So the solution $(a^*-\epsilon,b^*,\probdistri{}^*)$ and the vector $(\bmlambda^*,\lambda^{(10)*})$ where
-%     \[\lambda^{(10)*}= \frac{1}{1+r}((a^*-\epsilon)^{-r/(1+r)} - a^{*-r/(1+r)})\]
-%     also satisfy the KKT condition of (P).
-    
-%     Next, we will show that $(a^*-\epsilon,b^*,\probdistri{}^*)$ is optimal for (P) by the invex of the Lagrangian function of (P) and the sufficient optimality condition of \citep{Hanson1981On}.
-%     Since $\bmlambda^*\ge 0$, the parts of $\probdistri{}$ in \eqref{eq:lagrangian_function} is convex (the only negative part is linear) and the parts of $b$ in \eqref{eq:lagrangian_function} is linear. When $a\le a^*$, the part of $a$
-%     \begin{align*}
-%         a^{1/(1+r)}    &- \sum_{i=1}^n\lambda_i^{(3)*}n_ia-\lambda^{(8)*}a\\
-%         &=a^{1/(1+r)} - a(\frac{1}{1+r}(a^*-\epsilon)^{-r/(1+r)}-\lambda^{(10)*})\\
-%         &= a^{1/(1+r)} - \frac{a}{1+r}a^{*-r/(1+r)}
-%     \end{align*}
-%     is monotonous.
-%     Choosing the vector function $\eta=(\eta_a,\eta_b,(\eta_{i,j})_{\pair{i,j}\in E})$ such that
-%     \begin{align*}
-%         &\eta_a(a_1,a_2)\\
-%         &= \frac{(1+r)(a_1^{1/(1+r)}-a_2^{1/(1+r)})+(a_2-a_1)a^{*-r/(1+r)}}{a_2^{-r/(1+r)}-a^{*-r/(1+r)}},
-%     \end{align*}
-%     $\eta_b(b_1,b_2)=(b_1-b_2)$ and $\eta_{i,j}(p^{(1)}_{i,j},p^{(2)}_{i,j})=p^{(1)}_{i,j}-p^{(2)}_{i,j}$ for all $\pair{i,j}\in E$, we have
-%     \begin{align*}
-%         L^\prime(&a_1,b_1,\probdistri{}_1,\bmlambda^*)-L^\prime(a_2,b_2,\probdistri{}_2,\bmlambda^*)\\
-%         &\ge \eta((a_1,b_1,\probdistri{}_1), (a_2,b_2,\probdistri{}_2))^{\rm T}\nabla L^\prime(a_2,b_2,\probdistri{}_2,\bmlambda^*)
-%     \end{align*}
-%     where $(a_1,b_1,\probdistri{}_1)$ and $(a_2,b_2,\probdistri{}_2)$ are feasible solutions of (P).
-%     So $L^\prime(a_1,b_1,\probdistri{}_1,\bmlambda^*)$ is invex. By the sufficient optimality conditions introduced by \citep{Hanson1981On}, $(a^*-\epsilon,b^*,\probdistri{}^*)$ is optimal for (P).
-
-%     Similarly, we add a constrain $a\ge a^*+\epsilon$ to (10) and have that $(a^*,b^*,\probdistri{}^*)$ is also optimal for this program.
-%     Finally, we make a conclusion that if $(a^*,b^*,\probdistri{}^*)$ satisfies the KKT condition of (10), then $(a^*,b^*,\probdistri{}^*)$ is optimal for (10).
-% \end{proof}
-\subsection{Proof of Corollary~\ref{cor:covering_number_inequality}} % (fold)
-\label{sub:proof_of_corollary_}
-
-    From Theorem~3, it is easy to know
+\begin{proof}[Proof of Corollary~\ref{cor:covering_number_inequality}] % (fold)
+    From Theorem~$3$, it is easy to know
     \DoubleColumn
     \begin{equation}
         \begin{aligned}
@@ -1502,75 +1498,71 @@ An important character of these Rademacher processes in \eqref{eq:moment_inequal
 where $E_<=\{(i,j): \{i,j\}\in E, i<j\}$. Let $z_\rademacher^\prime=z_\rademacher/\|\weight{}\|_2$, following Theorem \ref{th:kinchine_type_ineqaulity}, we can easily have that $z_\rademacher^\prime$ satisfies \eqref{eq:kinchine_type_inequality_process} with degree $2$. Thus from Theorem \ref{th:rademacher_process_chaining}, we have
 \begin{equation}
     \label{eq:weighted_rademacher_process_prove_1}
-    \E_\rademacher[\sup_{f,g}|z^\prime_\rademacher(f)-z^\prime_\rademacher(s)|]\le K\int_0^D\log N(\mathcal F,d,\epsilon)d\epsilon.
+    \E_\rademacher[\sup_{f,g}|z^\prime_\rademacher(f)-z^\prime_\rademacher(s)|]\le K\int_0^D\log N(\mathcal F,\lnorm{}_2,\epsilon)d\epsilon.
 \end{equation}
-where 
-\DoubleColumn
-\begin{align*}
-    d(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
-    &=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)\\
-    &\qquad-g(X_i,X_j))|^2])^{1/2}.
-\end{align*}
-\DoubleColumnEnd
-\SingleColumn
-\begin{align*}
-    d(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
-    &=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}.
-\end{align*}
-\SingleColumnEnd
+% where 
+% \DoubleColumn
+% \begin{align*}
+%     \lnorm{}_2(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
+%     &=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)\\
+%     &\qquad-g(X_i,X_j))|^2])^{1/2}.
+% \end{align*}
+% \DoubleColumnEnd
+% \SingleColumn
+% \begin{align*}
+%     \lnorm{}_2(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
+%     &=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}.
+% \end{align*}
+% \SingleColumnEnd
 Recall that $\sup_f \|f\|_\infty = F$, we have $D= 2F$.
-Since this metirc function $d$ is intractable, we need to convert it to the $\lebesgue_\infty$ metric. For all $f,s$, we have
+Since this metric function $d$ is intractable, we need to convert it to the $\lnorm_\infty$ metric. For all $f,s$, we have
 \DoubleColumn
-\begin{align*}
-    d(f,g)&=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)\\
-    &\qquad-g(X_i,X_j))|^2])^{1/2}\\
-    &\le \lebesgue_\infty(f,g)
-\end{align*}
+$\lnorm{}_2(z'_\rademacher{}(f),z'_\rademacher{}(g))\le \lnorm_\infty(f,g)$.
 \DoubleColumnEnd
 \SingleColumn
 \begin{align*}
-    d(f,g)&=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}\\
-    &\le \lebesgue_\infty(f,g)
+    \lnorm{}_2(f,g)&\le \lnorm_\infty(f,g)
 \end{align*}
 \SingleColumnEnd
-The fact that if $\forall f,s\in\mathcal F, d_1(f,s)\le d_2(f,s)$ then $N(\mathcal F,d_1,\epsilon)\le N(\mathcal F, d_2,\epsilon)$ combined with \eqref{eq:weighted_rademacher_process_prove_1} will give
+The fact that if $\forall f,s\in\mathcal F, \lnorm{}(f,s)\le \lnorm{}'(f,s)$ then $N(\mathcal F,\lnorm{},\epsilon)\le N(\mathcal F, \lnorm{}',\epsilon)$ combined with \eqref{eq:weighted_rademacher_process_prove_1} will give
 \begin{align*}
     \E[Z_\rademacher]&= 2\E[\E_\rademacher[\sup_f|z_\rademacher(f)|]]\\
-    &\le 2K\|\weight{}\|_2\int_0^{2F}\log N(\mathcal F,d,\epsilon)d\epsilon\\
+    &\le 2K\|\weight{}\|_2\int_0^{2F}\log N(\mathcal F,\lnorm{}_2,\epsilon)d\epsilon\\
     &\le 2K\|\weight{}\|_2\int_0^{2F}\log N_\infty(\mathcal F, \epsilon)d\epsilon
 \end{align*}
 where $K$ is a universal constant. Similarly, we can also bound $\E[M]$ by $K\|\weight{}\|_{\max}\linebreak\int_0^{2F}\sqrt{\log N_\infty(\mathcal F, \epsilon)}d\epsilon$. 
 For $U_\rademacher$, let $\alpha^*$ be the (random) vector that maximizes $U_\rademacher$ and define
 \[\{u_\rademacher(f) = \sum_{i=1}^n\rademacher_i\sum_{\pair{i,j}\in\E}w_{i,j}\alpha_j^*\linebreak f(X_i,X_j),f\in\mathcal{F}\}.\]
-Clearly, $u_\rademacher$ satisfies the Kinchine inequality with degree $1$. Also, we need to convert its metric distance, 
-\DoubleColumn
-\begin{align*}
-    (\E_\rademacher&[|u_\rademacher(f)-u_\rademacher(g)|^2])^{1/2}\\
-    &=(\E_\rademacher[|\sum_{\pair{i,j}\in\E}w_{i,j}\rademacher_i\alpha_j^*(f(X_i,X_j)\\
-    &\qquad-g(X_i,X_j))|^2])^{1/2}\\
-    % &\le \sqrt{\sum_{\pair{i,j}\in\E}(w_{i,j}\alpha_j^*)^2}\sup_{X_i,X_j\in\mathcal X^2}|f(X_i,X_j)\\
-    % &\qquad-g(X_i,X_j)|\\
-    &\le \|\weight{}\|_2\lebesgue_\infty(f,g)
-\end{align*}
-\DoubleColumnEnd 
-\SingleColumn
-\begin{align*}
-    (\E_\rademacher[|u_\rademacher(f)-u_\rademacher(g)|^2])^{1/2}&=(\E_\rademacher[|\sum_{\pair{i,j}\in\E}w_{i,j}\rademacher_i\alpha_j^*(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}\\
-    % &\le \sqrt{\sum_{\pair{i,j}\in\E}(w_{i,j}\alpha_j^*)^2}\sup_{X_i,X_j\in\mathcal X^2}|f(X_i,X_j)\\
-    % &\qquad-g(X_i,X_j)|\\
-    &\le \|\weight{}\|_2\lebesgue_\infty(f,g)
-\end{align*}
-\SingleColumnEnd
+Clearly, $u_\rademacher$ satisfies the Khintchine inequality with degree $1$. Also, we need to convert its metric distance and $\lnorm{}_2(u_\rademacher{}(f), u_\rademacher{}(g))\le \lnorm{}_\infty(f, g)$.
+% \DoubleColumn
+% \begin{align*}
+%     (\E_\rademacher&[|u_\rademacher(f)-u_\rademacher(g)|^2])^{1/2}\\
+%     &=(\E_\rademacher[|\sum_{\pair{i,j}\in\E}w_{i,j}\rademacher_i\alpha_j^*(f(X_i,X_j)\\
+%     &\qquad-g(X_i,X_j))|^2])^{1/2}\\
+%     % &\le \sqrt{\sum_{\pair{i,j}\in\E}(w_{i,j}\alpha_j^*)^2}\sup_{X_i,X_j\in\mathcal X^2}|f(X_i,X_j)\\
+%     % &\qquad-g(X_i,X_j)|\\
+%     &\le \|\weight{}\|_2\lnorm_\infty(f,g)
+% \end{align*}
+% \DoubleColumnEnd 
+% \SingleColumn
+% \begin{align*}
+%     (\E_\rademacher[|u_\rademacher(f)-u_\rademacher(g)|^2])^{1/2}&=(\E_\rademacher[|\sum_{\pair{i,j}\in\E}w_{i,j}\rademacher_i\alpha_j^*(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}\\
+%     % &\le \sqrt{\sum_{\pair{i,j}\in\E}(w_{i,j}\alpha_j^*)^2}\sup_{X_i,X_j\in\mathcal X^2}|f(X_i,X_j)\\
+%     % &\qquad-g(X_i,X_j)|\\
+%     &\le \|\weight{}\|_2\lnorm_\infty(f,g)
+% \end{align*}
+% \SingleColumnEnd
 Thus, $\E[U_\rademacher]\le K\|\weight{}\|_2\int_0^{2F}\sqrt{\log N_\infty(\mathcal F,\epsilon)}d\epsilon$.
 
-Pluging all these part into \eqref{eq:moment_inequality_of_weighted_u_statistics} will complete the corollary.
-% section technical_proofs (end)
-\section{Metric entropy inequality} % (fold)
+Plugging all these part into \eqref{eq:moment_inequality_of_weighted_u_statistics} will complete the corollary.
+\end{proof}
+
+\section{Metric Entropy Inequality} % (fold)
 \label{sub:metric_entropy_inequality}
 
 The following theorems are more or less classical and well known. We present them here for the sake of completeness.
 
-\begin{theorem}[Khinchine inequality for rademacher chaos, {\citet[Theorem 3.2.1]{de2012decoupling}}]
+\begin{theorem}[Khinchine inequality for Rademacher chaos, {\citett{Theorem 3.2.1}{de2012decoupling}}]
     \label{th:kinchine_type_ineqaulity}
     Let $F$ be a normed vector space and let $\{\rademacher{}_i\}_{i=1}^\infty$ be a Rademacher sequence. Denote by
     \DoubleColumn
@@ -1584,7 +1576,7 @@ The following theorems are more or less classical and well known. We present the
         X=x+\sum_{i=1}^n x_i\rademacher_i+\sum_{i_1<i_2\le n}\linebreak x_{i_1,i_2}\rademacher{}_{i_1}\rademacher{}_{i_2}+\dots+\sum_{i_1<\dots<i_d\le n}x_{i_1\dots i_d}\rademacher{}_{i_1}\dots \rademacher{}_{i_d}        
     \end{align*}
     \SingleColumnEnd
-    the rademacher chaos of order d. Let $1<p\le q<\infty$ and let
+    the Rademacher chaos of order d. Let $1<p\le q<\infty$ and let
     \[\gamma=(\frac{p-1}{q-1})^{1/2}.\]
     Then, for all $d\ge 1$,
     \DoubleColumn
@@ -1603,7 +1595,7 @@ The following theorems are more or less classical and well known. We present the
     \SingleColumnEnd
 \end{theorem}
 
-\begin{theorem}[metric entropy inequality, {\citet[Proposition 2.6]{Dembo1994}}]
+\begin{theorem}[metric entropy inequality, {\citett{Proposition 2.6}{Dembo1994}}]
     \label{th:rademacher_process_chaining}
     If a process $\{Y_f: f\in\mathcal F\}$ satisfies
 \begin{equation}
