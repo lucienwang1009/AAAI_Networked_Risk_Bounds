@@ -139,15 +139,18 @@
 \newcommand{\citett}[2]{\citeauthor{#2}\ (\citeyear{#2}, #1)}
 \newcommand{\citep}[3]{(#1\ \citeauthor{#3}\ \citeyear{#3},\ #2)}
 \newcommand{\citec}[2]{\citeauthor{#1}\ (#2 \citeyear{#1})}
+\DeclareUnicodeCharacter{FF08}{}
 
 
 \begin{document}
 \title{On the ERM Principle with Networked Data}
 
-\author{Yuanhong Wang\textsuperscript{1}, Yuyi Wang\textsuperscript{2}, Xingwu Liu\textsuperscript{3}, Juhua Pu\textsuperscript{1}\\
-\textsuperscript{1} The State Key Laboratory of Software Development Environment, Beihang University, Beijing, China\\
-\textsuperscript{2} Disco Group, ETH Zurich, Switzerland\\
-\textsuperscript{3} Institute of Computing Technology, Chinese Academy of Sciences, Beijing, China
+\author{Yuanhong Wang\textsuperscript{1,2}, Yuyi Wang\textsuperscript{3}, Xingwu Liu\textsuperscript{4,5}, Juhua Pu\textsuperscript{1,2}\\
+\textsuperscript{1} State Key Laboratory of Software Development Environment, Beihang University, Beijing 100191, China\\
+\textsuperscript{2} Research Institute of Beihang University in Shenzhen, Shenzhen 518057, China\\
+\textsuperscript{3} Disco Group, ETH Zurich, Switzerland\\
+\textsuperscript{4} Institute of Computing Technology, Chinese Academy of Sciences, Beijing, China\\
+\textsuperscript{5} University of Chinese Academy of Sciences, Beijing, China
 }
 % \author{Yuanhong Wang\\
 % The State Key Laboratory of Software Development Environment\\
@@ -664,8 +667,7 @@ Although this optimization problem is not convex unless $\beta=0$, which usually
  % and guarantee that the new scheme is not worse than the old one. 
 %So there exists a trade-off between optimization time and tight risk bounds.
 \begin{definition}[FPTAS]
-  An algorithm $\mathcal{A}$ is a FPTAS for a minimization problem $\Pi$, if for any input $\mathcal{I}$ of $\Pi$ and $\epsilon>0$, $\mathcal{A}$ finds a solution $s$ in time polynomial in both the size of $\mathcal{I}$ and $1/\epsilon$ that satisfies
-  \[f_\Pi(s)\le (1+\epsilon) \cdot f_\Pi(s^*),\]
+  An algorithm $\mathcal{A}$ is a FPTAS for a minimization problem $\Pi$, if for any input $\mathcal{I}$ of $\Pi$ and $\epsilon>0$, $\mathcal{A}$ finds a solution $s$ in time polynomial in both the size of $\mathcal{I}$ and $1/\epsilon$ that satisfies $f_\Pi(s)\le (1+\epsilon) \cdot f_\Pi(s^*)$,
   where $f_\Pi$ is the (positive) objective function of $\Pi$ and $s^*$ is an optimal solution for $\mathcal{I}$.
 \end{definition}
 
@@ -970,14 +972,13 @@ These new bounds are tighter in the case of incomplete graphs and can be degener
 Based on this result, one can train a classifier with a better risk bound by putting proper weights on training examples. 
 We propose an efficient algorithm to obtain the approximate optimal weighting vector and prove that the algorithm is a FPTAS for the weighting vector optimization problem. 
 Finally, we discuss two cases to show the merits of our new risk bounds.
-In particular, we show that, in terms of these risk bounds, weighting all examples equally is optimal for complete graphs but not always good for incomplete graphs. 
+% In particular, we show that, in terms of these risk bounds, weighting all examples equally is optimal for complete graphs but not always good for incomplete graphs. 
 
 % Section~conclusion (end)
 
-% \subsubsection*{Acknowledgements}
+\subsubsection*{Acknowledgements}
 
-% Use unnumbered third level headings for the acknowledgements title.
-% All acknowledgements go at the end of the paper.
+This work was supported by the National Key R$\&$D Program of China(2017YFC0803700), China's Natural Science Foundation(61502320), the Science Foundation of Shenzhen City in China（JCYJ20160419152942010).
 
 % \subsubsection*{References}
 
