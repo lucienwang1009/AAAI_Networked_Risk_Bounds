@@ -14,15 +14,29 @@
   \pdfinfo{
 /Title (On the ERM Principle with Networked Data)
 /Author (Yuanhong Wang, Yuanhong Wang, Yuyi Wang, Xingwu Liu and Juhua Pu)
-/Keywords (Empirical minimization)}
+/Keywords (Generalization error bounds, Non-i.i.d. data, U-statistics, Fully polynomial-time approximation scheme)}
+% Section Numbers
+% Uncomment if you want to use section numbers
+% and change the 0 to a 1 or 2
 \setcounter{secnumdepth}{2} 
+% Title and Author Information
+% the pdfinfo within the preamble
+%
+\title{On the ERM Principle with Networked Data}
+
+\author{Yuanhong Wang\textsuperscript{1,2}, Yuyi Wang\textsuperscript{3}, Xingwu Liu\textsuperscript{4,5}, Juhua Pu\textsuperscript{1,2}\\
+\textsuperscript{1} State Key Laboratory of Software Development Environment, Beihang University, Beijing 100191, China\\
+\textsuperscript{2} Research Institute of Beihang University in Shenzhen, Shenzhen 518057, China\\
+\textsuperscript{3} Disco Group, ETH Zurich, Switzerland\\
+\textsuperscript{4} Institute of Computing Technology, Chinese Academy of Sciences, Beijing, China\\
+\textsuperscript{5} University of Chinese Academy of Sciences, Beijing, China
+}
 
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage{booktabs}       % professional-quality tables
 \usepackage{amsfonts}       % blackboard math symbols
 \usepackage{microtype}      % microtypography
 \usepackage{algorithm}
-% \usepackage{algorithmic}
 \usepackage[noend]{algpseudocode}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}} % Use Input in the format of Algorithm
 \renewcommand{\algorithmicensure}{\textbf{Output:}} % Use Output in the format of Algorithm
@@ -125,10 +139,8 @@
 \newcommand{\set}[1]{\{#1\}}
 \newcommand{\trainingset}{\mathbb{S}}
 \newcommand{\rademachercomplexity}{\mathfrak{R}}
-
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 \newcommand{\todo}[1]{\red{\textsc{todo:} #1}}
-
 
 % For aaai citation
 \newcommand{\citet}[1]{\citeauthor{#1}\ (\citeyear{#1})}
@@ -139,15 +151,6 @@
 
 
 \begin{document}
-\title{On the ERM Principle with Networked Data}
-
-\author{Yuanhong Wang\textsuperscript{1,2}, Yuyi Wang\textsuperscript{3}, Xingwu Liu\textsuperscript{4,5}, Juhua Pu\textsuperscript{1,2}\\
-\textsuperscript{1} State Key Laboratory of Software Development Environment, Beihang University, Beijing 100191, China\\
-\textsuperscript{2} Research Institute of Beihang University in Shenzhen, Shenzhen 518057, China\\
-\textsuperscript{3} Disco Group, ETH Zurich, Switzerland\\
-\textsuperscript{4} Institute of Computing Technology, Chinese Academy of Sciences, Beijing, China\\
-\textsuperscript{5} University of Chinese Academy of Sciences, Beijing, China
-}
 
 \maketitle
 
@@ -976,6 +979,8 @@ This work was supported by the National Key R$\&$D Program of China(2017YFC08037
 
 \bibliography{Mendeley}
 \bibliographystyle{aaai}
+
+% Following is appendix which should be removed in camera ready version.
 \newpage \newpage
 
 \section*{Appendix} % (fold)
