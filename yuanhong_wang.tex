@@ -177,7 +177,7 @@ Similar examples of networked data such as traffic networks \cite{min2011real}, 
 Admittedly, many efforts have been made to design practical algorithms for learning from networked data, e.g., \cite{liben2007link,macskassy2007classification,li2016robust,garcia2016combining}. 
 However, not many theoretical guarantees of these methods have been established, which is the main concern of this paper. More specifically, this paper deals with risk bounds of \emph{classifiers trained with networked data (\problemabbr{})
 % \todo{modify the name}
-} whose goal is to train a classifier with examples in a data graph $G$. 
+} where the training examples are organized into a graph $G$. 
 Every vertex of $G$ is an object and described by a feature vector $X\in \xspace{}$ that is drawn independently and identically (i.i.d.) from an unknown distribution, while every edge corresponds to a training example whose input is a pair of feature vectors $\pair{X,X'}$ of the two ends of this edge and whose target value $Y$ is in $\{0,1\}$.
 % The classifier takes a pair of feature vectors $\pair{X,X'}$ as input to predict the target value $Y\in \set{0,1}$. 
 
