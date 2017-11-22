@@ -24,9 +24,9 @@
 %
 \title{On the ERM Principle with Networked Data}
 
-\author{Yuanhong Wang\textsuperscript{1,2}, Yuyi Wang\textsuperscript{3}, Xingwu Liu\textsuperscript{4,5}, Juhua Pu\textsuperscript{1,2}\\
-\textsuperscript{1} State Key Laboratory of Software Development Environment, Beihang University, Beijing 100191, China\\
-\textsuperscript{2} Research Institute of Beihang University in Shenzhen, Shenzhen 518057, China\\
+\author{Yuanhong Wang\textsuperscript{1,2}, Yuyi Wang\textsuperscript{3}, Xingwu Liu\textsuperscript{4,5}, Juhua Pu\textsuperscript{1,2}\thanks{Corresponding author}\\
+\textsuperscript{1} State Key Laboratory of Software Development Environment, Beihang University, Beijing, China\\
+\textsuperscript{2} Research Institute of Beihang University in Shenzhen, Shenzhen, China\\
 \textsuperscript{3} Disco Group, ETH Zurich, Switzerland\\
 \textsuperscript{4} Institute of Computing Technology, Chinese Academy of Sciences, Beijing, China\\
 \textsuperscript{5} University of Chinese Academy of Sciences, Beijing, China
@@ -83,14 +83,14 @@
 \usepackage{breqn}
 \usepackage{mathrsfs}
 \usepackage{breakcites}
-\usepackage{etoolbox}
+% \usepackage{etoolbox}
 \usepackage{subfigure}
 \usepackage{bm}
 \usepackage{multirow}
 \usepackage{array,booktabs}
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
-\patchcmd{\thebibliography}{\section*{\refname}}{}{}{}
+% \patchcmd{\thebibliography}{\section*{\refname}}{}{}{}
 \allowdisplaybreaks
 
 \newtheorem{theorem}{Theorem}
@@ -149,7 +149,6 @@
 \newcommand{\citec}[2]{\citeauthor{#1}\ (#2 \citeyear{#1})}
 \DeclareUnicodeCharacter{FF08}{}
 
-
 \begin{document}
 
 \maketitle
@@ -177,7 +176,7 @@ Similar examples of networked data such as traffic networks \cite{min2011real}, 
 Admittedly, many efforts have been made to design practical algorithms for learning from networked data, e.g., \cite{liben2007link,macskassy2007classification,li2016robust,garcia2016combining}. 
 However, not many theoretical guarantees of these methods have been established, which is the main concern of this paper. More specifically, this paper deals with risk bounds of \emph{classifiers trained with networked data (\problemabbr{})
 % \todo{modify the name}
-} where the training examples are organized into a graph $G$. 
+} whose goal is to train a classifier with examples in a data graph $G$. 
 Every vertex of $G$ is an object and described by a feature vector $X\in \xspace{}$ that is drawn independently and identically (i.i.d.) from an unknown distribution, while every edge corresponds to a training example whose input is a pair of feature vectors $\pair{X,X'}$ of the two ends of this edge and whose target value $Y$ is in $\{0,1\}$.
 % The classifier takes a pair of feature vectors $\pair{X,X'}$ as input to predict the target value $Y\in \set{0,1}$. 
 
@@ -187,7 +186,7 @@ These bounds are of the order $O(\log(n)/n)$, where $n$ is the number of vertice
 However, in practice it is very likely that one cannot collect examples for all pairs of vertices and then $G$ is usually incomplete, thus techniques based on complete $U$-processes in \cite{papa2016graph} cannot be applied and the risk bounds of the order $O(\log(n)/n)$ are no longer valid in this setting. 
 By generalizing the moment inequality for $U$-processes to the case of incomplete graphs, we prove novel risk bounds for the incomplete graph.  
 
-Usually, every training example is equally weighted (or unweighted) in ERM, which seems much less persuasive when the examples are networked, in particular when the graph is incomplete. But, most existing theoretical results of learning from networked examples are based on the unweighted ERM \cite{Usunier2005,ralaivola2009chromatic}, and their bounds are of the order $O(\sqrt{\chi^*(D_G)/m})$ where $D_G$ is the \emph{line graph} of $G$ and $\chi^*$ is the \emph{fractional chromatic number} of $D_G$ (see Section~\ref{sec:fractional_coloring_approach} in the appendix) and $m$ is the number of training examples. 
+Usually, every training example is equally weighted (or unweighted) in ERM, which seems much less persuasive when the examples are networked, in particular when the graph is incomplete. But, most existing theoretical results of learning from networked examples are based on the unweighted ERM \cite{Usunier2005,ralaivola2009chromatic}, and their bounds are of the order $O(\sqrt{\chi^*(D_G)/m})$ where $D_G$ is the \emph{line graph} of $G$ and $\chi^*$ is the \emph{fractional chromatic number} of $D_G$ (see Section~A in the online appendix\footnote{https://arxiv.org/abs/1711.04297}) and $m$ is the number of training examples. 
 In order to improve this bound, \citet{wang2017learning} propose \emph{weighted} ERM %\emph{(weighted ERM)}, 
 which adds weights to training examples 
 according to the data graph, and show that the risk bound for weighted ERM can be of the order $O(1/\sqrt{\nu^*(G)})$ where $\nu^*(G)$ is the \emph{fractional matching number} of $G$, so using weighted ERM networked data can be more effectively exploited than the equal weighting method, as basic graph theory tells us $\nu^*_G\ge m / \chi^*(D_G)$. 
@@ -253,7 +252,7 @@ Before we show new risk bounds and new weighting methods, we present the followi
 Compared to Janson's decomposition which is based on line graphs, our method utilizes the additional dependency information in the data graph $G$. 
 For example, the complete line graph with three vertices (i.e., triangle) corresponds to two different data graphs, as illuminated in Figure~\ref{fig:weighting_scheme_complete_graph}. 
 Hence, line graph based methods ignore some important information in the data graph. 
-This negligence makes it unable to improve bounds, no matter whether considering weighted ERM or not (see Section~\ref{sub:weighted_erm} in the appendix). 
+This negligence makes it unable to improve bounds, no matter whether considering weighted ERM or not (see Section~A.1 in the online appendix). 
 In Section~\ref{sub:equally_weighting}, we show that our bounds are tighter than that of line graph based methods. 
 
 \paragraph{Asymptotic Risk}
@@ -263,7 +262,7 @@ Otherwise, if we treat every example equally, then these dependent examples may 
 \paragraph{Uniform Bounds} 
 \citet{DBLP:conf/icml/RalaivolaA15} prove an entropy-base concentration inequality for networked data using Janson's decomposition, but the 
 assumption there is usually too restrictive to be satisfied %in the case of complete graphs 
-(see Section~\ref{sub:low_noise_condition} in appendix). 
+(see Section~A.2 in the online appendix). 
 % \todo{@Lucien: use \ref{}, check whole paper for this in case there is something wrong}
 To circumvent this problem, our method uses 
 the ``low-noise'' condition (also used in \cite{papa2016graph}) to establish uniform bounds, 
@@ -565,11 +564,11 @@ In the following, we bound the three terms $T_\weight{}, U_\weight{}$ and $\wide
 
 % *** give some intuition
 To prove Lemma~\ref{le:uniform_approximation}, we show that $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ can be bounded by Rademacher chaos using classical symmetrization and randomization tricks combined with the decoupling method. We handle these Rademacher chaos by generalizing the moment inequality for $U$-statistics in \cite{clemenccon2008ranking}. 
-Specifically, we utilize the moment inequalities from \cite{Boucheron2005} to convert them into a sum of simpler processes, which can be bounded by the metric entropy inequality for Khinchine-type processes \citep{see}{Proposition 2.6}{Dembo1994} and Assumption~\ref{ass:covering_number}. The detailed proofs can be found in Section~\ref{sec:a_moment_inequality_for_weighted_u_processes} in the appendix.
+Specifically, we utilize the moment inequalities from \cite{Boucheron2005} to convert them into a sum of simpler processes, which can be bounded by the metric entropy inequality for Khinchine-type processes \citep{see}{Proposition 2.6}{Dembo1994} and Assumption~\ref{ass:covering_number}. The detailed proofs can be found in Section~C in the online appendix.
 
 Lemma~\ref{le:uniform_approximation} shows that the contribution of the degenerated parts $U_\weight{}(r)$ and $\widetilde{U}_\weight{}(r)$ to the excess risk can be bounded. 
 This implies that minimizing $\Lambda_\weight{}(r)$ is approximately equivalent to minimizing $T_\weight{}(r)$ and thus $r_\weight{}$ is a $\rho$-minimizer of $T_\weight{}(r)$ in the sense that $T_\weight{}(r_\weight{})\le \rho+\inf_{r\in R}T_\weight{}(r)$.
-In order to analyze $T_\weight{}(r)$, which can be treated as a weighted empirical risk on i.i.d.\ examples, we generalize the results in \cite{Massart2006} (see Section~\ref{sec:weighted_risk_bounds} in the appendix). 
+In order to analyze $T_\weight{}(r)$, which can be treated as a weighted empirical risk on i.i.d.\ examples, we generalize the results in \cite{Massart2006} (see Section~B in the online appendix). 
 Based on this result, tight bounds for the excess risk with respect to $T_\weight{}(r)$
 can be obtained if the variance of the excess risk is controlled by its expected value.
 % , i.e., the ``low-noise'' condition.
@@ -892,7 +891,7 @@ When graph $G$ is complete, weighting all examples equally gives the best risk b
 Compared to the results in \cite{wang2017learning}, our theory puts additional constrains on $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ which encourages weighting examples fairly in this case, as illustrated in Figure~\ref{fig:weighting_scheme_complete_graph}. 
 Besides, this scheme, which coincides with $U$-statistics that \emph{average} the basic estimator applied to all sub-samples, produces the smallest variance among all unbiased estimators \cite{hoeffding1948class}. 
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \subcapraggedrighttrue
   \DoubleColumn
@@ -950,14 +949,6 @@ Consider a data graph with $|E|=m \gg 1$ and $E$ consists of $m/2$ disjoint edge
 %\[O(\frac{2}{m+4})^{1/(1+\complexbound{})} + \sqrt{\frac{2}{m} - \frac{16}{(m+4)^2}}).\]
 \end{example}
 
-% \begin{figure}[h]
-%     \centering
-%     \includegraphics[width=0.2\textwidth]{equal_weighting.eps}
-%     \caption{Two weighting schemes for the complete graph formed by points $X_1$, $X_2$, $X_3$, $X_4$. Solid line means its weight $w>0$ while dash line means $w=0$. (a): Weights of every example equal $1/3$. (b): Only the examples in an independent set get weights $1$, i.e. $w_{1,4}=w_{4,1}=w_{2,3}=w_{3,2}=1$ and other weights are $0$. Note that $\normo{\probdistri{}}$ of these two weighting schemes are both $4$ but (a) have the tighter risk bounds from our results.}
-%     \label{fig:equal_weighting}
-% \end{figure}
-% subSection~equally_weighting (end)
-
 % section discussion (end)
 
 \section{Conclusion} % (fold)
@@ -971,17 +962,14 @@ Finally, we discuss two cases to show the merits of our new risk bounds.
 
 % Section~conclusion (end)
 
-\subsubsection*{Acknowledgements}
+\section*{Acknowledgments}
 
-This work was supported by National Key R$\&$D Program of China (2017YFC0803700), National Natural Science Foundation of China (61502320, 61420106013, 61521092), Science Foundation of Shenzhen City in China (JCYJ20160419152942010).
+The authors would like to thank the anonymous reviewers for their helpful comments. This work was supported by Guangdong Shannon Intelligent Tech.\ co., Ltd., National Key R$\&$D Program of China (2017YFC0803700), National Natural Science Foundation of China (61502320, 61420106013, 61521092) and Science Foundation of Shenzhen City in China (JCYJ20160419152942010).
 
 % \subsubsection*{References}
 
 \bibliography{Mendeley}
 \bibliographystyle{aaai}
-
-% Following is appendix which should be removed in camera ready version.
-\newpage \newpage
 
 \section*{Appendix} % (fold)
 \appendix
