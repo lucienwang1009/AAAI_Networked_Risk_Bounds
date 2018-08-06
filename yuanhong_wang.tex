@@ -7,6 +7,7 @@
 \usepackage{courier}  %Required
 \usepackage{url}  %Required
 \usepackage{graphicx}  %Required
+\newcommand{\pairtwo}[1]{(#1)}
 \frenchspacing  %Required
 \setlength{\pdfpagewidth}{8.5in}  %Required
 \setlength{\pdfpageheight}{11in}  %Required
@@ -141,13 +142,14 @@
 \newcommand{\rademachercomplexity}{\mathfrak{R}}
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 \newcommand{\todo}[1]{\red{\textsc{todo:} #1}}
+\newcommand{\noise}{\alpha}
+\DeclareUnicodeCharacter{FF08}{}
 
 % For aaai citation
 \newcommand{\citet}[1]{\citeauthor{#1}\ (\citeyear{#1})}
 \newcommand{\citett}[2]{\citeauthor{#2}\ (\citeyear{#2}, #1)}
 \newcommand{\citep}[3]{(#1\ \citeauthor{#3}\ \citeyear{#3},\ #2)}
 \newcommand{\citec}[2]{\citeauthor{#1}\ (#2 \citeyear{#1})}
-\DeclareUnicodeCharacter{FF08}{}
 
 \begin{document}
 
@@ -177,8 +179,8 @@ Admittedly, many efforts have been made to design practical algorithms for learn
 However, not many theoretical guarantees of these methods have been established, which is the main concern of this paper. More specifically, this paper deals with risk bounds of \emph{classifiers trained with networked data (\problemabbr{})
 % \todo{modify the name}
 } whose goal is to train a classifier with examples in a data graph $G$. 
-Every vertex of $G$ is an object and described by a feature vector $X\in \xspace{}$ that is drawn independently and identically (i.i.d.) from an unknown distribution, while every edge corresponds to a training example whose input is a pair of feature vectors $\pair{X,X'}$ of the two ends of this edge and whose target value $Y$ is in $\{0,1\}$.
-% The classifier takes a pair of feature vectors $\pair{X,X'}$ as input to predict the target value $Y\in \set{0,1}$. 
+Every vertex of $G$ is an object and described by a feature vector $X\in \xspace{}$ that is drawn independently and identically (i.i.d.) from an unknown distribution, while every edge corresponds to a training example whose input is a pair of feature vectors $\pairtwo{X,X'}$ of the two ends of this edge and whose target value $Y$ is in $\{0,1\}$.
+% The classifier takes a pair of feature vectors $\pairtwo{X,X'}$ as input to predict the target value $Y\in \set{0,1}$. 
 
 A widely used principle to select a proper model from a hypothesis set is \emph{Empirical Risk Minimization (ERM)}. %, which estimates the loss of every model by averaging its empirical errors on training examples and chooses the model with the minimum empirical risk. 
 \citet{papa2016graph} establish risk bounds for ERM on complete data graphs, and the bounds are independent of the distribution of the data. 
@@ -278,16 +280,16 @@ In this section, we begin with the detailed probabilistic framework for \problem
 
 Consider a graph $G=(V,E)$ with a vertex set $V=\{1,\dots,n\}$ and a set of edges $E\subseteq\{\edge{i,j}: 1\le i\neq j\le n\}$. 
 For each $i\in V$, a continuous random variable (r.v.) $X_i$, taking its values in a measurable space $\xspace{}$, describes features of vertex $i$. The $X_i$'s are i.i.d.\ r.v.'s following some unknown distribution $P_\xspace$.
-Each pair of vertices $\pair{i,j}\in E$ corresponds to a networked example whose \emph{input} is a pair $(X_i,X_j)$ and \emph{target} value is $Y_{i,j}\in\yspace{}.$ 
+Each pair of vertices $\pairtwo{i,j}\in E$ corresponds to a networked example whose \emph{input} is a pair $(X_i,X_j)$ and \emph{target} value is $Y_{i,j}\in\yspace{}.$ 
 We focus on \emph{binary classification} in this paper, i.e., $\yspace{} = \{0,1\}$. 
-Moreover, the distribution of target values only depends on the features of the vertices it contains but does not depend on features of other vertices, that is, there is a probability distribution $P_{\yspace{}\mid\xspace{}^2}$ such that for every pair $\pair{i,j}\in E$, the conditional probability 
+Moreover, the distribution of target values only depends on the features of the vertices it contains but does not depend on features of other vertices, that is, there is a probability distribution $P_{\yspace{}\mid\xspace{}^2}$ such that for every pair $\pairtwo{i,j}\in E$, the conditional probability 
 \[P\left[Y_{i,j}=y\mid x_1,\ldots,x_n\right]=P_{\yspace{}\mid\xspace{}^2}\left[y,x_i,x_j\right].\]  
 
 \begin{example}[pairwise ranking]
 \cite{liu2009learning} categorize ranking problems into three groups by their input representations and loss functions. One of these categories is \emph{pairwise ranking} that learns a binary classifier telling which document is better in a given pair of documents. A document can be described by a feature vector from the $\xspace$ describing title, volume, \ldots The target value (rank) between two documents, that only depends on features of these two documents, is $1$ if the first document is considered better than the second, and $0$ otherwise. 
 \end{example}
 
-The training set $\trainingset:=\{(X_i,X_j,Y_{i,j})\}_{\pair{i,j}\in E}$ is \emph{dependent}\ copies of a generic random vector $(X_1, X_2, Y_{1,2})$ whose distribution $\distribution{}=P_\xspace\otimes P_\xspace\otimes P_{\yspace{}\mid\xspace{}^2}$ is fully determined by the pair $(P_\xspace{}, P_{\yspace{}\mid\xspace{}^2})$. 
+The training set $\trainingset:=\{(X_i,X_j,Y_{i,j})\}_{\pairtwo{i,j}\in E}$ is \emph{dependent}\ copies of a generic random vector $(X_1, X_2, Y_{1,2})$ whose distribution $\distribution{}=P_\xspace\otimes P_\xspace\otimes P_{\yspace{}\mid\xspace{}^2}$ is fully determined by the pair $(P_\xspace{}, P_{\yspace{}\mid\xspace{}^2})$. 
 Let $\mathcal{R}$ be the set of all measurable functions from $\xspace{}^2$ to $\yspace{}$ and for all $r\in\mathcal{R}$, the \emph{loss function} $\ell(r,(x_1,x_2,y_{1,2}))=\indicator_{y_{1,2}\neq r(x_1,x_2)}$. 
 %***** 适用于其他loss function。
 
@@ -321,21 +323,21 @@ The link prediction which predicts the occurrence of an linkage between the vert
 \label{sub:weighted_empirical_risk_minimization}
 
 % just introduce and formulate, not argue anything in this section.
-ERM aims to find the function from a hypothesis set that minimizes the empirical estimator of \eqref{eq:graph_reconstruction_risk} on the training examples $\trainingset{}=\{(X_i,X_j,Y_{i,j})\}_{\pair{i,j}\in E}$:
+ERM aims to find the function from a hypothesis set that minimizes the empirical estimator of \eqref{eq:graph_reconstruction_risk} on the training examples $\trainingset{}=\{(X_i,X_j,Y_{i,j})\}_{\pairtwo{i,j}\in E}$:
 \begin{equation}
     \label{eq:graph_reconstruction_non_weighted_erm}
-    \empiricalrisk{m}(r) := \frac{1}{m}\sum_{\pair{i,j}\in E} \lossf(r, (X_i,X_j, Y_{i,j})).
+    \empiricalrisk{m}(r) := \frac{1}{m}\sum_{\pairtwo{i,j}\in E} \lossf(r, (X_i,X_j, Y_{i,j})).
 \end{equation}
 where $m$ is the number of training examples. 
 In this paper, we consider its weighted version, in which we put weights on the examples and select the minimizer $r_\weight{}$ of the weighted empirical risk
 \begin{equation}
     \label{eq:graph_reconstruction_weighted_erm}
-    \empiricalrisk{\weight}(r) := \frac{1}{\normo{\weight}} \sum_{\pair{i,,j}\in E} w_{i,j} \lossf(r, (X_i,X_j, Y_{i,j}))
+    \empiricalrisk{\weight}(r) := \frac{1}{\normo{\weight}} \sum_{\pairtwo{i,,j}\in E} w_{i,j} \lossf(r, (X_i,X_j, Y_{i,j}))
 \end{equation}
 where $\weight$ is a \emph{fractional matching} of $G$ and $\normo{\weight{}} > 0$. 
 \begin{definition}[fractional matching]
 Given a graph $G=(V,E)$, a \emph{fractional matching} $\weight$ is a non-negative 
-vector $(w_{i,j})_{\pair{i,j}\in E}$ that for every vertex $i\in V, \sum_{j:\pair{i,j}\in E}w_{i,j}\le 1$.
+vector $(w_{i,j})_{\pairtwo{i,j}\in E}$ that for every vertex $i\in V, \sum_{j:\pairtwo{i,j}\in E}w_{i,j}\le 1$.
 \end{definition}
 
 \LongVersion
@@ -351,11 +353,11 @@ minimizing which is equivalent to minimizing \eqref{eq:graph_reconstruction_weig
 % The main purpose of this paper is to find the bounds for this excess risk which is called \emph{risk bounds}.
 \LongVersion
 The empirical risk minimizer $r_\weight{}$ is a solution of the optimization problem $\inf_{r\in R}L_\weight{}(r)$ whose performance is measured by its excess risk $L(r_\weight{})-\bayeserror{}$.
-If for all $\pair{i,j}\in E$, $w_{i,j}=1/|E|$, weighted ERM is degenerated to the classical ERM.
-Let $E_<=\{\pair{i,j}: i<j, \pair{i,j}\in E\}$ be the ordered edge set. If Condition~\ref{con:symmetric} is satisfied, we also have
+If for all $\pairtwo{i,j}\in E$, $w_{i,j}=1/|E|$, weighted ERM is degenerated to the classical ERM.
+Let $E_<=\{\pairtwo{i,j}: i<j, \pairtwo{i,j}\in E\}$ be the ordered edge set. If Condition~\ref{con:symmetric} is satisfied, we also have
 \begin{equation}
     \label{eq:symmetric_graph_reconstruction_imcomplete_erm}
-    \empiricalrisk{\weight{}}(r) = \frac{2}{\normo{\weight{}}} \sum_{\pair{i,j}\in E_<} w_{i,j} \lossf(r, (X_i,X_j, Y_{i,j})).
+    \empiricalrisk{\weight{}}(r) = \frac{2}{\normo{\weight{}}} \sum_{\pairtwo{i,j}\in E_<} w_{i,j} \lossf(r, (X_i,X_j, Y_{i,j})).
 \end{equation}
 \LongVersionEnd
 
@@ -465,6 +467,17 @@ Now we are ready to show the tighter risk bounds for weighted empirical risk by 
         \end{aligned}
     \end{equation}
     \DoubleColumnEnd
+
+    \todo{
+    \begin{equation}
+        \begin{aligned}
+            \label{eq:main_result}
+            \risk(r_\weight{}&)-\bayeserror \le 2(\inf_{r\in R}\risk(r)-\bayeserror) + \frac{K'C\log(1/\delta)}{(1-\complexbound)^{2/(2+\noise(\complexbound-1))}\normo{\weight{}}}\\
+            &\bigg(\normo{\weight{}}^{(1-1/2+\noise(\complexbound-1))}+\max\Big(\|\weight{}\|_2,\|\weight{}\|_{\max}(\log(1/\delta))^{1/2},\\
+            &\qquad\qquad\qquad\qquad\qquad\|\weight{}\|_\infty(\log(1/\delta))\Big)\bigg)
+        \end{aligned}
+    \end{equation}
+    }
     \SingleColumn
     \begin{equation}
         \begin{aligned}
@@ -474,7 +487,7 @@ Now we are ready to show the tighter risk bounds for weighted empirical risk by 
         \end{aligned}
     \end{equation}
     \SingleColumnEnd
-    where $\|\weight{}\|_{\max}=\max_i \sqrt{\sum_{j:\pair{i,j}\in E} w_{i,j}^2}$ and $K'=\max(K,\sqrt{K},K^{1/(1+\complexbound{})})$.
+    where $\|\weight{}\|_{\max}=\max_i \sqrt{\sum_{j:\pairtwo{i,j}\in E} w_{i,j}^2}$ and $K'=\max(K,\sqrt{K},K^{1/(1+\complexbound{})})$.
 \end{theorem}
 
 According to Theorem~\ref{th:main_theorem}, if the parameter 
@@ -507,12 +520,12 @@ Its empirical estimate by weighted ERM is
 \DoubleColumn
 \begin{align*}
     \Lambda_\weight{}(r) &= \empiricalrisk{\weight{}}(r)-\empiricalrisk{\weight{}}(r^*)\\
-    &=\frac{1}{\normo{\weight{}}}\sum_{\pair{i,j}\in E} w_{i,j} q_r(X_i,X_j,Y_{i,j}).
+    &=\frac{1}{\normo{\weight{}}}\sum_{\pairtwo{i,j}\in E} w_{i,j} q_r(X_i,X_j,Y_{i,j}).
 \end{align*}
 \DoubleColumnEnd
 \SingleColumn
 \begin{align*}
-    \Lambda_\weight{}(r) = \empiricalrisk{\weight{}}(r)-\empiricalrisk{\weight{}}(r^*)=\frac{1}{\normo{\weight{}}}\sum_{\pair{i,j}\in E} w_{i,j} q_r(X_i,X_j,Y_{i,j}).
+    \Lambda_\weight{}(r) = \empiricalrisk{\weight{}}(r)-\empiricalrisk{\weight{}}(r^*)=\frac{1}{\normo{\weight{}}}\sum_{\pairtwo{i,j}\in E} w_{i,j} q_r(X_i,X_j,Y_{i,j}).
 \end{align*}
 \SingleColumnEnd
 
@@ -522,14 +535,14 @@ By Hoeffding's decomposition \cite{hoeffding1948class}, for all $r\in\mathcal R$
     \Lambda_\weight{}(r) = T_\weight{}(r) + U_\weight{}(r) + \widetilde{U}_\weight{}(r),
 \end{equation}
 where
-\[T_\weight{}(r)=\Lambda(r)+\frac{2}{\normo{\weight{}}}\sum_{i=1}^n\sum_{j:\pair{i,j}\in E}w_{i,j}h_r(X_i)\]
+\[T_\weight{}(r)=\Lambda(r)+\frac{2}{\normo{\weight{}}}\sum_{i=1}^n\sum_{j:\pairtwo{i,j}\in E}w_{i,j}h_r(X_i)\]
 is a weighted average of i.i.d.\ random variables with $h_r(X_i)=\E[q_r(X_i,X_j,Y_{i,j})\mid X_i]-\Lambda(r)$,
-\[U_\weight{}(r)=\frac{1}{\normo{\weight{}}}\sum_{\pair{i,j}\in E} w_{i,j}(\hat{h}_r(X_i,X_j)\]
+\[U_\weight{}(r)=\frac{1}{\normo{\weight{}}}\sum_{\pairtwo{i,j}\in E} w_{i,j}(\hat{h}_r(X_i,X_j)\]
 is a weighted \emph{degenerated} (i.e., the symmetric kernel $\hat{h}_r(x_1,x_2)$ such that $\E[\hat{h}_r(X_1, X_2)\mid X_1=x_1]=0$ for all $x_1\in\xspace{}$) $U$-statistic 
 % \todo{@Lucien: if possible, explain what are degenerated U-statistics} of order $2$ with symmetric kernel 
 $\hat{h}_r(X_i,X_j)=\E[q_r(X_i,X_j,Y_{i,j})\mid X_i,X_j]-\Lambda(r)-h_r(X_i)-h_r(X_j)$ 
 and
-\[\widetilde{U}_\weight{}(r)=\frac{1}{\normo{\weight{}}}\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})\]
+\[\widetilde{U}_\weight{}(r)=\frac{1}{\normo{\weight{}}}\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})\]
 with a \emph{degenerated} kernel 
 % \todo{@Lucien: if possible, explain what are degenerated kernels}
 $\tilde{h}_r(X_i,X_j,Y_{i,j})=q_r(X_i,X_j\linebreak,Y_{i,j})-\E[q_r(X_i,X_j,Y_{i,j})\mid X_i,X_j].$ 
@@ -539,6 +552,7 @@ In the following, we bound the three terms $T_\weight{}, U_\weight{}$ and $\wide
 
 \begin{lemma}[uniform approximation]
     \label{le:uniform_approximation}
+    \todo{check!!!}
     Under the same assumptions as in Theorem~\ref{th:main_theorem}, for any $\delta\in (0,1/e)$, we have with probability at least $1-\delta$,
     \SingleColumn
     \[\sup_{r\in R}|U_\weight{}(r)|\le \frac{\max(K,\sqrt{K})C_1}{1-\complexbound{}}\max\Big(\frac{\|\weight{}\|_2\log(1/\delta)}{\normo{\weight{}}},\frac{\|\weight{}\|_{\max}(\log(1/\delta))^{3/2}}{\normo{\weight{}}}, \frac{\|\weight{}\|_\infty(\log(1/\delta))^2}{\normo{\weight{}}}\Big)\]
@@ -582,6 +596,13 @@ By Lemma~\ref{le:variant_control}, $T_\weight{}(r)$ fulfills this condition, whi
         \Var\left[\E[q_r(X_1,X_2,Y_{1,2})\mid X_1]\right]\le \Lambda(r) 
     \end{equation}
     holds for any distribution $\distribution$ and any function $r\in R$.
+
+    \todo{
+    \begin{equation}
+        \label{eq:variant_control}
+        \Var\left[\E[q_r(X_1,X_2,Y_{1,2})\mid X_1]\right]\le c\Lambda(r)^\noise
+    \end{equation}
+    }
 \end{lemma}
 
 \begin{lemma}[risk bounds for i.i.d.\ examples]
@@ -676,7 +697,7 @@ According to Theorem~\ref{th:main_theorem}, given a graph $G$, $\complexbound\in
     \min_{\weight{}} \quad&\frac{1}{\normo{\weight{}}}\bigg(\normo{\weight{}}^{\complexbound/(1+\complexbound)}+\max\Big(\|\weight{}\|_2,\\
     &\qquad\|\weight{}\|_{\max}(\log(1/\delta))^{1/2},
     \|\weight{}\|_\infty(\log(1/\delta))\Big)\bigg)\\
-    \mbox{s.t.} \quad& \forall \pair{i,j}\in E, w_{i,j}\ge 0 \quad \mbox{and} \quad  \forall i, \sum_{j:\pair{i,j}\in E} w_{i,j}\le 1
+    \mbox{s.t.} \quad& \forall \pairtwo{i,j}\in E, w_{i,j}\ge 0 \quad \mbox{and} \quad  \forall i, \sum_{j:\pairtwo{i,j}\in E} w_{i,j}\le 1
 \end{aligned}
 \end{equation}
 \DoubleColumnEnd
@@ -685,26 +706,26 @@ According to Theorem~\ref{th:main_theorem}, given a graph $G$, $\complexbound\in
     \label{eq:optimization_program}
 \begin{aligned}
     \min_{\weight{}} & \quad\frac{1}{\normo{\weight{}}}\bigg(\normo{\weight{}}^{\complexbound{}/(1+\complexbound{})}+\max\Big(\|\weight{}\|_2,\|\weight{}\|_{\max}(\log(1/\delta))^{1/2},\|\weight{}\|_\infty(\log(1/\delta))\Big)\bigg)\\
-    \mbox{s.t.} \quad& \forall \pair{i,j}\in E, w_{i,j}\ge 0 \quad \mbox{and} \quad  \forall i, \sum_{j:\pair{i,j}\in E} w_{i,j}\le 1
+    \mbox{s.t.} \quad& \forall \pairtwo{i,j}\in E, w_{i,j}\ge 0 \quad \mbox{and} \quad  \forall i, \sum_{j:\pairtwo{i,j}\in E} w_{i,j}\le 1
 \end{aligned}
 \end{equation}
 \SingleColumnEnd
 
 To get rid of the fraction of norms in the program above, we consider a distribution $\probdistri{}$ on edges $p_{i,j}:=w_{i,j}/\normo{\weight{}}$ and then 
-$\normo{\weight{}} \le 1/\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}.$
-% \[\normo{\weight{}} \le \frac{1}{\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}}.\]
+$\normo{\weight{}} \le 1/\max_{i=1,\dots,n} \sum_{j:\pairtwo{i,j}\in E} p_{i,j}.$
+% \[\normo{\weight{}} \le \frac{1}{\max_{i=1,\dots,n} \sum_{j:\pairtwo{i,j}\in E} p_{i,j}}.\]
 Every distribution $\probdistri{}$ corresponds to a valid weighting vector $\weight{}$. 
-% Since there exists at least one vertex $i$ such that $\sum_{j:\pair{i,j}\in E} w_{i,j}= 1$ in the optimal solution of \eqref{eq:optimization_program}, 
+% Since there exists at least one vertex $i$ such that $\sum_{j:\pairtwo{i,j}\in E} w_{i,j}= 1$ in the optimal solution of \eqref{eq:optimization_program}, 
 By introducing two auxiliary variables $a$ and $b$, solving the original program \eqref{eq:optimization_program} is equivalent to solving
 % \DoubleColumn
 % \begin{equation}
 %     \label{eq:optimization_program_1}
 % \begin{aligned}
 %     \min_{\probdistri{}} \quad&
-%     (\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j})^{1/(1+\complexbound{})}+\max\Big(\|\probdistri{}\|_2,\\
+%     (\max_{i=1,\dots,n} \sum_{j:\pairtwo{i,j}\in E} p_{i,j})^{1/(1+\complexbound{})}+\max\Big(\|\probdistri{}\|_2,\\
 %     &\qquad\|\probdistri{}\|_{\max}(\log(1/\delta))^{1/2},
 %     \|\probdistri{}\|_\infty(\log(1/\delta))\Big)\\
-%     \mbox{s.t.} \quad& \forall \pair{i,j}\in E, p_{i,j}\ge 0 \quad \mbox{and} \quad \sum_{\pair{i,j}\in E} p_{i,j}= 1
+%     \mbox{s.t.} \quad& \forall \pairtwo{i,j}\in E, p_{i,j}\ge 0 \quad \mbox{and} \quad \sum_{\pairtwo{i,j}\in E} p_{i,j}= 1
 % \end{aligned}
 % \end{equation}
 % \DoubleColumnEnd
@@ -713,13 +734,13 @@ By introducing two auxiliary variables $a$ and $b$, solving the original program
     \label{eq:optimization_program_1}
 \begin{aligned}
     \min_{\probdistri{}} &\quad
-    (\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j})^{1/(1+\complexbound{})}+\max\Big(\|\probdistri{}\|_2,\|\probdistri{}\|_{\max}(\log(1/\delta))^{1/2},
+    (\max_{i=1,\dots,n} \sum_{j:\pairtwo{i,j}\in E} p_{i,j})^{1/(1+\complexbound{})}+\max\Big(\|\probdistri{}\|_2,\|\probdistri{}\|_{\max}(\log(1/\delta))^{1/2},
     \|\probdistri{}\|_\infty(\log(1/\delta))\Big)\\
-    \mbox{s.t.} &\quad \forall \pair{i,j}\in E, p_{i,j}\ge 0 \quad \mbox{and} \quad \sum_{\pair{i,j}\in E} p_{i,j}= 1
+    \mbox{s.t.} &\quad \forall \pairtwo{i,j}\in E, p_{i,j}\ge 0 \quad \mbox{and} \quad \sum_{\pairtwo{i,j}\in E} p_{i,j}= 1
 \end{aligned}
 \end{equation}
 \SingleColumnEnd
-% Note that $\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}$ is the fractional matching number of $G$. 
+% Note that $\max_{i=1,\dots,n} \sum_{j:\pairtwo{i,j}\in E} p_{i,j}$ is the fractional matching number of $G$. 
 %Since $\probdistri{}$ has the same effect of $\weight{}$ and is more easy to understand, we will use $\probdistri{}$ instead of $\weight{}$ in next analysis.
 
 % subSection~optimization_problem (end)
@@ -734,9 +755,9 @@ By introducing two auxiliary variables $a$ and $b$, solving the original program
 \begin{aligned}
     \min_{a,b,\probdistri{}} \quad&
     a^{1/(1+\complexbound{})}+b\\
-    \mbox{s.t.} \quad &\forall \pair{i,j}\in E, p_{i,j}\ge 0; \quad \forall \pair{i,j}\in E, p_{i,j}\log(1/\delta) - b \le 0\\
-    & \forall i, \sum_{j:\pair{i,j}\in E} p_{i,j} -a  \le 0; \quad \forall i, \left(\sum_{j:\pair{i,j}\in E} p^2_{i,j}\log(1/\delta)\right)^{1/2} -b  \le 0\\
-    & \|\probdistri{}\|_2 -b \le 0 \quad \mbox{and} \quad \sum_{\pair{i,j}\in E} p_{i,j}= 1
+    \mbox{s.t.} \quad &\forall \pairtwo{i,j}\in E, p_{i,j}\ge 0; \quad \forall \pairtwo{i,j}\in E, p_{i,j}\log(1/\delta) - b \le 0\\
+    & \forall i, \sum_{j:\pairtwo{i,j}\in E} p_{i,j} -a  \le 0; \quad \forall i, \left(\sum_{j:\pairtwo{i,j}\in E} p^2_{i,j}\log(1/\delta)\right)^{1/2} -b  \le 0\\
+    & \|\probdistri{}\|_2 -b \le 0 \quad \mbox{and} \quad \sum_{\pairtwo{i,j}\in E} p_{i,j}= 1
 \end{aligned}
 \end{equation}
 \SingleColumnEnd
@@ -746,11 +767,11 @@ By introducing two auxiliary variables $a$ and $b$, solving the original program
 \begin{aligned}
     \min_{a,b,\probdistri{}} \quad&
     a^{1/(1+\complexbound{})}+b\\
-    \mbox{s.t.} \quad &\forall \pair{i,j}\in E, p_{i,j}\ge 0 \\
-    & \forall \pair{i,j}\in E, p_{i,j}\log(1/\delta) - b \le 0\\
-    & \forall i, \sum_{j:\pair{i,j}\in E} p_{i,j} -a  \le 0\\
-    & \forall i, \left(\sum_{j:\pair{i,j}\in E} p^2_{i,j}\log(1/\delta)\right)^{1/2} -b  \le 0\\
-    & \|\probdistri{}\|_2 -b \le 0 \quad \mbox{and} \quad \sum_{\pair{i,j}\in E} p_{i,j}= 1
+    \mbox{s.t.} \quad &\forall \pairtwo{i,j}\in E, p_{i,j}\ge 0 \\
+    & \forall \pairtwo{i,j}\in E, p_{i,j}\log(1/\delta) - b \le 0\\
+    & \forall i, \sum_{j:\pairtwo{i,j}\in E} p_{i,j} -a  \le 0\\
+    & \forall i, \left(\sum_{j:\pairtwo{i,j}\in E} p^2_{i,j}\log(1/\delta)\right)^{1/2} -b  \le 0\\
+    & \|\probdistri{}\|_2 -b \le 0 \quad \mbox{and} \quad \sum_{\pairtwo{i,j}\in E} p_{i,j}= 1
 \end{aligned}
 \end{equation}
 \DoubleColumnEnd
@@ -782,9 +803,9 @@ $a_{min}$;
 \begin{aligned}
     \min_{a,\probdistri{}} \quad&
     a\\
-    \mbox{s.t.} \quad &\forall \pair{i,j}\in E, p_{i,j}\ge 0 \\
-    & \forall i, \sum_{j:\pair{i,j}\in E} p_{i,j} -a  \le 0\\
-    & \sum_{\pair{i,j}\in E} p_{i,j}= 1
+    \mbox{s.t.} \quad &\forall \pairtwo{i,j}\in E, p_{i,j}\ge 0 \\
+    & \forall i, \sum_{j:\pairtwo{i,j}\in E} p_{i,j} -a  \le 0\\
+    & \sum_{\pairtwo{i,j}\in E} p_{i,j}= 1
 \end{aligned}
 \end{equation}
 \State Let $Grid:=\{a_{min}+i\cdot\epsilon(1+\beta)/n \mid  i\in \mathbb{N} \hbox{ and } i\le n(1-a_{min})/\epsilon(1+\beta)\}$ and $Solutions := \emptyset$. 
@@ -795,11 +816,11 @@ $a_{min}$;
 \begin{aligned}
     \min_{b,\probdistri{}} \quad&
     b\\
-    \mbox{s.t.} \quad &\forall \pair{i,j}\in E, p_{i,j}\ge 0 \\
-    & \forall \pair{i,j}\in E, p_{i,j}\log(1/\delta) - b \le 0\\
-    & \forall i, \sum_{j:\pair{i,j}\in E} p_{i,j} -a  \le 0\\
-    & \forall i, \left(\sum_{j:\pair{i,j}\in E} p^2_{i,j}\log(1/\delta)\right)^{1/2} -b  \le 0\\
-    & \|\probdistri{}\|_2 -b \le 0 \quad \mbox{and} \quad \sum_{\pair{i,j}\in E} p_{i,j}= 1
+    \mbox{s.t.} \quad &\forall \pairtwo{i,j}\in E, p_{i,j}\ge 0 \\
+    & \forall \pairtwo{i,j}\in E, p_{i,j}\log(1/\delta) - b \le 0\\
+    & \forall i, \sum_{j:\pairtwo{i,j}\in E} p_{i,j} -a  \le 0\\
+    & \forall i, \left(\sum_{j:\pairtwo{i,j}\in E} p^2_{i,j}\log(1/\delta)\right)^{1/2} -b  \le 0\\
+    & \|\probdistri{}\|_2 -b \le 0 \quad \mbox{and} \quad \sum_{\pairtwo{i,j}\in E} p_{i,j}= 1
 \end{aligned}
 \end{equation}
 
@@ -887,7 +908,7 @@ Then, we discuss the performance of this equal weighting scheme when the graph i
 
 \subsection{Complete Graphs} % (fold)
 \label{sub:complete_graph}
-When graph $G$ is complete, weighting all examples equally gives the best risk bound, as all the terms $\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}$, $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ achieve minimum. 
+When graph $G$ is complete, weighting all examples equally gives the best risk bound, as all the terms $\max_{i=1,\dots,n} \sum_{j:\pairtwo{i,j}\in E} p_{i,j}$, $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ achieve minimum. 
 Compared to the results in \cite{wang2017learning}, our theory puts additional constrains on $\|\probdistri{}\|_2$, $\|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ which encourages weighting examples fairly in this case, as illustrated in Figure~\ref{fig:weighting_scheme_complete_graph}. 
 Besides, this scheme, which coincides with $U$-statistics that \emph{average} the basic estimator applied to all sub-samples, produces the smallest variance among all unbiased estimators \cite{hoeffding1948class}. 
 
@@ -923,7 +944,7 @@ Besides, this scheme, which coincides with $U$-statistics that \emph{average} th
     }
   \SingleColumnEnd
     \caption{(a) and (b) are two different data graphs, but both of them correspond to the same line graph (a triangle). 
-    (c) and (d) are two weighting schemes for a complete graph formed by points $X_1$, $X_2$, $X_3$, $X_4$. Solid line means its weight $p>0$ while dash line means $p=0$. (c): Weight every example equally. (d): Only the two examples in an independent subset get equally non-zero weights and other weights are $0$ (dashed line). Note that $\max_{i=1,\dots,n} \sum_{j:\pair{i,j}\in E} p_{i,j}$ of these two weighting schemes are the same, but (c) has the tighter risk bounds, as $\|\probdistri{}\|_2, \|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ of (c) are smaller than that of (d) respectively.}
+    (c) and (d) are two weighting schemes for a complete graph formed by points $X_1$, $X_2$, $X_3$, $X_4$. Solid line means its weight $p>0$ while dash line means $p=0$. (c): Weight every example equally. (d): Only the two examples in an independent subset get equally non-zero weights and other weights are $0$ (dashed line). Note that $\max_{i=1,\dots,n} \sum_{j:\pairtwo{i,j}\in E} p_{i,j}$ of these two weighting schemes are the same, but (c) has the tighter risk bounds, as $\|\probdistri{}\|_2, \|\probdistri{}\|_\max$ and $\|\probdistri{}\|_\infty$ of (c) are smaller than that of (d) respectively.}
     \label{fig:weighting_scheme_complete_graph}
 \end{figure}
 
@@ -931,7 +952,7 @@ Besides, this scheme, which coincides with $U$-statistics that \emph{average} th
 
 \subsection{Equal Weighting} % (fold)
 \label{sub:equally_weighting}
-Let us discuss further the equal weighting scheme that gives every example the same weight. Denote by $\Delta(G)$ the maximum degree of $G$ (note that this is not the maximum degree of $D_G$) and let $p_{i,j}=1/m$ (recall that $m$ is the number of examples) for all $\pair{i,j}\in E$. According to program \eqref{eq:optimization_program_final},
+Let us discuss further the equal weighting scheme that gives every example the same weight. Denote by $\Delta(G)$ the maximum degree of $G$ (note that this is not the maximum degree of $D_G$) and let $p_{i,j}=1/m$ (recall that $m$ is the number of examples) for all $\pairtwo{i,j}\in E$. According to program \eqref{eq:optimization_program_final},
 % \todo{@Lucien: since I merged two programs, we need to modify the \ref{} here}
 using equal weighting scheme, the risk bounds are of the order 
 \begin{equation}
@@ -1231,8 +1252,8 @@ With this moment inequality, we prove the inequality for weighted Rademacher cha
     \begin{equation}
         \begin{aligned}
         \label{eq:weighted_u_statistics_decoupling}
-            \E[\sup_{f_{i,j}\in\mathcal{F}}&|\sum_{\pair{i,j}\in E}w_{i,j} f_{i,j}(X_i,X_j)|^q] \\
-            &\le 4^q\E[\sup_{f_{i,j}\in\mathcal{F}}|\sum_{\pair{i,j}\in E} w_{i,j}f_{i,j}(X_i,X_j^\prime)|^q]
+            \E[\sup_{f_{i,j}\in\mathcal{F}}&|\sum_{\pairtwo{i,j}\in E}w_{i,j} f_{i,j}(X_i,X_j)|^q] \\
+            &\le 4^q\E[\sup_{f_{i,j}\in\mathcal{F}}|\sum_{\pairtwo{i,j}\in E} w_{i,j}f_{i,j}(X_i,X_j^\prime)|^q]
         \end{aligned}
     \end{equation}
     \DoubleColumnEnd
@@ -1240,19 +1261,19 @@ With this moment inequality, we prove the inequality for weighted Rademacher cha
     \begin{equation}
         \begin{aligned}
         \label{eq:weighted_u_statistics_decoupling}
-            \E[\sup_{f_{i,j}\in\mathcal{F}}&|\sum_{\pair{i,j}\in E}w_{i,j} f_{i,j}(X_i,X_j)|^q] \le 4^q\E[\sup_{f_{i,j}\in\mathcal{F}}|\sum_{\pair{i,j}\in E} w_{i,j}f_{i,j}(X_i,X_j^\prime)|^q]
+            \E[\sup_{f_{i,j}\in\mathcal{F}}&|\sum_{\pairtwo{i,j}\in E}w_{i,j} f_{i,j}(X_i,X_j)|^q] \le 4^q\E[\sup_{f_{i,j}\in\mathcal{F}}|\sum_{\pairtwo{i,j}\in E} w_{i,j}f_{i,j}(X_i,X_j^\prime)|^q]
         \end{aligned}
     \end{equation}
     \SingleColumnEnd
     If the functions $f_{i,j}$ are symmetric in the sense that for all $X_i,X_j$,
     \[f_{i,j}(X_i,X_j)=f_{j,i}(X_j,X_i)\]
-    and $(w_{i,j})_{\pair{i,j}\in E}$ is symmetric, then the inequality can be reversed, that is,
+    and $(w_{i,j})_{\pairtwo{i,j}\in E}$ is symmetric, then the inequality can be reversed, that is,
     \DoubleColumn
     \begin{equation}
         \begin{aligned}
         \label{eq:weighted_u_statistic_coupling}
-        \E[\sup_{f_{i,j}\in\mathcal{F}}&|\sum_{\pair{i,j}\in\E}w_{i,j} f_{i,j}(X_i,X_j^\prime)|^q]\\
-        &\le 4^q \E[\sup_{f_{i,j}\in\mathcal{F}}|\sum_{\pair{i,j}\in E}w_{i,j} f_{i,j}(X_i,X_j)|^q]
+        \E[\sup_{f_{i,j}\in\mathcal{F}}&|\sum_{\pairtwo{i,j}\in\E}w_{i,j} f_{i,j}(X_i,X_j^\prime)|^q]\\
+        &\le 4^q \E[\sup_{f_{i,j}\in\mathcal{F}}|\sum_{\pairtwo{i,j}\in E}w_{i,j} f_{i,j}(X_i,X_j)|^q]
         \end{aligned}
     \end{equation}
     \DoubleColumnEnd
@@ -1260,7 +1281,7 @@ With this moment inequality, we prove the inequality for weighted Rademacher cha
     \begin{equation}
         \begin{aligned}
         \label{eq:weighted_u_statistic_coupling}
-        \E[\sup_{f_{i,j}\in\mathcal{F}}&|\sum_{\pair{i,j}\in\E}w_{i,j} f_{i,j}(X_i,X_j^\prime)|^q] \le 4^q \E[\sup_{f_{i,j}\in\mathcal{F}}|\sum_{\pair{i,j}\in E}w_{i,j} f_{i,j}(X_i,X_j)|^q]
+        \E[\sup_{f_{i,j}\in\mathcal{F}}&|\sum_{\pairtwo{i,j}\in\E}w_{i,j} f_{i,j}(X_i,X_j^\prime)|^q] \le 4^q \E[\sup_{f_{i,j}\in\mathcal{F}}|\sum_{\pairtwo{i,j}\in E}w_{i,j} f_{i,j}(X_i,X_j)|^q]
         \end{aligned}
     \end{equation}
     \SingleColumnEnd
@@ -1270,25 +1291,25 @@ With this moment inequality, we prove the inequality for weighted Rademacher cha
     Let $(\sigma_i)_{i=1}^n$ and $(\sigma_i^\prime)_{i=1}^n$ be two independent sequences of i.i.d.\ Radermacher variables, independent from the $(X_i,X_i^\prime)$'s. If $f$ is degenerated, we have for all $q\ge 1$,
     \DoubleColumn
     \begin{align*}
-        \E[\sup_{f\in\mathcal{F}}&|\sum_{\pair{i,j}\in E} w_{i,j}f(X_i,X_j^\prime)|^q]\\
-        &\le 4^q\E[\sup_{f\in\mathcal{F}}|\sum_{\pair{i,j}\in E}\sigma_i\sigma_j^\prime w_{i,j}f(X_i, X_j^\prime)|^q]
+        \E[\sup_{f\in\mathcal{F}}&|\sum_{\pairtwo{i,j}\in E} w_{i,j}f(X_i,X_j^\prime)|^q]\\
+        &\le 4^q\E[\sup_{f\in\mathcal{F}}|\sum_{\pairtwo{i,j}\in E}\sigma_i\sigma_j^\prime w_{i,j}f(X_i, X_j^\prime)|^q]
     \end{align*}
     \DoubleColumnEnd
     \SingleColumn
     \begin{align*}
-        \E[\sup_{f\in\mathcal{F}}&|\sum_{\pair{i,j}\in E} w_{i,j}f(X_i,X_j^\prime)|^q]\le 4^q\E[\sup_{f\in\mathcal{F}}|\sum_{\pair{i,j}\in E}\sigma_i\sigma_j^\prime w_{i,j}f(X_i, X_j^\prime)|^q]
+        \E[\sup_{f\in\mathcal{F}}&|\sum_{\pairtwo{i,j}\in E} w_{i,j}f(X_i,X_j^\prime)|^q]\le 4^q\E[\sup_{f\in\mathcal{F}}|\sum_{\pairtwo{i,j}\in E}\sigma_i\sigma_j^\prime w_{i,j}f(X_i, X_j^\prime)|^q]
     \end{align*}
     \SingleColumnEnd
 \end{lemma}
 \begin{lemma}
     \label{le:weighted_decoupling_undecoupling}
-    Let $(X_i^\prime)_{i=1}^n$ be an independent copy of the sequence $(X_i)_{i=1}^n$. Consider random variables valued in $\{0,1\}$, $(\tilde{Y}_{i,j})_{\pair{i,j}\in E}$, conditionally independent given the $X_i^\prime$'s and the $X_i$'s and such that $\Pro[\tilde{Y}_{i,j}=1\mid X_i,X_j^\prime]=\eta(X_i, X_j^\prime)$. We have for all $q\ge 1$,
+    Let $(X_i^\prime)_{i=1}^n$ be an independent copy of the sequence $(X_i)_{i=1}^n$. Consider random variables valued in $\{0,1\}$, $(\tilde{Y}_{i,j})_{\pairtwo{i,j}\in E}$, conditionally independent given the $X_i^\prime$'s and the $X_i$'s and such that $\Pro[\tilde{Y}_{i,j}=1\mid X_i,X_j^\prime]=\eta(X_i, X_j^\prime)$. We have for all $q\ge 1$,
     \DoubleColumn
     \begin{equation}
         \begin{aligned}
         \label{eq:weighted_u_statistics_decoupling}
-            \E[\sup_{r\in R}&|\sum_{\pair{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j, Y_{i,j})|^q] \\
-            &\le 4^q\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime, \tilde{Y}_{i,j})|^q]
+            \E[\sup_{r\in R}&|\sum_{\pairtwo{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j, Y_{i,j})|^q] \\
+            &\le 4^q\E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime, \tilde{Y}_{i,j})|^q]
         \end{aligned}
     \end{equation}
     \DoubleColumnEnd
@@ -1296,7 +1317,7 @@ With this moment inequality, we prove the inequality for weighted Rademacher cha
     \begin{equation}
         \begin{aligned}
         \label{eq:weighted_u_statistics_decoupling}
-            \E[\sup_{r\in R}&|\sum_{\pair{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j, Y_{i,j})|^q] \le 4^q\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime, \tilde{Y}_{i,j})|^q]
+            \E[\sup_{r\in R}&|\sum_{\pairtwo{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j, Y_{i,j})|^q] \le 4^q\E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime, \tilde{Y}_{i,j})|^q]
         \end{aligned}
     \end{equation}
     \SingleColumnEnd
@@ -1305,8 +1326,8 @@ With this moment inequality, we prove the inequality for weighted Rademacher cha
     \begin{equation}
         \begin{aligned}
         \label{eq:weighted_u_statistic_coupling}
-        \E[\sup_{r\in R}&|\sum_{\pair{i,j}\in\E}w_{i,j} \tilde{h}_r(X_i,X_j^\prime, \tilde{Y}_{i,j})|^q]\\
-        &\le 4^q \E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j,Y_{i,j})|^q]
+        \E[\sup_{r\in R}&|\sum_{\pairtwo{i,j}\in\E}w_{i,j} \tilde{h}_r(X_i,X_j^\prime, \tilde{Y}_{i,j})|^q]\\
+        &\le 4^q \E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j,Y_{i,j})|^q]
         \end{aligned}
     \end{equation}
     \DoubleColumnEnd
@@ -1314,7 +1335,7 @@ With this moment inequality, we prove the inequality for weighted Rademacher cha
     \begin{equation}
         \begin{aligned}
         \label{eq:weighted_u_statistic_coupling}
-        \E[\sup_{r\in R}&|\sum_{\pair{i,j}\in\E}w_{i,j} \tilde{h}_r(X_i,X_j^\prime, \tilde{Y}_{i,j})|^q] \le 4^q \E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j,Y_{i,j})|^q]
+        \E[\sup_{r\in R}&|\sum_{\pairtwo{i,j}\in\E}w_{i,j} \tilde{h}_r(X_i,X_j^\prime, \tilde{Y}_{i,j})|^q] \le 4^q \E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j,Y_{i,j})|^q]
         \end{aligned}
     \end{equation}
     \SingleColumnEnd
@@ -1325,13 +1346,13 @@ With this moment inequality, we prove the inequality for weighted Rademacher cha
     Let $(\sigma_i)_{i=1}^n$ and $(\sigma_i^\prime)_{i=1}^n$ be two independent sequences of i.i.d.\ Radermacher variables, independent from the $(X_i,X_i^\prime, Y_{i,j}, \tilde{Y}_{i,j})$'s. Then, we have for all $q\ge 1$,
     \DoubleColumn
     \begin{align*}
-        \E[\sup_{r\in R}&|\sum_{\pair{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime, \tilde{Y}_{i,j})|^q]\\
-        &\le 4^q\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}\sigma_i\sigma_j^\prime w_{i,j}\tilde{h}_r(X_i, X_j^\prime,\tilde{Y}_{i,j})|^q]
+        \E[\sup_{r\in R}&|\sum_{\pairtwo{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime, \tilde{Y}_{i,j})|^q]\\
+        &\le 4^q\E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}\sigma_i\sigma_j^\prime w_{i,j}\tilde{h}_r(X_i, X_j^\prime,\tilde{Y}_{i,j})|^q]
     \end{align*}
     \DoubleColumnEnd
     \SingleColumn
     \begin{align*}
-        \E[\sup_{r\in R}&|\sum_{\pair{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime, \tilde{Y}_{i,j})|^q] \le 4^q\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}\sigma_i\sigma_j^\prime w_{i,j}\tilde{h}_r(X_i, X_j^\prime,\tilde{Y}_{i,j})|^q]
+        \E[\sup_{r\in R}&|\sum_{\pairtwo{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime, \tilde{Y}_{i,j})|^q] \le 4^q\E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}\sigma_i\sigma_j^\prime w_{i,j}\tilde{h}_r(X_i, X_j^\prime,\tilde{Y}_{i,j})|^q]
     \end{align*}
     \SingleColumnEnd
 \end{lemma}
@@ -1342,10 +1363,10 @@ Lemma \ref{le:weighted_u_statistics_decoupling} and \ref{le:weighted_u_statistic
 \begin{theorem}[moment inequality]
     \label{th:moment_inequality_of_weighted_u_statistics}
     Let $X, X_1,\dots,X_n$ be i.i.d.\ random variables and let $\mathcal F$ be a class of kernels. Consider a weighted Rademacher chaos $Z_\rademacher{}$ of order $2$ on the graph $G=(V,E)$ indexed by $\mathcal F$,
-    \[Z = \sup_{f\in\mathcal F}|\sum_{\pair{i,j}\in E}w_{i,j}f(X_i,X_j)|\]
+    \[Z = \sup_{f\in\mathcal F}|\sum_{\pairtwo{i,j}\in E}w_{i,j}f(X_i,X_j)|\]
     where $\E[f(X,x)]=0$ for all $x\in\xspace{},f\in\mathcal{F}$. Assume also for all $x,x'\in\xspace$, $f(x,x')=f(x',x)$ (symmetric) and $\sup_{f\in\mathcal F}\|f\|_\infty=F$. Let $(\rademacher{}_i)_{i=1}^n$ be i.i.d.\ Rademacher random variables and introduce the random variables
-    \[Z_\rademacher = \sup_{f\in\mathcal F}|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_jf(X_i,X_j)|\]
-    \[U_\rademacher = \sup_{f\in\mathcal F}\sup_{\alpha:\|\alpha\|_2\le 1}\sum_{\pair{i,j}\in\E}w_{i,j}\rademacher_i\alpha_jf(X_i,X_j)\]
+    \[Z_\rademacher = \sup_{f\in\mathcal F}|\sum_{\pairtwo{i,j}\in E}w_{i,j}\rademacher_i\rademacher_jf(X_i,X_j)|\]
+    \[U_\rademacher = \sup_{f\in\mathcal F}\sup_{\alpha:\|\alpha\|_2\le 1}\sum_{\pairtwo{i,j}\in\E}w_{i,j}\rademacher_i\alpha_jf(X_i,X_j)\]
     \[M=\sup_{f\in\mathcal F,k=1,\dots,n}|\sum_{i:(i,k)\in E}w_{i,k}\rademacher_if(X_i,X_k)|\]
     Then exists a universal constant $C$ such that for all $n$ and $t>0$,
     \DoubleColumn
@@ -1371,7 +1392,7 @@ Lemma \ref{le:weighted_u_statistics_decoupling} and \ref{le:weighted_u_statistic
     % \SingleColumn
     % \[(\E[Z^q])^{1/q}\le C(\E[Z_\rademacher]+q^{1/2}\E[U_\rademacher]+q\E[M]+\|\weight{}\|_\infty Fq^2+\|\weight{}\|_{\max}Fq^{3/2}+F\|\weight{}\|_2q)\]
     % \SingleColumnEnd
-    where $\|\weight{}\|_{\max}=\max_i \sqrt{\sum_{j:\pair{i,j}\in E} w_{i,j}^2}$.
+    where $\|\weight{}\|_{\max}=\max_i \sqrt{\sum_{j:\pairtwo{i,j}\in E} w_{i,j}^2}$.
 \end{theorem}
 
 If the hypothesis set $\mathcal{F}$ is a subset of $\lnormspace{}_\infty(\xspace^2)$ (upper bounds on the uniform covering number with $\lnorm{}_\infty$ metric can be calculated \cite{cucker2007learning}), we show $\E[Z_\rademacher{}]$, $\E[U_\rademacher{}]$ and $\E[M]$ can be bounded by $N_\infty(\mathcal{F},\epsilon)$ since all these Rademacher random variables satisfy the Khinchine inequality (see Section~\ref{sub:metric_entropy_inequality}). Following the metric entropy inequality for Khinchine-type processes (see Section~\ref{sub:metric_entropy_inequality}), it is easy to get the following Corollary.
@@ -1409,52 +1430,52 @@ If the hypothesis set $\mathcal{F}$ is a subset of $\lnormspace{}_\infty(\xspace
 
 %     Re-using the notations used in the proof of Lemma \ref{le:weighted_u_statistics_decoupling}, we further introduce $(X_i^{\prime\prime})_{i=1}^n$, a copy of $(X_i^\prime)_{i=1}^n$, independent from $\mathcal F$, $\mathcal F^\prime$, and denote by $\mathcal F^{\prime\prime}$ its sigma-field. We now use classic randomization techniques and introduce our "ghost" sample:
 % \begin{align*}
-%     &\E[\sup_f|\sum_{\pair{i,j}\in E} w_{i,j}f(X_i,X_j^\prime)|^q]\\
+%     &\E[\sup_f|\sum_{\pairtwo{i,j}\in E} w_{i,j}f(X_i,X_j^\prime)|^q]\\
 %     &(f \text{ is degenerated})\\
-%     &= \E[\sup_f|\sum_{\pair{i,j}\in E} w_{i,j}(f(X_i,X_j^\prime)-\E_{\mathcal F^{\prime\prime}}[f(X_i,X_j^{\prime\prime})])|^q]\\
+%     &= \E[\sup_f|\sum_{\pairtwo{i,j}\in E} w_{i,j}(f(X_i,X_j^\prime)-\E_{\mathcal F^{\prime\prime}}[f(X_i,X_j^{\prime\prime})])|^q]\\
 %     &(\text{Jansen's Inequality})\\
-%     &\le \E[\sup_f|\sum_{\pair{i,j}\in E} w_{i,j}(f(X_i,X_j^\prime)-f(X_i,X_j^{\prime\prime}))|^q]\\
-%     &= \E[\sup_f|\sum_{j=1}^n \sum_{\pair{i,j}\in E} w_{i,j}(f(X_i,X_j^\prime)-f(X_i,X_j^{\prime\prime}))|^q]
+%     &\le \E[\sup_f|\sum_{\pairtwo{i,j}\in E} w_{i,j}(f(X_i,X_j^\prime)-f(X_i,X_j^{\prime\prime}))|^q]\\
+%     &= \E[\sup_f|\sum_{j=1}^n \sum_{\pairtwo{i,j}\in E} w_{i,j}(f(X_i,X_j^\prime)-f(X_i,X_j^{\prime\prime}))|^q]
 % \end{align*}
 % Let $(\sigma_i)_{i=1}^n$ be independent Rademacher variables, independent of $\mathcal F$, $\mathcal F^\prime$ and $\mathcal F^{\prime\prime}$, then we have:
 % \begin{align*}
-%     \E[&\sup_f|\sum_{j=1}^n \sum_{\pair{i,j}\in E} w_{i,j}(f(X_i,X_j^\prime)-f(X_i,X_j^{\prime\prime}))|^q\mid \mathcal F]\\
-%     &= \E[\sup_f|\sum_{j=1}^n \sigma_j \sum_{\pair{i,j}\in E} w_{i,j}(f(X_i,X_j^\prime)\\
+%     \E[&\sup_f|\sum_{j=1}^n \sum_{\pairtwo{i,j}\in E} w_{i,j}(f(X_i,X_j^\prime)-f(X_i,X_j^{\prime\prime}))|^q\mid \mathcal F]\\
+%     &= \E[\sup_f|\sum_{j=1}^n \sigma_j \sum_{\pairtwo{i,j}\in E} w_{i,j}(f(X_i,X_j^\prime)\\
 %     &\qquad-f(X_i,X_j^{\prime\prime}))|^q\mid \mathcal F]\\
 %     &(\text{Triangle's Inequality and the convexity of }\sup_f|\cdot|^q)\\
-%     &\le 2^q\E[\sup_f|\sum_{j=1}^n \sigma_j \sum_{\pair{i,j}\in E} w_{i,j}f(X_i,X_j^\prime)|^q\mid \mathcal F]\\
-%     &\qquad+ 2^q\E[\sup_f|\sum_{j=1}^n \sigma_j \sum_{\pair{i,j}\in E} w_{i,j}f(X_i,X_j^{\prime\prime}))|^q\mid \mathcal F]\\
-%     &\le 2^q\E[\sup_f|\sum_{j=1}^n\sigma_j\sum_{\pair{i,j}\in E}w_{i,j} f(X_i,X_j^\prime)|^q\mid \mathcal F]
+%     &\le 2^q\E[\sup_f|\sum_{j=1}^n \sigma_j \sum_{\pairtwo{i,j}\in E} w_{i,j}f(X_i,X_j^\prime)|^q\mid \mathcal F]\\
+%     &\qquad+ 2^q\E[\sup_f|\sum_{j=1}^n \sigma_j \sum_{\pairtwo{i,j}\in E} w_{i,j}f(X_i,X_j^{\prime\prime}))|^q\mid \mathcal F]\\
+%     &\le 2^q\E[\sup_f|\sum_{j=1}^n\sigma_j\sum_{\pairtwo{i,j}\in E}w_{i,j} f(X_i,X_j^\prime)|^q\mid \mathcal F]
 % \end{align*}
 % and get
 % \begin{align*}
-%     \E[\sup_f&|\sum_{\pair{i,j}\in E} w_{i,j}f(X_i,X_j^\prime)|^q] \\
-%     &\le 2^q\E[\sup_f|\sum_{j=1}^n\sigma_j\sum_{\pair{i,j}\in E}w_{i,j} f(X_i,X_j^\prime)|^q]
+%     \E[\sup_f&|\sum_{\pairtwo{i,j}\in E} w_{i,j}f(X_i,X_j^\prime)|^q] \\
+%     &\le 2^q\E[\sup_f|\sum_{j=1}^n\sigma_j\sum_{\pairtwo{i,j}\in E}w_{i,j} f(X_i,X_j^\prime)|^q]
 % \end{align*}
 % We now repeat the same argument but for the $(X_i)_{i=1}^n$. Let $(X_i^{\prime\prime\prime})_{i=1}^n$ be a copy of $(X_i)_{i=1}^n$, independent of $\mathcal F$, $\mathcal F^\prime$, and denote by $\mathcal F^{\prime\prime\prime}$ its sigma-field. Similarly we have
 % \begin{align*}
-%     \E[\sup_f&|\sum_{j=1}^n\sigma_j\sum_{\pair{i,j}\in E}w_{i,j} f(X_i,X_j^\prime)|^q]\\
-%     &\le \E[\sup_f|\sum_{i=1}^n \sum_{\pair{i,j}\in E} w_{i,j}(\sigma_j f(X_i,X_j^\prime)\\
+%     \E[\sup_f&|\sum_{j=1}^n\sigma_j\sum_{\pairtwo{i,j}\in E}w_{i,j} f(X_i,X_j^\prime)|^q]\\
+%     &\le \E[\sup_f|\sum_{i=1}^n \sum_{\pairtwo{i,j}\in E} w_{i,j}(\sigma_j f(X_i,X_j^\prime)\\
 %     &\qquad-\sigma_j f(X_i^{\prime\prime\prime},X_j^{\prime}))|^q]
 % \end{align*}
 % Let $(\sigma_i^\prime)_{i=1}^n$ be a copy of $(\sigma_i)_{i=1}^n$, independent of $(\sigma_i)_{i=1}^n$, $\mathcal F$, $\mathcal F^\prime$, $\mathcal F^{\prime\prime\prime}$, we have
 % \begin{align*}
-%     \E[\sup_f&|\sum_{i=1}^n \sum_{\pair{i,j}\in E} w_{i,j}(\sigma_j f(X_i,X_j^\prime)\\
+%     \E[\sup_f&|\sum_{i=1}^n \sum_{\pairtwo{i,j}\in E} w_{i,j}(\sigma_j f(X_i,X_j^\prime)\\
 %     &\qquad-\sigma_j f(X_i^{\prime\prime\prime},X_j^{\prime}))|^q\mid \mathcal F^\prime, (\sigma_i)_{i=1}^n]\\
-%     &= \E[\sup_f|\sum_{i=1}^n \sigma_i^\prime \sum_{\pair{i,j}\in E} w_{i,j}(\sigma_j f(X_i,X_j^\prime)-\\
+%     &= \E[\sup_f|\sum_{i=1}^n \sigma_i^\prime \sum_{\pairtwo{i,j}\in E} w_{i,j}(\sigma_j f(X_i,X_j^\prime)-\\
 %     &\qquad\sigma_j f(X_i^{\prime\prime\prime},X_j^{\prime}))|^q\mid \mathcal F^\prime, (\sigma_i)_{i=1}^n]\\
-%     &\le 2^q\E[\sup_f|\sum_{i=1}^n \sigma_i^\prime \sum_{\pair{i,j}\in E} w_{i,j}\sigma_j f(X_i,X_j^\prime)|^q\\
+%     &\le 2^q\E[\sup_f|\sum_{i=1}^n \sigma_i^\prime \sum_{\pairtwo{i,j}\in E} w_{i,j}\sigma_j f(X_i,X_j^\prime)|^q\\
 %     &\qquad\mid \mathcal F^\prime, (\sigma_i)_{i=1}^n]
 % \end{align*}
 % and get
 % \begin{align*}
-%     \E[\sup_f&|\sum_{j=1}^n\sigma_j\sum_{\pair{i,j}\in E}w_{i,j} f(X_i,X_j^\prime)|^q]\\
-%     &\le 2^q\E[\sup_f|\sum_{i=1}^n \sum_{\pair{i,j}\in E} w_{i,j}\sigma_i^\prime \sigma_j f(X_i,X_j^\prime)|^q]
+%     \E[\sup_f&|\sum_{j=1}^n\sigma_j\sum_{\pairtwo{i,j}\in E}w_{i,j} f(X_i,X_j^\prime)|^q]\\
+%     &\le 2^q\E[\sup_f|\sum_{i=1}^n \sum_{\pairtwo{i,j}\in E} w_{i,j}\sigma_i^\prime \sigma_j f(X_i,X_j^\prime)|^q]
 % \end{align*}
 % Finally,
 % \begin{align*}
-%     \E[\sup_f&|\sum_{\pair{i,j}\in E} w_{i,j}f(X_i,X_j^\prime)|^q]\\
-%     &\le 4^q\E[\sup_f|\sum_{\pair{i,j}\in E} w_{i,j}\sigma_i^\prime \sigma_j f(X_i,X_j^\prime)|^q].    
+%     \E[\sup_f&|\sum_{\pairtwo{i,j}\in E} w_{i,j}f(X_i,X_j^\prime)|^q]\\
+%     &\le 4^q\E[\sup_f|\sum_{\pairtwo{i,j}\in E} w_{i,j}\sigma_i^\prime \sigma_j f(X_i,X_j^\prime)|^q].    
 % \end{align*}
 % \end{proof}
 % Let $(\sigma_i)_{i=1}^n$ and $(\sigma_i^\prime)_{i=1}^n$ be two independent sequences of i.i.d. Radermacher variables, independent from the $(X_i,X_i^\prime, Y_{i,j}, \tilde{Y}_{i,j})$'s.
@@ -1468,12 +1489,12 @@ If the hypothesis set $\mathcal{F}$ is a subset of $\lnormspace{}_\infty(\xspace
 % \begin{equation}
 %     \label{eq:lagrangian_function}
 %     \begin{aligned}
-%     L(a,b,&\probdistri{},\bmlambda) = a^{1/(1+r)} + b - \sum_{\pair{i,j}\in E}\lambda^{(1)}_{i,j}p_{i,j} \\
-%     &+ \sum_{\pair{i,j}\in E}\lambda^{(2)}_{i,j}p_{i,j}\log(1/\delta)-\sum_{\pair{i,j}\in E}\lambda^{(2)}_{i,j}b\\
-%     &+ \sum_{i=1}^n \lambda^{(3)}_i\sum_{j:\pair{i,j}\in E}p_{i,j}-\sum_{i=1}^n \lambda^{(3)}_i n_i a\\
+%     L(a,b,&\probdistri{},\bmlambda) = a^{1/(1+r)} + b - \sum_{\pairtwo{i,j}\in E}\lambda^{(1)}_{i,j}p_{i,j} \\
+%     &+ \sum_{\pairtwo{i,j}\in E}\lambda^{(2)}_{i,j}p_{i,j}\log(1/\delta)-\sum_{\pairtwo{i,j}\in E}\lambda^{(2)}_{i,j}b\\
+%     &+ \sum_{i=1}^n \lambda^{(3)}_i\sum_{j:\pairtwo{i,j}\in E}p_{i,j}-\sum_{i=1}^n \lambda^{(3)}_i n_i a\\
 %     &+ \sum_{i=1}^n\lambda^{(4)}_i\sqrt{\sum_{j:(i,j)\in E} p^2_{i,j}}(\log(1/\delta))^{1/2}\\
 %     &- \sum_{i=1}^n\lambda^{(4)}_i n_i b+ \lambda^{(5)}(\|\probdistri{}\|_2-b)\\
-%     &+v(\sum_{\pair{i,j}\in E}p_{i,j}-1)-\lambda^{(6)}a-\lambda^{(7)}b
+%     &+v(\sum_{\pairtwo{i,j}\in E}p_{i,j}-1)-\lambda^{(6)}a-\lambda^{(7)}b
 %     \end{aligned}
 % \end{equation}
 % where $n_i$ is the number of edges through the vertex $i$ and $L$ is Lagrangian function not risk.
@@ -1484,25 +1505,25 @@ If the hypothesis set $\mathcal{F}$ is a subset of $\lnormspace{}_\infty(\xspace
 % \end{align*}
 % The minimum of $L(a,b,\probdistri{},\lambda)$ satisfies $\frac{\partial L}{\partial a} = 0$, $\frac{\partial L}{\partial b} = 0$ and $\frac{\partial L}{\partial \probdistri{}} = 0$, that is
 % \[\frac{1}{1+r}a^{-r/(1+r)}-\sum_{i=1}^n\lambda_i^{(3)}n_i - \lambda^{(6)} = 0,\]
-% \[1 - \sum_{\pair{i,j}\in E}\lambda_{i,j}^{(2)} - \sum_{i=1}^n \lambda_i^{(4)}n_i - \lambda^{(5)} - \lambda^{(7)}=0\]
-% and for all $\pair{i,j}\in E$,
+% \[1 - \sum_{\pairtwo{i,j}\in E}\lambda_{i,j}^{(2)} - \sum_{i=1}^n \lambda_i^{(4)}n_i - \lambda^{(5)} - \lambda^{(7)}=0\]
+% and for all $\pairtwo{i,j}\in E$,
 % \begin{align*}
-%     -\lambda_{i,j}^{(1)} + \lambda_{i,j}^{(2)}\log(1/\delta) + \lambda_i^{(3)} + \lambda_i^{(4)}(\log(1/\delta))^{1/2}p_{i,j}\\(\sum_{k:\pair{i,k}\in E}p_{i,k}^2)^{-1/2}+\lambda^{(5)}p_{i,j}\|\probdistri{}\|_2^{-1}+v=0.
+%     -\lambda_{i,j}^{(1)} + \lambda_{i,j}^{(2)}\log(1/\delta) + \lambda_i^{(3)} + \lambda_i^{(4)}(\log(1/\delta))^{1/2}p_{i,j}\\(\sum_{k:\pairtwo{i,k}\in E}p_{i,k}^2)^{-1/2}+\lambda^{(5)}p_{i,j}\|\probdistri{}\|_2^{-1}+v=0.
 % \end{align*}
 % Plugging these equality into \eqref{eq:lagrangian_function}, we will have
 % \begin{align*}
 %     g(\bmlambda) &= a^{1/(1+r)} - a(\sum_{i=1}^n \lambda_i^{(3)}n_i + \lambda^{(6)})\\
-%     &+b - b(\sum_{\pair{i,j}\in E}\lambda_{i,j}^{(2)}+\sum_{i=1}^n\lambda_i^{(4)}n_i +\lambda^{(5)}+\lambda^{(7)})\\
-%     &+ \|\probdistri{}\|_2\lambda^{(5)} + \sum_{i=1}^n\lambda_i^{(4)}(\sum_{j:\pair{i,j}\in E}p_{i,j}^2)^{1/2}(\log(1/\delta))^{1/2}\\
-%     &+\sum_{\pair{i,j}\in E}p_{i,j}\Big(-\lambda_{i,j}^{(1)} + \lambda_{i,j}^{(2)}\log(1/\delta)+\lambda_i^{(3)}+v\Big)\\
+%     &+b - b(\sum_{\pairtwo{i,j}\in E}\lambda_{i,j}^{(2)}+\sum_{i=1}^n\lambda_i^{(4)}n_i +\lambda^{(5)}+\lambda^{(7)})\\
+%     &+ \|\probdistri{}\|_2\lambda^{(5)} + \sum_{i=1}^n\lambda_i^{(4)}(\sum_{j:\pairtwo{i,j}\in E}p_{i,j}^2)^{1/2}(\log(1/\delta))^{1/2}\\
+%     &+\sum_{\pairtwo{i,j}\in E}p_{i,j}\Big(-\lambda_{i,j}^{(1)} + \lambda_{i,j}^{(2)}\log(1/\delta)+\lambda_i^{(3)}+v\Big)\\
 %     &-v\\
-%     & = \frac{r}{1+r}a^{1/(1+r)}+\sum_{i=1}^n\lambda_i^{(4)}(\sum_{j:\pair{i,j}\in E}p_{i,j}^2)^{1/2}(\log(1/\delta))^{1/2}\\
-%     &+\|\probdistri{}\|_2\lambda^{(5)} - \sum_{\pair{i,j}\in E}p^2_{i,j}\Big(\lambda_i^{(4)}(\log(1/\delta))^{1/2}(\sum_{k:\pair{i,k}\in E}p_{i,k}^2)^{-1/2}\\
+%     & = \frac{r}{1+r}a^{1/(1+r)}+\sum_{i=1}^n\lambda_i^{(4)}(\sum_{j:\pairtwo{i,j}\in E}p_{i,j}^2)^{1/2}(\log(1/\delta))^{1/2}\\
+%     &+\|\probdistri{}\|_2\lambda^{(5)} - \sum_{\pairtwo{i,j}\in E}p^2_{i,j}\Big(\lambda_i^{(4)}(\log(1/\delta))^{1/2}(\sum_{k:\pairtwo{i,k}\in E}p_{i,k}^2)^{-1/2}\\
 %     &+\lambda^{(5)}\|\probdistri{}\|_2^{-1}\Big)+v\\
 %     & = \frac{r}{(1+r)^{(1+2r)/r}}(\sum_{i=1}^n \lambda_i^{(3)}n_i + \lambda^{(8)})^{-1/r}\\
-%     &+\sum_{i=1}^n\lambda_i^{(4)}(\sum_{j:\pair{i,j}\in E}p_{i,j}^2)^{1/2}(\log(1/\delta))^{1/2}\\
-%     &(1-\sum_{j:\pair{i,j}\in E} p^2_{i,j}(\sum_{k:\pair{i,k}\in E}p_{i,k}^2)^{-1})\\
-%     &+\|\probdistri{}\|_2\lambda^{(5)}(1-\sum_{\pair{i,j}\in E}p_{i,j}^2\|\probdistri{}\|_2^{-2})-v\\
+%     &+\sum_{i=1}^n\lambda_i^{(4)}(\sum_{j:\pairtwo{i,j}\in E}p_{i,j}^2)^{1/2}(\log(1/\delta))^{1/2}\\
+%     &(1-\sum_{j:\pairtwo{i,j}\in E} p^2_{i,j}(\sum_{k:\pairtwo{i,k}\in E}p_{i,k}^2)^{-1})\\
+%     &+\|\probdistri{}\|_2\lambda^{(5)}(1-\sum_{\pairtwo{i,j}\in E}p_{i,j}^2\|\probdistri{}\|_2^{-2})-v\\
 %     & = \frac{r}{(1+r)^{(1+2r)/r}}(\sum_{i=1}^n \lambda_i^{(3)}n_i + \lambda^{(8)})^{-1/r}-v
 % \end{align*}
 % \begin{align*}
@@ -1510,18 +1531,18 @@ If the hypothesis set $\mathcal{F}$ is a subset of $\lnormspace{}_\infty(\xspace
 %     &= \frac{r}{(1+r)^{(1+2r)/r}}(\sum_{i=1}^n \lambda_i^{(3)}n_i + \lambda^{(8)})^{-1/r}-v
 % \end{align*}
 % under the constrains
-% \[\sum_{\pair{i,j}\in E}\lambda_{i,j}^{(2)} + \sum_{i=1}^n \lambda_i^{(4)}n_i + \lambda^{(5)} + \lambda^{(7)}=1,\]
+% \[\sum_{\pairtwo{i,j}\in E}\lambda_{i,j}^{(2)} + \sum_{i=1}^n \lambda_i^{(4)}n_i + \lambda^{(5)} + \lambda^{(7)}=1,\]
 % \[\sum_{i=1}^n\lambda_i^{(3)}+\lambda^{(6)}=0\]
-% and for all $\pair{i,j}\in E$,
+% and for all $\pairtwo{i,j}\in E$,
 % \[-\lambda_{i,j}^{(1)}+\lambda_{i,j}^{(2)}\log(1/\delta)+\lambda_i^{(3)}+v=0.\]
 
 % Hence, the Lagrangian dual problem of (10) is
 % \begin{align*}
 %     \max_{\bmlambda} \quad&-v\\
 %     \mbox{s.t.} \quad &\forall \lambda\in \bmlambda{}, \lambda\ge 0\\
-%     &\sum_{\pair{i,j}\in E}\lambda_{i,j}^{(2)} + \sum_{i=1}^n \lambda_i^{(4)}n_i + \lambda^{(5)} + \lambda^{(9)}=1\\
+%     &\sum_{\pairtwo{i,j}\in E}\lambda_{i,j}^{(2)} + \sum_{i=1}^n \lambda_i^{(4)}n_i + \lambda^{(5)} + \lambda^{(9)}=1\\
 %     &\sum_{i=1}^n\lambda_i^{(3)}+\lambda^{(8)}=0\\
-%     &\forall\pair{i,j}\in E, -\lambda_{i,j}^{(1)}+\lambda_{i,j}^{(2)}\log(1/\delta)\\
+%     &\forall\pairtwo{i,j}\in E, -\lambda_{i,j}^{(1)}+\lambda_{i,j}^{(2)}\log(1/\delta)\\
 %     &\qquad\qquad\qquad+\lambda_i^{(3)}+\lambda^{(6)}-\lambda^{(7)}=0
 % \end{align*}
 
@@ -1555,7 +1576,7 @@ where
 with a universal constant $C_1<\infty$. 
 Then the first inequality for $\sup_{r\in R}|U_\weight{}(r)|$ follows the fact that $R$ satisfies Assumption~\ref{ass:covering_number}.
 Similarly, by Lemma~\ref{le:weighted_decoupling_undecoupling} and Lemma~\ref{le:weighted_randomization}, we can convert the moment of $\sup_{r\in R}|\widetilde{U}_\weight{}(r)|$ to the moment of Rademacher chaos
-\[4^q\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}\sigma_i\sigma_j^\prime w_{i,j}\tilde{h}_r(X_i, X_j^\prime,\tilde{Y}_{i,j})|^q]\] 
+\[4^q\E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}\sigma_i\sigma_j^\prime w_{i,j}\tilde{h}_r(X_i, X_j^\prime,\tilde{Y}_{i,j})|^q]\] 
 which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}. More specifically, using \eqref{eq:inequality_rademacher_chaos_1} and \eqref{eq:inequality_rademacher_chaos_2} combined with the arguments in Corollary~\ref{cor:covering_number_inequality} and Assumption~\ref{ass:covering_number} will gives the second inequality for $\sup_{r\in R}|\widetilde{U}_\weight{}(r)|$.
 \end{proof}
 
@@ -1598,7 +1619,7 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
 
 \begin{proof}[Proof of Lemma~\ref{le:risk_bounds_iid}] % (fold)
     First, we introduce some notations of weighted ERM of the i.i.d.\ case. 
-    We denote $\{\bar{w}_i=\sum_{j:\pair{i,j}\in E}w_{i,j}: i=1,\dots,n\}$ the weights on vertices and introduce the ``loss function''
+    We denote $\{\bar{w}_i=\sum_{j:\pairtwo{i,j}\in E}w_{i,j}: i=1,\dots,n\}$ the weights on vertices and introduce the ``loss function''
     \[\gamma(r, X)=2h_r(X)+\Lambda{}(r)\]
     and the weighted empirical loss of vertices
     \[\gamma_\verticeweight{}(r)=\frac{1}{\normo{\verticeweight{}}}\sum_{i=1}^n\bar{w}_i\gamma(r,X_i)=T_\weight{}(r).\]
@@ -1618,11 +1639,24 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
     \begin{align*}
         d(r,r^*)\le \frac{\sqrt{\normo{\verticeweight{}}}}{\|\verticeweight\|_2}\sqrt{5\relossf(r,r^*)}
     \end{align*}
+
+    \todo{
+    \begin{align*}
+        d(r,r^*)\le \frac{\sqrt{\normo{\verticeweight{}}}}{\|\verticeweight\|_2}\sqrt{5c\relossf(r,r^*)^\noise}
+    \end{align*}
+    }
     which implies that the modulus of continuity $\psi$ can be taken as
     \begin{equation}
         \label{eq:proof_psi}
         \psi(\epsilon)=\sqrt{5}\epsilon.
     \end{equation}
+
+    \todo{
+    \begin{equation}
+        \label{eq:proof_psi}
+        \psi(\epsilon)=\sqrt{5c}\epsilon^\noise.
+    \end{equation}
+    }
     Then from Lemma~\ref{le:maximal_entropy_inequality}, we have
     \[\sqrt{\normo{\verticeweight{}}}\E\left[\sup_{r^\prime\in R,\frac{\|\verticeweight\|_2}{\sqrt{\normo{\verticeweight{}}}}d(r,r^\prime)\le \sigma}|\cenprocess{\verticeweight}(r)-\cenprocess{\verticeweight}(r^\prime)|\right]\le \phi(\sigma).\]
     provided that $\phi(\sigma)/3\le \sqrt{\normo{\verticeweight{}}}\sigma^2$.
@@ -1648,6 +1682,10 @@ which can be handled by the by-products of Theorem~\ref{th:moment_inequality_of_
     \[\sqrt{\normo{\verticeweight{}}}\epsilon_*^2=\phi(\psi(\epsilon_*)).\]
     When $ R$ satisfies Assumption~\ref{ass:covering_number}, there exists a universal constant $C^\prime$ such that
     \[\epsilon_*^2\le C^\prime K^{1/(1+\complexbound{})}(\frac{1}{(1-\complexbound{})^2\normo{\verticeweight{}}})^{1/(1+\complexbound{})}\]
+
+    \todo{
+        \[\epsilon_*^2\le C^\prime K^{1/(2+\noise(\complexbound{}-1)}(\frac{1}{(1-\complexbound{})^2\normo{\verticeweight{}}})^{1/(2+\noise(\complexbound{}-1))}\]
+    }
     which completes the proof.
 \end{proof}
 
@@ -2014,7 +2052,7 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~$4$}{Usuni
         \label{eq:weighted_u_statistics_decoupling_fact2}
         \mathcal L(X_1,\dots,X_n) = \mathcal L(Z_1,\dots,Z_n).
     \end{equation}
-    Let $\set{\tilde{Y}_{i,j}}_{\pair{i,j}\in E}$ be Bernoulli random variables such that $\Pro[\tilde{Y}_{i,j}=1 \mid \Sigma,\Sigma'] = \eta(X_i, X_j')$ and define for $\pair{i,j}\in E$,
+    Let $\set{\tilde{Y}_{i,j}}_{\pairtwo{i,j}\in E}$ be Bernoulli random variables such that $\Pro[\tilde{Y}_{i,j}=1 \mid \Sigma,\Sigma'] = \eta(X_i, X_j')$ and define for $\pairtwo{i,j}\in E$,
     \begin{equation*}
         \hat{Y}_{i,j}=\begin{cases}
             Y_{i,j}&\text{if } \sigma_i=1\text{ and } \sigma_j=-1\\
@@ -2048,27 +2086,27 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~$4$}{Usuni
     For all $q\ge 1$, we therefore have
     \DoubleColumn
     \begin{align*}
-        \E[&\sup_{r\in R}|\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
-        &=\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}4w_{i,j}\E[\tilde{h}_r(Z_i,Z_j^\prime,\tilde{Y}_{i,j})\mid\Sigma]|^q]\\
-        &\le 4^q\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(Z_i,Z_j^\prime,\tilde{Y}_{i,j})|^q]
+        \E[&\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
+        &=\E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}4w_{i,j}\E[\tilde{h}_r(Z_i,Z_j^\prime,\tilde{Y}_{i,j})\mid\Sigma]|^q]\\
+        &\le 4^q\E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(Z_i,Z_j^\prime,\tilde{Y}_{i,j})|^q]
     \end{align*}
     \DoubleColumnEnd
     \SingleColumn
     \begin{align*}
-        \E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]&=\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}4w_{i,j}\E[\tilde{h}_r(Z_i,Z_j^\prime,\hat{Y}_{i,j})\mid\Sigma]|^q]\\
-        &\le 4^q\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(Z_i,Z_j^\prime,\hat{Y}_{i,j})|^q]
+        \E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]&=\E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}4w_{i,j}\E[\tilde{h}_r(Z_i,Z_j^\prime,\hat{Y}_{i,j})\mid\Sigma]|^q]\\
+        &\le 4^q\E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(Z_i,Z_j^\prime,\hat{Y}_{i,j})|^q]
     \end{align*}
     \SingleColumnEnd
     derived from the facts that the supreme and $|x|^p (p\ge1)$ are convex functions and the Jansen inequality. According to \eqref{eq:weighted_u_statistics_decoupling_fact1} and the fact that the distribution of $\hat{Y}_{i,j}$ only depends on the realization $Z_i,Z_j^\prime$, i.e.\ $\Pro[\hat{Y}_{i,j}\mid Z_i,Z_j^\prime]=\eta(Z_i,Z_j^\prime)$, we obtain
     \DoubleColumn
     \begin{align*}
-        4^q\E[&\sup_{r\in R}|\sum_{\pair{i,j}\in E}w_{i,j}\hat{h}_r(Z_i,Z_j^\prime,\tilde{Y}_{i,j})|^q]\\
-        &= 4^q\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q]
+        4^q\E[&\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}w_{i,j}\hat{h}_r(Z_i,Z_j^\prime,\tilde{Y}_{i,j})|^q]\\
+        &= 4^q\E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q]
     \end{align*}
     \DoubleColumnEnd
     \SingleColumn
     \begin{align*}
-        4^q\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(Z_i,Z_j^\prime,\hat{Y}_{i,j})|^q]= 4^q\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q]
+        4^q\E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(Z_i,Z_j^\prime,\hat{Y}_{i,j})|^q]= 4^q\E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q]
     \end{align*}
     \SingleColumnEnd
     which concludes the proof of \eqref{eq:weighted_u_statistics_decoupling}.
@@ -2076,48 +2114,48 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~$4$}{Usuni
     By the symmetry of $\tilde{h}_r$ in the sense that $\tilde{h}_r(X_i,X_j,Y_{i,j})=\tilde{h}_r(X_j,X_i,Y_{j,i})$, we have
     \DoubleColumn
     \begin{align*}
-        \E[&\sup_{r\in R} |\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j^\prime)|^q]\\
-        &=\E[\sup_{r\in R} |\frac{1}{2}\sum_{\pair{i,j}\in E}w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})\\
+        \E[&\sup_{r\in R} |\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j^\prime)|^q]\\
+        &=\E[\sup_{r\in R} |\frac{1}{2}\sum_{\pairtwo{i,j}\in E}w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})\\
         &\qquad+\tilde{h}_r(X_i^\prime,X_j,\tilde{Y}_{i,j}))|^q]\\
-        &= \E[\sup_{r\in R} |\frac{1}{2}\sum_{\pair{i,j}\in E}w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})\\
+        &= \E[\sup_{r\in R} |\frac{1}{2}\sum_{\pairtwo{i,j}\in E}w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})\\
         &\qquad+\tilde{h}_r(X_i^\prime,X_j,\tilde{Y}_{i,j})+\tilde{h}_r(X_i,X_j,Y_{i,j})\\
         &\qquad+\tilde{h}_r(X_i^\prime,X_j^\prime,Y^\prime_{i,j})\\
-        &\qquad-\frac{1}{2}\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})\\
-        &\qquad-\frac{1}{2}\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i^\prime,X_j^\prime,Y^\prime_{i,j})|^q]\\
+        &\qquad-\frac{1}{2}\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})\\
+        &\qquad-\frac{1}{2}\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i^\prime,X_j^\prime,Y^\prime_{i,j})|^q]\\
         &(\text{Triangle's Inequality and the convexity of }\sup_{r\in R}|\cdot|^q)\\
-        &\le \frac{1}{2}\E[\sup_{r\in R} |\sum_{\pair{i,j}\in E}w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})\\
+        &\le \frac{1}{2}\E[\sup_{r\in R} |\sum_{\pairtwo{i,j}\in E}w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})\\
         &\qquad+\tilde{h}_r(X_i^\prime,X_j,\tilde{Y}_{i,j})+\tilde{h}_r(X_i,X_j,Y_{i,j})\\
         &\qquad+\tilde{h}_r(X_i^\prime,X_j^\prime,Y^\prime_{i,j})|^q]\\
-        &\qquad+ \frac{1}{4}\E[\sup_{r\in R} |2\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q] \\
-        &\qquad+ \frac{1}{4}\E[\sup_{r\in R} |2\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i^\prime,X_j^\prime,Y^\prime_{i,j})|^q]\\
-        &= \frac{1}{2}\E[\sup_{r\in R} |4\sum_{\pair{i,j}\in E}w_{i,j}\E_\sigma[\tilde{h}_r(Z_i,Z_j,\tilde{Y}_{i,j})]|^q]\\
-        &\qquad+ \frac{1}{2}\E[\sup_{r\in R} |2\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
+        &\qquad+ \frac{1}{4}\E[\sup_{r\in R} |2\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q] \\
+        &\qquad+ \frac{1}{4}\E[\sup_{r\in R} |2\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i^\prime,X_j^\prime,Y^\prime_{i,j})|^q]\\
+        &= \frac{1}{2}\E[\sup_{r\in R} |4\sum_{\pairtwo{i,j}\in E}w_{i,j}\E_\sigma[\tilde{h}_r(Z_i,Z_j,\tilde{Y}_{i,j})]|^q]\\
+        &\qquad+ \frac{1}{2}\E[\sup_{r\in R} |2\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
         &(\text{Jansen's Inequality and the convexity of }\sup_{r\in R}|\cdot|^q)\\
-        &\le \frac{1}{2}\E[\sup_{r\in R} |4\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(Z_i,Z_j,\tilde{Y}_{i,j})|^q] \\
-        &\qquad+ \frac{1}{2}\E[\sup_{r\in R} |2\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
+        &\le \frac{1}{2}\E[\sup_{r\in R} |4\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(Z_i,Z_j,\tilde{Y}_{i,j})|^q] \\
+        &\qquad+ \frac{1}{2}\E[\sup_{r\in R} |2\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
         &(\text{According to }\eqref{eq:weighted_u_statistics_decoupling_fact2})\\
-        &= \frac{1}{2}\E[\sup_{r\in R} |4\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q] \\
-        &\qquad+ \frac{1}{2}\E[\sup_{r\in R} |2\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
-        % &\le \E[\sup_{r\in R} |4\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
-        &= 4^q\E[\sup_{r\in R} |\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]
+        &= \frac{1}{2}\E[\sup_{r\in R} |4\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q] \\
+        &\qquad+ \frac{1}{2}\E[\sup_{r\in R} |2\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
+        % &\le \E[\sup_{r\in R} |4\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
+        &= 4^q\E[\sup_{r\in R} |\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]
     \end{align*}
     \DoubleColumnEnd
     \SingleColumn
     \begin{align*}
-        \E[&\sup_{r\in R} |\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j^\prime)|^q]\\
-        &=\E[\sup_{r\in R} |\frac{1}{2}\sum_{\pair{i,j}\in E}w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})+\tilde{h}_r(X_i^\prime,X_j,\tilde{Y}_{i,j}))|^q]\\
-        &= \E[\sup_{r\in R} |\frac{1}{2}\sum_{\pair{i,j}\in E}w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})+\tilde{h}_r(X_i^\prime,X_j,\tilde{Y}_{i,j})+\tilde{h}_r(X_i,X_j,Y_{i,j})+\tilde{h}_r(X_i^\prime,X_j^\prime,Y^\prime_{i,j})\\
-        &\qquad-\frac{1}{2}\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})-\frac{1}{2}\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i^\prime,X_j^\prime,Y^\prime_{i,j})|^q]\\
+        \E[&\sup_{r\in R} |\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j^\prime)|^q]\\
+        &=\E[\sup_{r\in R} |\frac{1}{2}\sum_{\pairtwo{i,j}\in E}w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})+\tilde{h}_r(X_i^\prime,X_j,\tilde{Y}_{i,j}))|^q]\\
+        &= \E[\sup_{r\in R} |\frac{1}{2}\sum_{\pairtwo{i,j}\in E}w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})+\tilde{h}_r(X_i^\prime,X_j,\tilde{Y}_{i,j})+\tilde{h}_r(X_i,X_j,Y_{i,j})+\tilde{h}_r(X_i^\prime,X_j^\prime,Y^\prime_{i,j})\\
+        &\qquad-\frac{1}{2}\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})-\frac{1}{2}\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i^\prime,X_j^\prime,Y^\prime_{i,j})|^q]\\
         &(\text{Triangle's Inequality and the convexity of }\sup_{r\in R}|\cdot|^q)\\
-        &\le \frac{1}{2}\E[\sup_{r\in R} |\sum_{\pair{i,j}\in E}w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})+\tilde{h}_r(X_i^\prime,X_j,\tilde{Y}_{i,j})+\tilde{h}_r(X_i,X_j,Y_{i,j})+\tilde{h}_r(X_i^\prime,X_j^\prime,Y^\prime_{i,j})|^q]\\
-        &\qquad+\frac{1}{4}\E[\sup_{r\in R} |2\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q] + \frac{1}{4}\E[\sup_{r\in R} |2\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i^\prime,X_j^\prime,Y^\prime_{i,j})|^q]\\
-        &= \frac{1}{2}\E[\sup_{r\in R} |4\sum_{\pair{i,j}\in E}w_{i,j}\E_\sigma[\tilde{h}_r(Z_i,Z_j,\tilde{Y}_{i,j})]|^q]+ \frac{1}{2}\E[\sup_{r\in R} |2\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
+        &\le \frac{1}{2}\E[\sup_{r\in R} |\sum_{\pairtwo{i,j}\in E}w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})+\tilde{h}_r(X_i^\prime,X_j,\tilde{Y}_{i,j})+\tilde{h}_r(X_i,X_j,Y_{i,j})+\tilde{h}_r(X_i^\prime,X_j^\prime,Y^\prime_{i,j})|^q]\\
+        &\qquad+\frac{1}{4}\E[\sup_{r\in R} |2\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q] + \frac{1}{4}\E[\sup_{r\in R} |2\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i^\prime,X_j^\prime,Y^\prime_{i,j})|^q]\\
+        &= \frac{1}{2}\E[\sup_{r\in R} |4\sum_{\pairtwo{i,j}\in E}w_{i,j}\E_\sigma[\tilde{h}_r(Z_i,Z_j,\tilde{Y}_{i,j})]|^q]+ \frac{1}{2}\E[\sup_{r\in R} |2\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
         &(\text{Jansen's Inequality and the convexity of }\sup_{r\in R}|\cdot|^q)\\
-        &\le \frac{1}{2}\E[\sup_{r\in R} |4\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(Z_i,Z_j,\tilde{Y}_{i,j})|^q] + \frac{1}{2}\E[\sup_{r\in R} |2\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
+        &\le \frac{1}{2}\E[\sup_{r\in R} |4\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(Z_i,Z_j,\tilde{Y}_{i,j})|^q] + \frac{1}{2}\E[\sup_{r\in R} |2\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
         &(\text{According to }\eqref{eq:weighted_u_statistics_decoupling_fact2})\\
-        &= \frac{1}{2}\E[\sup_{r\in R} |4\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q] + \frac{1}{2}\E[\sup_{r\in R} |2\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
-        &\le \E[\sup_{r\in R} |4\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
-        &= 4^q\E[\sup_{r\in R} |\sum_{\pair{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]
+        &= \frac{1}{2}\E[\sup_{r\in R} |4\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q] + \frac{1}{2}\E[\sup_{r\in R} |2\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
+        &\le \E[\sup_{r\in R} |4\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]\\
+        &= 4^q\E[\sup_{r\in R} |\sum_{\pairtwo{i,j}\in E}w_{i,j}\tilde{h}_r(X_i,X_j,Y_{i,j})|^q]
     \end{align*}
     \SingleColumnEnd
     which \eqref{eq:weighted_u_statistic_coupling} follows.
@@ -2127,60 +2165,60 @@ Then, using the standard symmetrization technique \citep{see}{Theorem~$4$}{Usuni
     Re-using the notations used in the proof of Lemma \ref{le:weighted_u_statistics_decoupling}, we further introduce $(X_i^{\prime\prime})_{i=1}^n$, a copy of $(X_i^\prime)_{i=1}^n$, independent from $\Sigma$, $\Sigma^\prime$, and denote by $\Sigma^{\prime\prime}$ its sigma-field. Let $(\tilde{Y}_{i,j}^{\prime\prime})_{(i,j)\in E}$ Bernoulli random variables such that $\Pro[\tilde{Y}_{i,j}^{\prime\prime}=1\mid \Sigma,\Sigma^\prime,\Sigma^{\prime\prime}]=\eta(X_i,X_j^{\prime\prime})$. We now use classic randomization techniques and introduce our "ghost" sample:
     \DoubleColumn
 \begin{align*}
-    &\E[\sup_{r\in R}|\sum_{\pair{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})|^q]\\
+    &\E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})|^q]\\
     &(\tilde{h}_r \text{ is degenerated})\\
-    &= \E[\sup_{r\in R}|\sum_{\pair{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})\\
+    &= \E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})\\
     &\qquad-\E_{\Sigma^{\prime\prime}}[\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime})])|^q]\\
     &(\text{Jansen's Inequality})\\
-    &\le \E[\sup_{r\in R}|\sum_{\pair{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})\\
+    &\le \E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})\\
     &\qquad-\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q]\\
-    &= \E[\sup_{r\in R}|\sum_{j=1}^n \sum_{i:\pair{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})\\
+    &= \E[\sup_{r\in R}|\sum_{j=1}^n \sum_{i:\pairtwo{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})\\
     &\qquad-\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q]
 \end{align*}
 \DoubleColumnEnd
     \SingleColumn
 \begin{align*}
-    \E[&\sup_{r\in R}|\sum_{\pair{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})|^q]\\
+    \E[&\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})|^q]\\
     &(\tilde{h}_r \text{ is degenerated})\\
-    &= \E[\sup_{r\in R}|\sum_{\pair{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})-\E_{\Sigma^{\prime\prime}}[\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime})])|^q]\\
+    &= \E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})-\E_{\Sigma^{\prime\prime}}[\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime})])|^q]\\
     &(\text{Jansen's Inequality})\\
-    &\le \E[\sup_{r\in R}|\sum_{\pair{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})-\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q]\\
-    &= \E[\sup_{r\in R}|\sum_{j=1}^n \sum_{i:\pair{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})-\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q]
+    &\le \E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})-\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q]\\
+    &= \E[\sup_{r\in R}|\sum_{j=1}^n \sum_{i:\pairtwo{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j}^{\prime\prime})-\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q]
 \end{align*}
 \SingleColumnEnd
 Let $(\sigma_i)_{i=1}^n$ be independent Rademacher variables, independent of $\Sigma$, $\Sigma^\prime$ and $\Sigma^{\prime\prime}$, then we have:
 \DoubleColumn
 \begin{align*}
-    \E[&\sup_{r\in R}|\sum_{j=1}^n \sum_{i:\pair{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})\\
+    \E[&\sup_{r\in R}|\sum_{j=1}^n \sum_{i:\pairtwo{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})\\
     &\qquad-\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q\mid \Sigma]\\
-    &= \E[\sup_{r\in R}|\sum_{j=1}^n \sigma_j \sum_{i:\pair{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})\\
+    &= \E[\sup_{r\in R}|\sum_{j=1}^n \sigma_j \sum_{i:\pairtwo{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})\\
     &\qquad-\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q\mid \Sigma]\\
     &(\text{Triangle's Inequality and the convexity of }\sup_{r\in R}|\cdot|^q)\\
-    &\le 2^q\E[\sup_{r\in R}|\sum_{j=1}^n \sigma_j \sum_{i:\pair{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q\mid \Sigma]\\
-    &+ 2^q\E[\sup_{r\in R}|\sum_{j=1}^n \sigma_j \sum_{i:\pair{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q\mid \Sigma]\\
-    &\le 2^q\E[\sup_{r\in R}|\sum_{j=1}^n\sigma_j\sum_{i:\pair{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q\mid \Sigma]
+    &\le 2^q\E[\sup_{r\in R}|\sum_{j=1}^n \sigma_j \sum_{i:\pairtwo{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q\mid \Sigma]\\
+    &+ 2^q\E[\sup_{r\in R}|\sum_{j=1}^n \sigma_j \sum_{i:\pairtwo{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q\mid \Sigma]\\
+    &\le 2^q\E[\sup_{r\in R}|\sum_{j=1}^n\sigma_j\sum_{i:\pairtwo{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q\mid \Sigma]
 \end{align*}
 \DoubleColumnEnd
 \SingleColumn
 \begin{align*}
-    \E[&\sup_{r\in R}|\sum_{j=1}^n \sum_{i:\pair{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})-\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q\mid \Sigma]\\
-    &= \E[\sup_{r\in R}|\sum_{j=1}^n \sigma_j \sum_{i:\pair{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})-\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q\mid \Sigma]\\
+    \E[&\sup_{r\in R}|\sum_{j=1}^n \sum_{i:\pairtwo{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})-\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q\mid \Sigma]\\
+    &= \E[\sup_{r\in R}|\sum_{j=1}^n \sigma_j \sum_{i:\pairtwo{i,j}\in E} w_{i,j}(\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})-\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q\mid \Sigma]\\
     &(\text{Triangle's Inequality and the convexity of }\sup_{r\in R}|\cdot|^q)\\
-    &\le 2^q\E[\sup_{r\in R}|\sum_{j=1}^n \sigma_j \sum_{i:\pair{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q\mid \Sigma]\\
-    &\qquad+ 2^q\E[\sup_{r\in R}|\sum_{j=1}^n \sigma_j \sum_{i:\pair{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q\mid \Sigma]\\
-    &\le 2^q\E[\sup_{r\in R}|\sum_{j=1}^n\sigma_j\sum_{i:\pair{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q\mid \Sigma]
+    &\le 2^q\E[\sup_{r\in R}|\sum_{j=1}^n \sigma_j \sum_{i:\pairtwo{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q\mid \Sigma]\\
+    &\qquad+ 2^q\E[\sup_{r\in R}|\sum_{j=1}^n \sigma_j \sum_{i:\pairtwo{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^{\prime\prime},\tilde{Y}_{i,j}^{\prime\prime}))|^q\mid \Sigma]\\
+    &\le 2^q\E[\sup_{r\in R}|\sum_{j=1}^n\sigma_j\sum_{i:\pairtwo{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q\mid \Sigma]
 \end{align*}
 \SingleColumnEnd
 and get
 \DoubleColumn
 \begin{align*}
-    \E[\sup_{r\in R}&|\sum_{\pair{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q] \\
-    &\le 2^q\E[\sup_{r\in R}|\sum_{j=1}^n\sigma_j\sum_{i:\pair{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q]
+    \E[\sup_{r\in R}&|\sum_{\pairtwo{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q] \\
+    &\le 2^q\E[\sup_{r\in R}|\sum_{j=1}^n\sigma_j\sum_{i:\pairtwo{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q]
 \end{align*}
 \DoubleColumnEnd
 \SingleColumn
 \begin{align*}
-    \E[\sup_{r\in R}|\sum_{\pair{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q] \le 2^q\E[\sup_{r\in R}|\sum_{j=1}^n\sigma_j\sum_{i:\pair{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q]
+    \E[\sup_{r\in R}|\sum_{\pairtwo{i,j}\in E} w_{i,j}\tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q] \le 2^q\E[\sup_{r\in R}|\sum_{j=1}^n\sigma_j\sum_{i:\pairtwo{i,j}\in E}w_{i,j} \tilde{h}_r(X_i,X_j^\prime,\tilde{Y}_{i,j})|^q]
 \end{align*}
 \SingleColumnEnd
 Then repeating the same argument but for the $(X_i)_{i=1}^n$ will give the similar inequality. The desired inequality will follows putting these two inequalities together.
@@ -2188,11 +2226,11 @@ Then repeating the same argument but for the $(X_i)_{i=1}^n$ will give the simil
 
 % section proofs_of_the_appendix (end)
 \begin{proof}[Proof of Theorem~\ref{th:moment_inequality_of_weighted_u_statistics}] % (fold)
-By the decoupling, undecoupling and randomization techniques (see Lemma~\ref{le:weighted_u_statistics_decoupling}, Lemma~\ref{le:weighted_u_statistics_randomization}), the symmetry and the degeneration of $f$ and the symmetry of $(w_{i,j})_{\pair{i,j}\in E}$, we have
+By the decoupling, undecoupling and randomization techniques (see Lemma~\ref{le:weighted_u_statistics_decoupling}, Lemma~\ref{le:weighted_u_statistics_randomization}), the symmetry and the degeneration of $f$ and the symmetry of $(w_{i,j})_{\pairtwo{i,j}\in E}$, we have
 \begin{align*}
-    \E[\sup_f&|\sum_{\pair{i,j}\in E}w_{i,j} f(X_i,X_j)|^q]\\
-    &\le 16^q\E[\sup_f|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j^\prime f(X_i, X_j^\prime)|^q]\\
-    &\le 64^q\E[\sup_f|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j f(X_i, X_j)|^q]
+    \E[\sup_f&|\sum_{\pairtwo{i,j}\in E}w_{i,j} f(X_i,X_j)|^q]\\
+    &\le 16^q\E[\sup_f|\sum_{\pairtwo{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j^\prime f(X_i, X_j^\prime)|^q]\\
+    &\le 64^q\E[\sup_f|\sum_{\pairtwo{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j f(X_i, X_j)|^q]
 \end{align*}
 It means we can convert the moment of the original $U$-process to the moment of Rademacher chaos which can be handled by moment inequalities of \cite{Boucheron2005}.
 
@@ -2205,7 +2243,7 @@ In particular, for any $q\ge 2$,
     &\le \E_\rademacher[Z_\rademacher]+3\sqrt{q}\E_\rademacher U_\rademacher + 4qB
 \end{align*}
 where $B$ is defined below
-\[B=\sup_f\sup_{\alpha,\alpha^\prime:\|\alpha\|_2,\|\alpha^\prime\|_2\le 1}|\sum_{\pair{i,j}\in E}w_{i,j}\alpha_i\alpha_j^\prime f(X_i,X_j)|.\]
+\[B=\sup_f\sup_{\alpha,\alpha^\prime:\|\alpha\|_2,\|\alpha^\prime\|_2\le 1}|\sum_{\pairtwo{i,j}\in E}w_{i,j}\alpha_i\alpha_j^\prime f(X_i,X_j)|.\]
 The second inequality above follows by Theorem~$14$ of \cite{Boucheron2005}.
 
 Using the inequality $(a+b+c)^q\le 3^{(q-1)}(a^q+b^q+c^q)$ valid for $q\ge 2,a,b,c>0$, we have
@@ -2214,25 +2252,25 @@ It remains to derive suitable upper bounds for the expectation of the three term
 
 \textit{First term:} $\E[\E_\rademacher[Z_\rademacher]^q]$. Using the symmetrization trick, we have
 \[\E[\E_\rademacher[Z_\rademacher]^q]\le 4^q\E[\E_\rademacher[Z_\rademacher^\prime]^q]\]
-which $Z_\rademacher^\prime = \sup_f|\sum_{\pair{i,j}\in E}\rademacher_i\rademacher_j^\prime f(X_i,X_j)|$. Note that $\E_\rademacher$ now denotes expectation taken with respect to both the $\rademacher$ and the $\rademacher^\prime$. For simplicity, we denote by $A=\E_{\rademacher}[Z_\rademacher^\prime]$. In order to apply Corollary~$3$ of \cite{Boucheron2005}, define, for $k=1,\dots,n$, the random variables
-\[A_k = \E_{\rademacher}[\sup_f |\sum_{\pair{i,j}\in E,i,j\neq k}w_{i,j}\rademacher_i\rademacher_j^\prime f(X_i,X_j)|].\]
+which $Z_\rademacher^\prime = \sup_f|\sum_{\pairtwo{i,j}\in E}\rademacher_i\rademacher_j^\prime f(X_i,X_j)|$. Note that $\E_\rademacher$ now denotes expectation taken with respect to both the $\rademacher$ and the $\rademacher^\prime$. For simplicity, we denote by $A=\E_{\rademacher}[Z_\rademacher^\prime]$. In order to apply Corollary~$3$ of \cite{Boucheron2005}, define, for $k=1,\dots,n$, the random variables
+\[A_k = \E_{\rademacher}[\sup_f |\sum_{\pairtwo{i,j}\in E,i,j\neq k}w_{i,j}\rademacher_i\rademacher_j^\prime f(X_i,X_j)|].\]
 It is easy to see that $A_k\le A$.
 
 On the other hand, defining
-\[R_k=\sup_f|\sum_{i:\pair{i,k}\in E}w_{i,k}\rademacher_if(X_i,X_k)|,\]
+\[R_k=\sup_f|\sum_{i:\pairtwo{i,k}\in E}w_{i,k}\rademacher_if(X_i,X_k)|,\]
 \[M=\max_kR_k\]
 and denoting by $f^*$ the function achieving the maximum in the definition of $Z$, we clearly have
 \begin{align*}
     A-A_k
-    % &\le \E_\rademacher[\sum_{j:\pair{k,j}\in E}w_{k,j}\rademacher_k\rademacher_j^\prime f^*(X_k,X_j)\\
-    % &\qquad+\sum_{i:\pair{i,k}\in E}w_{i,k}\rademacher_i\rademacher_k^\prime f^*(X_i,X_k)]\\
+    % &\le \E_\rademacher[\sum_{j:\pairtwo{k,j}\in E}w_{k,j}\rademacher_k\rademacher_j^\prime f^*(X_k,X_j)\\
+    % &\qquad+\sum_{i:\pairtwo{i,k}\in E}w_{i,k}\rademacher_i\rademacher_k^\prime f^*(X_i,X_k)]\\
     &\le 2\E_\rademacher[M]
 \end{align*}
 and
 \begin{align*}
     \sum_{k=1}^n(A-A_k)
-    % &\le \E_\rademacher[\sum_{k=1}^n\rademacher_k\sum_{j:\pair{k,j}\in E}w_{k,j}\rademacher_j^\prime f^*(X_k,X_j)\\
-    % &\qquad+\sum_{k=1}^n\rademacher_k^\prime\sum_{i:\pair{i,k}\in E}w_{i,k}\rademacher_i f^*(X_i,X_k)]\\
+    % &\le \E_\rademacher[\sum_{k=1}^n\rademacher_k\sum_{j:\pairtwo{k,j}\in E}w_{k,j}\rademacher_j^\prime f^*(X_k,X_j)\\
+    % &\qquad+\sum_{k=1}^n\rademacher_k^\prime\sum_{i:\pairtwo{i,k}\in E}w_{i,k}\rademacher_i f^*(X_i,X_k)]\\
     &\le 2A.
 \end{align*}
 Therefore,
@@ -2264,17 +2302,17 @@ By undecoupling, we have $\E[Z_\rademacher^\prime]=\E[\E_{\rademacher,\rademache
 \textit{Second term:} $\E[\E_\rademacher[U_\rademacher]^q].$
 
 By the Cauchy-Schwartz inequality we can observe that
-\[\sup_{f,i}\sup_{\alpha:\|\alpha\|_2\le 1}\sum_{j:\pair{i,j}\in E}w_{i,j}\alpha_jf(X_i,X_j)\le \|\weight{}\|_{\max}F.\]
+\[\sup_{f,i}\sup_{\alpha:\|\alpha\|_2\le 1}\sum_{j:\pairtwo{i,j}\in E}w_{i,j}\alpha_jf(X_i,X_j)\le \|\weight{}\|_{\max}F.\]
 Then similar to the bound of $\E[\E_\rademacher[M]^q]$, we have
 \[\E[\E_\rademacher[U_\rademacher]^q]\le 2^{q-1}(2^q\E[U_\rademacher]^q+5^qq^q\|\weight{}\|_{\max}^qF^q).\]
 
-\textit{Third term:} $\E[B^q]$. By the Cauchy-Schwartz inequality, we have $B\le \sqrt{\sum_{\pair{i,j}\in E}w_{i,j}^2}F= \|\weight{}\|_2F$ so
+\textit{Third term:} $\E[B^q]$. By the Cauchy-Schwartz inequality, we have $B\le \sqrt{\sum_{\pairtwo{i,j}\in E}w_{i,j}^2}F= \|\weight{}\|_2F$ so
 \[\E[B^q]\le \|\weight{}\|_2^qF^q.\]
 
 Now it remains to simply put the pieces together to obtain
 \DoubleColumn
 \begin{align*}
-\E[\sup_f&|\sum_{\pair{i,j}\in E}w_{i,j} f(X_i,X_j)|^q]\\
+\E[\sup_f&|\sum_{\pairtwo{i,j}\in E}w_{i,j} f(X_i,X_j)|^q]\\
 &\le C(\E[Z_\rademacher]^q+q^{q/2}\E[U_\rademacher]^q+q^q\E[M]^q\\
 &\qquad+\|\weight{}\|_\infty^q F^qq^{2q}+\|\weight{}\|_{\max}^qF^qq^{3q/2}\\
 &\qquad+F^q\|\weight{}\|_2^qq^q)
@@ -2282,7 +2320,7 @@ Now it remains to simply put the pieces together to obtain
 \DoubleColumnEnd
 \SingleColumn
 \begin{align*}
-\E[\sup_f&|\sum_{\pair{i,j}\in E}w_{i,j} f(X_i,X_j)|^q]\\
+\E[\sup_f&|\sum_{\pairtwo{i,j}\in E}w_{i,j} f(X_i,X_j)|^q]\\
 &\le C(\E[Z_\rademacher]^q+q^{q/2}\E[U_\rademacher]^q+q^q\E[M]^q+\|\weight{}\|_\infty^q F^qq^{2q}+\|\weight{}\|_{\max}^qF^qq^{3q/2}+F^q\|\weight{}\|_2^qq^q)
 \end{align*}
 \SingleColumnEnd
@@ -2373,22 +2411,22 @@ The fact that if $\forall f,s\in\mathcal F, \lnorm{}(f,s)\le \lnorm{}'(f,s)$ the
 \end{align*}
 where $K$ is a universal constant. Similarly, we can also bound $\E[M]$ by $K\|\weight{}\|_{\max}\linebreak\int_0^{2F}\sqrt{\log N_\infty(\mathcal F, \epsilon)}d\epsilon$. 
 For $U_\rademacher$, let $\alpha^*$ be the (random) vector that maximizes $U_\rademacher$ and define
-\[\{u_\rademacher(f) = \sum_{i=1}^n\rademacher_i\sum_{\pair{i,j}\in\E}w_{i,j}\alpha_j^*\linebreak f(X_i,X_j),f\in\mathcal{F}\}.\]
+\[\{u_\rademacher(f) = \sum_{i=1}^n\rademacher_i\sum_{\pairtwo{i,j}\in\E}w_{i,j}\alpha_j^*\linebreak f(X_i,X_j),f\in\mathcal{F}\}.\]
 Clearly, $u_\rademacher$ satisfies the Khintchine inequality with degree $1$. Also, we need to convert its metric distance and $\lnorm{}_2(u_\rademacher{}(f), u_\rademacher{}(g))\le \lnorm{}_\infty(f, g)$.
 % \DoubleColumn
 % \begin{align*}
 %     (\E_\rademacher&[|u_\rademacher(f)-u_\rademacher(g)|^2])^{1/2}\\
-%     &=(\E_\rademacher[|\sum_{\pair{i,j}\in\E}w_{i,j}\rademacher_i\alpha_j^*(f(X_i,X_j)\\
+%     &=(\E_\rademacher[|\sum_{\pairtwo{i,j}\in\E}w_{i,j}\rademacher_i\alpha_j^*(f(X_i,X_j)\\
 %     &\qquad-g(X_i,X_j))|^2])^{1/2}\\
-%     % &\le \sqrt{\sum_{\pair{i,j}\in\E}(w_{i,j}\alpha_j^*)^2}\sup_{X_i,X_j\in\mathcal X^2}|f(X_i,X_j)\\
+%     % &\le \sqrt{\sum_{\pairtwo{i,j}\in\E}(w_{i,j}\alpha_j^*)^2}\sup_{X_i,X_j\in\mathcal X^2}|f(X_i,X_j)\\
 %     % &\qquad-g(X_i,X_j)|\\
 %     &\le \|\weight{}\|_2\lnorm_\infty(f,g)
 % \end{align*}
 % \DoubleColumnEnd 
 % \SingleColumn
 % \begin{align*}
-%     (\E_\rademacher[|u_\rademacher(f)-u_\rademacher(g)|^2])^{1/2}&=(\E_\rademacher[|\sum_{\pair{i,j}\in\E}w_{i,j}\rademacher_i\alpha_j^*(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}\\
-%     % &\le \sqrt{\sum_{\pair{i,j}\in\E}(w_{i,j}\alpha_j^*)^2}\sup_{X_i,X_j\in\mathcal X^2}|f(X_i,X_j)\\
+%     (\E_\rademacher[|u_\rademacher(f)-u_\rademacher(g)|^2])^{1/2}&=(\E_\rademacher[|\sum_{\pairtwo{i,j}\in\E}w_{i,j}\rademacher_i\alpha_j^*(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}\\
+%     % &\le \sqrt{\sum_{\pairtwo{i,j}\in\E}(w_{i,j}\alpha_j^*)^2}\sup_{X_i,X_j\in\mathcal X^2}|f(X_i,X_j)\\
 %     % &\qquad-g(X_i,X_j)|\\
 %     &\le \|\weight{}\|_2\lnorm_\infty(f,g)
 % \end{align*}
