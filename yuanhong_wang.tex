@@ -2325,25 +2325,36 @@ for an appropriate constant $C$.
     \SingleColumnEnd
 An important character of these Rademacher processes in \eqref{eq:moment_inequality_of_weighted_u_statistics} is that they all satisfy the Khinchine inequality \eqref{eq:kinchine_type_inequality_process}. For simplicity, we denote the weighted Rademacher processes of $Z_\rademacher$ by 
 \[\{z_\rademacher(f)=\sum_{\pair{i,j}\in E_<}w_{i,j}\rademacher_i\rademacher_j\linebreak f(X_i,X_j), f\in\mathcal{F}\}.\]
-where $E_<=\{(i,j): \{i,j\}\in E, i<j\}$. Let $z_\rademacher^\prime=z_\rademacher/\|\weight{}\|_2$, following Theorem \ref{th:kinchine_type_ineqaulity}, we can easily have that $z_\rademacher^\prime$ satisfies \eqref{eq:kinchine_type_inequality_process} with degree $2$. Thus from Theorem \ref{th:rademacher_process_chaining}, we have
+where $E_<=\{(i,j): \{i,j\}\in E, i<j\}$. Let $z_\rademacher^\prime=z_\rademacher/\sqrt{|E_<|}\|\weight{}\|_2$, following Theorem \ref{th:kinchine_type_ineqaulity}, we can easily have that $z_\rademacher^\prime$ satisfies \eqref{eq:kinchine_type_inequality_process} with degree $2$. Thus from Theorem \ref{th:rademacher_process_chaining}, we have
 \begin{equation}
     \label{eq:weighted_rademacher_process_prove_1}
-    \E_\rademacher[\sup_{f,g}|z^\prime_\rademacher(f)-z^\prime_\rademacher(s)|]\le K\int_0^D\log N(\mathcal F,\lnorm{}_2,\epsilon)d\epsilon.
+    \E_\rademacher[\sup_{f,g}|z^\prime_\rademacher(f)-z^\prime_\rademacher(s)|]\le K\int_0^D\log N(\mathcal F,d,\epsilon)d\epsilon.
 \end{equation}
-% where 
-% \DoubleColumn
-% \begin{align*}
-%     \lnorm{}_2(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
-%     &=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)\\
-%     &\qquad-g(X_i,X_j))|^2])^{1/2}.
-% \end{align*}
-% \DoubleColumnEnd
-% \SingleColumn
-% \begin{align*}
-%     \lnorm{}_2(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
-%     &=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}.
-% \end{align*}
-% \SingleColumnEnd
+where 
+\DoubleColumn
+\begin{align*}
+    d(f,g)&=(\E_\rademacher[|z_\rademacher(f)-z_\rademacher(g)|^2])^{1/2}\\
+    &=(\E_\rademacher[|\sum_{\pair{i,j}\in E_<}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)\\
+    &\qquad-g(X_i,X_j))|^2])^{1/2}\\
+    &=(\E_\rademacher[\sum_{\pair{i,j}\in E_<}\sum_{\pair{i',j'}\in E_<}w_{i,j}w_{i',j'}\rademacher_i\rademacher_j\rademacher_{i'}\rademacher_{j'}\\
+    &\qquad (f(X_i,X_j)-g(X_i,X_j))(f(X_{i'},X_{j'})-g(X_{i'},X_{j'}))])^{1/2}\\
+    &=(\sum_{\pair{i,j}\in E_<}w_{i,j}^2(f(X_i,X_j)-g(X_i,X_j))^2)^{1/2}\\
+    &=\|\weight\|_2(\sum_{\pair{i,j}\in E_<}\frac{w_{i,j}^2}{\|\weight{}\|_2^2}(f(X_i,X_j)-g(X_i,X_j))^2)^{1/2}\\
+\end{align*}
+\[\lnorm_2(f,g)= (\sum_{\pair{i,j}\in E_<}\frac{1}{|E_<|}(f(X_i,X_j)-g(X_i,X_j))^2)^{1/2}\]
+\DoubleColumnEnd
+\SingleColumn
+\begin{align*}
+    \lnorm{}_2(f,g)&=(\E_\rademacher[|z^\prime_\rademacher(f)-z^\prime_\rademacher(g)|^2])^{1/2}\\
+    &=\frac{1}{\|\weight{}\|_2}(\E_\rademacher[|\sum_{\pair{i,j}\in E}w_{i,j}\rademacher_i\rademacher_j(f(X_i,X_j)-g(X_i,X_j))|^2])^{1/2}.
+\end{align*}
+\SingleColumnEnd
+
+\begin{align*}
+    N(\mathcal{F}, d, \epsilon) = \max_{\mathbb{X}}\min_{\weight} N_{\mathbb{X}}(\mathcal{F}, d, \epsilon)\\
+    ? N(\mathcal{F}, \lnorm_2, \epsilon)
+\end{align*}
+
 Recall that $\sup_f \|f\|_\infty = F$, we have $D= 2F$.
 Since this metric function $d$ is intractable, we need to convert it to the $\lnorm_\infty$ metric. For all $f,s$, we have
 \DoubleColumn
