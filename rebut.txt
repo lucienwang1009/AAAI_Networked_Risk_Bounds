@@ -1,0 +1,37 @@
+We thank the reviewers for their thoughtful comments. Please find below our responses to the questions and comments.
+
+Reviewer 1:
+"In this paper, authors use the $l_\infty$ covering number. In general, the $l_1$ or $l_2$-based covering number is the most used in the existing results of statistical learning theory. Could the results of this paper be extended to other kinds of complexity measure, for example, VC-dimension or Rademacher complexity?"
+ 
+We can obtain risk bounds using weighted Rademacher chaos (Rademacher complexity), in which we add weights on each example, and VC dimension.
+ 
+In fact, the risk bounds based on $l_\infty$ covering number are partly derived from the bounds based on weighted Rademacher chaos (see Corollary 1). We use $l_\infty$ covering number rather than $l_1$ and $l_2$ covering numbers as complexity measurement, because with $l_\infty$ norm, we can extract the part of weights without relaxing the bounds too much.
+
+Besides, the main reason that we do not use weighted Rademacher chaos is that in this form optimizing weighting vector is much more challenging, so we put the results in the appendix.
+ 
+When using VC classes, due to Sauer’s Lemma [1], we have that Assumption 1 is always satisfied with $K=CV\log(m/V)$ where $C$ is a constant and $V$ is the VC dimension of the class. So, our results can be extended to VC classes though it is well known that bounds based on VC dimension are usually much looser than that based on covering numbers [2].
+ 
+Reviewer 2:
+"It would be nice if the authors clarify the removal of the non-iidness in a more intuitive way."
+
+We understand this question as "how do we remove the effect of non-iidness when deal with the excess risk?"
+We would like to provide a more intuitive presentation of our results and the reasoning in the final version.
+Here, let me first briefly explain what’s the intuitive idea of our proof:
+1. We first decompose the excess risk into the sum of iid r.v.s and two non-iid parts, and then handle them respectively.
+2. The sum of iid r.v.s is bounded by our new risk bounds for weighted ERM on iid r.v.s, which is based on the low-noise condition.
+3. These two non-iid parts both possess degenerated kernel, thus can be bounded using our new moment inequality for incomplete U-statistics (see Theorem 7).
+
+Reviewer 3:
+"are there other capacity measures than covering numbers that can be used?"
+
+Please refer to the answers to Reviewer 1.
+
+"what about actual empirical evaluation?"
+ 
+In this paper, we mainly propose an theoretical problem, and solve it theoretically and algorithmically.
+But yes, we are indeed doing some experiments on well-known networks, e.g., Erdos-Renyi random graphs and generalized Albert-Barabasi networks, etc.
+We observe several interesting phenomenon from these current experiments, such as a separation between the performances of these two models mentioned above.
+We may include this new result in the camera-ready version.
+
+[1] Sauer N. On the density of families of sets[J]. Journal of Combinatorial Theory, 1972, 13(1):145-147.
+[2] Bousquet, Olivier, Stéphane Boucheron, and Gábor Lugosi. Introduction to statistical learning theory. Advanced lectures on machine learning. Springer Berlin Heidelberg, 2004. 169-207.
